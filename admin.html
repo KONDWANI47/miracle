@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIRACLE ECD - Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Login Form -->
+    <div id="loginForm" class="login-container">
+        <div class="login-box">
+            <h2>Admin Login</h2>
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" placeholder="cupicsart@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <div class="password-input-container">
+                        <input type="password" id="password" name="password" placeholder="Enter password" required>
+                        <button type="button" class="password-toggle" id="passwordToggle">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="rememberMe" name="rememberMe">
+                        <span class="checkmark"></span>
+                        Remember Me
+                    </label>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+            <div id="loginMessage" class="message"></div>
+            <a href="index.html" class="back-home-btn">
+                <i class="fas fa-home"></i> Back to Home
+            </a>
+        </div>
+    </div>
+
+    <!-- Admin Panel (Hidden until login) -->
+    <div id="adminPanel" class="admin-container" style="display: none;">
+        <header class="admin-header">
+            <h1>MIRACLE ECD - Admin Panel</h1>
+            <div class="admin-controls">
+                <button id="exportBtn" class="admin-btn">
+                    <i class="fas fa-download"></i> Export Data
+                </button>
+                <button id="refreshBtn" class="admin-btn">
+                    <i class="fas fa-sync"></i> Refresh
+                </button>
+                <button id="logoutBtn" class="admin-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </header>
+
+        <div class="admin-navigation">
+            <div class="admin-nav-header">
+                <h2>Admin Sections</h2>
+                <div class="admin-hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="#registrations" class="nav-link active" data-section="registrations">Registrations</a></li>
+                    <li><a href="#appeals" class="nav-link" data-section="appeals">Appeals</a></li>
+                    <li><a href="#gallery-admin" class="nav-link" data-section="gallery-admin">Gallery</a></li>
+                    <li><a href="#map" class="nav-link" data-section="map">Location</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Registrations Section -->
+        <div id="registrations-section" class="admin-section active">
+            <div class="admin-filters">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search registrations...">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="status-filter">
+                    <select id="statusFilter">
+                        <option value="all">All Status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="registrations-table-container">
+                <table class="registrations-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Parent Name</th>
+                            <th>Child Name</th>
+                            <th>Program</th>
+                            <th>Start Date</th>
+                            <th>Registration Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="registrationsTableBody">
+                        <!-- Registrations will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Appeals Section -->
+        <div id="appeals-section" class="admin-section">
+            <h2>Appeals Management</h2>
+            <div class="appeals-form-container">
+                <h3>Submit New Appeal</h3>
+                <form id="appealForm" class="appeal-form">
+                    <div class="form-group">
+                        <label for="appealParentName">Parent Name:</label>
+                        <input type="text" id="appealParentName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appealChildName">Child Name:</label>
+                        <input type="text" id="appealChildName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appealEmail">Email:</label>
+                        <input type="email" id="appealEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appealPhone">Phone:</label>
+                        <input type="tel" id="appealPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appealReason">Appeal Reason:</label>
+                        <textarea id="appealReason" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="admin-btn">Submit Appeal</button>
+                </form>
+            </div>
+            
+            <div class="appeals-table-container">
+                <table class="appeals-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Parent Name</th>
+                            <th>Child Name</th>
+                            <th>Appeal Reason</th>
+                            <th>Submission Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="appealsTableBody">
+                        <!-- Appeals will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Gallery Management Section -->
+        <div id="gallery-admin-section" class="admin-section">
+            <h2>Gallery Management</h2>
+            <div class="gallery-upload-container">
+                <h3>Upload New Image</h3>
+                <form id="galleryUploadForm" class="gallery-upload-form">
+                    <div class="form-group">
+                        <label for="galleryTitle">Image Title:</label>
+                        <input type="text" id="galleryTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="galleryDescription">Description:</label>
+                        <textarea id="galleryDescription" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="galleryImage">Select Image:</label>
+                        <input type="file" id="galleryImage" accept="image/*" required>
+                    </div>
+                    <button type="submit" class="admin-btn">Upload Image</button>
+                </form>
+            </div>
+            
+            <div class="gallery-cards">
+                <div class="gallery-card">
+                    <div class="gallery-image">
+                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/School.jpg-4WJzB4CAbUushelk6rmlUifS71IS6N.jpeg" alt="Gallery Image 1">
+                        <div class="gallery-overlay">
+                            <button class="edit-btn" data-id="1"><i class="fas fa-edit"></i></button>
+                            <button class="delete-btn" data-id="1"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="gallery-info">
+                        <h3>School Activities</h3>
+                        <p>Updated: March 15, 2024</p>
+                        <div class="gallery-actions">
+                            <button class="upload-btn" data-id="1">
+                                <i class="fas fa-upload"></i> Replace Image
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="gallery-image">
+                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/School.jpg-4WJzB4CAbUushelk6rmlUifS71IS6N.jpeg" alt="Gallery Image 2">
+                        <div class="gallery-overlay">
+                            <button class="edit-btn" data-id="2"><i class="fas fa-edit"></i></button>
+                            <button class="delete-btn" data-id="2"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="gallery-info">
+                        <h3>Student Projects</h3>
+                        <p>Updated: March 10, 2024</p>
+                        <div class="gallery-actions">
+                            <button class="upload-btn" data-id="2">
+                                <i class="fas fa-upload"></i> Replace Image
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="gallery-image">
+                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/School.jpg-4WJzB4CAbUushelk6rmlUifS71IS6N.jpeg" alt="Gallery Image 3">
+                        <div class="gallery-overlay">
+                            <button class="edit-btn" data-id="3"><i class="fas fa-edit"></i></button>
+                            <button class="delete-btn" data-id="3"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="gallery-info">
+                        <h3>Events & Celebrations</h3>
+                        <p>Updated: March 5, 2024</p>
+                        <div class="gallery-actions">
+                            <button class="upload-btn" data-id="3">
+                                <i class="fas fa-upload"></i> Replace Image
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Section -->
+        <div id="map-section" class="admin-section">
+            <h2>School Location</h2>
+            <div class="map-container">
+                <div id="schoolMap"></div>
+                <div class="map-info">
+                    <h3>MIRACLE ECD Location</h3>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Area 25, Sector 5, Lilongwe, Malawi</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+265 992 260 985</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>cupicsart@gmail.com</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Mon-Fri: 7:00 AM - 5:00 PM</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Sat: 8:00 AM - 12:00 PM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button id="backToTop" class="back-to-top" aria-label="Back to top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+
+        <!-- Footer -->
+        <footer class="admin-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> +265 992 260 985</li>
+                        <li><i class="fas fa-envelope"></i> cupicsart@gmail.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Area 25, Sector 5, Lilongwe</li>
+                        <li><i class="fas fa-clock"></i> Mon-Fri: 7:00 AM - 5:00 PM</li>
+                        <li><i class="fas fa-clock"></i> Sat: 8:00 AM - 12:00 PM</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/265992260985" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 MIRACLE ECD. All rights reserved.</p>
+            </div>
+        </footer>
+
+        <!-- Registration Details Modal -->
+        <div id="registrationModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Registration Details</h2>
+                <div id="registrationDetails">
+                    <!-- Registration details will be loaded here -->
+                </div>
+                <div class="modal-actions">
+                    <select id="statusUpdate">
+                        <option value="Pending">Pending</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                    <button id="updateStatusBtn" class="admin-btn">Update Status</button>
+                    <button id="deleteRegistrationBtn" class="admin-btn delete-btn">Delete Registration</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Appeal Details Modal -->
+        <div id="appealModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Appeal Details</h2>
+                <div id="appealDetails">
+                    <!-- Appeal details will be loaded here -->
+                </div>
+                <div class="modal-actions">
+                    <select id="appealStatusUpdate">
+                        <option value="Pending">Pending</option>
+                        <option value="Under Review">Under Review</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Rejected">Rejected</option>
+                    </select>
+                    <button id="updateAppealStatusBtn" class="admin-btn">Update Status</button>
+                    <button id="deleteAppealBtn" class="admin-btn delete-btn">Delete Appeal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+    <script src="map.js"></script>
+</body>
+</html>
