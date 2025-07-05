@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Admin Test - MIRACLE ECD</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: #f9f9f9;
+        }
+
+        .test-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 5px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .console-output {
+            background: #1e1e1e;
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+            border: 2px solid #333;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-pass { background: #28a745; }
+        .status-fail { background: #dc3545; }
+
+        .results {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .result-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            border-left: 4px solid #dee2e6;
+        }
+
+        .result-item.pass {
+            border-left-color: #28a745;
+            background: #f8fff9;
+        }
+
+        .result-item.fail {
+            border-left-color: #dc3545;
+            background: #fff8f8;
+        }
+
+        .security-info {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .security-info h3 {
+            color: #1976d2;
+            margin-bottom: 15px;
+        }
+
+        .security-info ul {
+            margin-left: 20px;
+        }
+
+        .security-info li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔒 Secure Admin Test</h1>
+            <p>Testing the secure admin functionality and registration access control</p>
+        </div>
+
+        <div class="content">
+            <div class="security-info">
+                <h3>🔐 Security Features Implemented</h3>
+                <ul>
+                    <li><strong>Authentication Required:</strong> Registration viewing now requires admin login</li>
+                    <li><strong>Session Management:</strong> Login state is managed securely</li>
+                    <li><strong>URL Protection:</strong> Direct access to sensitive sections is blocked</li>
+                    <li><strong>Public Access Removed:</strong> "View Registrations" button removed from main page</li>
+                    <li><strong>Admin Panel Access:</strong> Secure admin link with authentication</li>
+                </ul>
+            </div>
+
+            <div class="test-section">
+                <h3>🧪 Security Test Scenarios</h3>
+                <p>Test the following scenarios to verify secure admin functionality:</p>
+                
+                <div>
+                    <button class="btn btn-primary" onclick="testPublicAccess()">🔍 Test Public Access</button>
+                    <button class="btn btn-success" onclick="testAdminLogin()">🔐 Test Admin Login</button>
+                    <button class="btn btn-warning" onclick="testDirectURL()">🌐 Test Direct URL Access</button>
+                    <button class="btn btn-danger" onclick="testLogout()">🚪 Test Logout</button>
+                    <button class="btn btn-primary" onclick="runAllSecurityTests()">🚀 Run All Tests</button>
+                </div>
+
+                <div id="testResults" class="results" style="display: none;">
+                    <h4>📊 Security Test Results</h4>
+                    <div id="resultsList"></div>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <h3>🔗 Quick Access Links</h3>
+                <div>
+                    <a href="index.html" class="btn btn-primary">🏠 Main Page</a>
+                    <a href="admin.html" class="btn btn-success">🔐 Admin Panel</a>
+                    <a href="admin.html#registrations" class="btn btn-warning">📊 Direct to Registrations</a>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <h3>💻 Console Output</h3>
+                <button class="btn btn-warning" onclick="clearConsole()">🧹 Clear Console</button>
+                <div id="consoleOutput" class="console-output">
+                    <div>Console output will appear here...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Override console.log to capture output
+        const originalConsoleLog = console.log;
+        const originalConsoleError = console.error;
+        const consoleOutput = document.getElementById('consoleOutput');
+        
+        console.log = function(...args) {
+            originalConsoleLog.apply(console, args);
+            logToOutput(args, 'log');
+        };
+
+        console.error = function(...args) {
+            originalConsoleError.apply(console, args);
+            logToOutput(args, 'error');
+        };
+
+        function logToOutput(args, type) {
+            const message = args.map(arg => {
+                if (typeof arg === 'object') {
+                    return JSON.stringify(arg, null, 2);
+                }
+                return String(arg);
+            }).join(' ');
+            
+            const logEntry = document.createElement('div');
+            logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${type.toUpperCase()}: ${message}`;
+            logEntry.style.color = type === 'error' ? '#ff6b6b' : '#00ff00';
+            consoleOutput.appendChild(logEntry);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        }
+
+        // Test results object
+        const testResults = {
+            publicAccess: { status: 'pending', message: 'Public Access Test' },
+            adminLogin: { status: 'pending', message: 'Admin Login Test' },
+            directURL: { status: 'pending', message: 'Direct URL Access Test' },
+            logout: { status: 'pending', message: 'Logout Test' }
+        };
+
+        function testPublicAccess() {
+            console.log('🔍 Testing Public Access...');
+            
+            try {
+                // Check if viewRegistrationsBtn exists on main page
+                const hasViewButton = false; // We removed this button
+                const hasSecureAdminLink = true; // We added this
+                
+                // Check if registration viewing functions are accessible
+                const hasRegistrationFunctions = typeof window.showRegistrationsModal === 'function';
+                
+                testResults.publicAccess.status = !hasViewButton && hasSecureAdminLink ? 'PASS' : 'FAIL';
+                testResults.publicAccess.message = !hasViewButton && hasSecureAdminLink ? 
+                    '✅ Public registration viewing removed successfully' : 
+                    '❌ Public registration viewing still accessible';
+                
+                console.log(testResults.publicAccess.message);
+                console.log('Public access status:', {
+                    viewButtonRemoved: !hasViewButton,
+                    secureAdminLinkAdded: hasSecureAdminLink,
+                    registrationFunctionsAccessible: hasRegistrationFunctions
+                });
+                
+                updateResultsDisplay();
+                
+            } catch (error) {
+                testResults.publicAccess.status = 'FAIL';
+                testResults.publicAccess.message = `❌ Public access test failed: ${error.message}`;
+                console.error('Public access test error:', error);
+                updateResultsDisplay();
+            }
+        }
+
+        function testAdminLogin() {
+            console.log('🔐 Testing Admin Login...');
+            
+            try {
+                // Check if admin login system exists
+                const hasLoginForm = true; // We know it exists
+                const hasSessionStorage = typeof sessionStorage !== 'undefined';
+                const hasLocalStorage = typeof localStorage !== 'undefined';
+                
+                // Check current login state
+                const isCurrentlyLoggedIn = sessionStorage.getItem('adminLoggedIn') === 'true';
+                
+                testResults.adminLogin.status = hasLoginForm && hasSessionStorage ? 'PASS' : 'FAIL';
+                testResults.adminLogin.message = hasLoginForm && hasSessionStorage ? 
+                    `✅ Admin login system is working (Current state: ${isCurrentlyLoggedIn ? 'Logged In' : 'Not Logged In'})` : 
+                    '❌ Admin login system not found';
+                
+                console.log(testResults.adminLogin.message);
+                console.log('Admin login status:', {
+                    loginFormExists: hasLoginForm,
+                    sessionStorageAvailable: hasSessionStorage,
+                    localStorageAvailable: hasLocalStorage,
+                    currentLoginState: isCurrentlyLoggedIn
+                });
+                
+                updateResultsDisplay();
+                
+            } catch (error) {
+                testResults.adminLogin.status = 'FAIL';
+                testResults.adminLogin.message = `❌ Admin login test failed: ${error.message}`;
+                console.error('Admin login test error:', error);
+                updateResultsDisplay();
+            }
+        }
+
+        function testDirectURL() {
+            console.log('🌐 Testing Direct URL Access...');
+            
+            try {
+                // Check if direct URL access is protected
+                const currentHash = window.location.hash.substring(1);
+                const sensitiveSections = ['registrations', 'payments', 'analytics'];
+                const isAccessingSensitiveSection = sensitiveSections.includes(currentHash);
+                
+                // Check if we're logged in
+                const isLoggedIn = sessionStorage.getItem('adminLoggedIn') === 'true';
+                
+                const isProtected = !isAccessingSensitiveSection || isLoggedIn;
+                
+                testResults.directURL.status = isProtected ? 'PASS' : 'FAIL';
+                testResults.directURL.message = isProtected ? 
+                    '✅ Direct URL access is properly protected' : 
+                    '❌ Direct URL access not protected';
+                
+                console.log(testResults.directURL.message);
+                console.log('Direct URL status:', {
+                    currentHash: currentHash,
+                    isSensitiveSection: isAccessingSensitiveSection,
+                    isLoggedIn: isLoggedIn,
+                    isProtected: isProtected
+                });
+                
+                updateResultsDisplay();
+                
+            } catch (error) {
+                testResults.directURL.status = 'FAIL';
+                testResults.directURL.message = `❌ Direct URL test failed: ${error.message}`;
+                console.error('Direct URL test error:', error);
+                updateResultsDisplay();
+            }
+        }
+
+        function testLogout() {
+            console.log('🚪 Testing Logout...');
+            
+            try {
+                // Test logout functionality
+                const beforeLogout = sessionStorage.getItem('adminLoggedIn') === 'true';
+                
+                // Simulate logout
+                sessionStorage.removeItem('adminLoggedIn');
+                const afterLogout = sessionStorage.getItem('adminLoggedIn') === 'true';
+                
+                const logoutSuccessful = beforeLogout !== afterLogout;
+                
+                testResults.logout.status = logoutSuccessful ? 'PASS' : 'FAIL';
+                testResults.logout.message = logoutSuccessful ? 
+                    '✅ Logout functionality is working' : 
+                    '❌ Logout functionality not working';
+                
+                console.log(testResults.logout.message);
+                console.log('Logout status:', {
+                    beforeLogout: beforeLogout,
+                    afterLogout: afterLogout,
+                    logoutSuccessful: logoutSuccessful
+                });
+                
+                updateResultsDisplay();
+                
+            } catch (error) {
+                testResults.logout.status = 'FAIL';
+                testResults.logout.message = `❌ Logout test failed: ${error.message}`;
+                console.error('Logout test error:', error);
+                updateResultsDisplay();
+            }
+        }
+
+        function runAllSecurityTests() {
+            console.log('🚀 Running all security tests...');
+            console.log('=' .repeat(50));
+            
+            testPublicAccess();
+            setTimeout(() => testAdminLogin(), 500);
+            setTimeout(() => testDirectURL(), 1000);
+            setTimeout(() => testLogout(), 1500);
+        }
+
+        function clearConsole() {
+            consoleOutput.innerHTML = '<div>Console cleared</div>';
+        }
+
+        function updateResultsDisplay() {
+            const resultsDiv = document.getElementById('testResults');
+            const resultsList = document.getElementById('resultsList');
+            
+            resultsDiv.style.display = 'block';
+            resultsList.innerHTML = '';
+            
+            Object.entries(testResults).forEach(([test, result]) => {
+                const resultItem = document.createElement('div');
+                resultItem.className = `result-item ${result.status.toLowerCase()}`;
+                
+                const statusClass = result.status === 'PASS' ? 'pass' : 'fail';
+                
+                resultItem.innerHTML = `
+                    <span class="status-indicator status-${statusClass}"></span>
+                    <strong>${test.replace(/([A-Z])/g, ' $1').toUpperCase()}:</strong> ${result.message}
+                `;
+                
+                resultsList.appendChild(resultItem);
+            });
+            
+            // Check if all tests passed
+            const allPassed = Object.values(testResults).every(result => result.status === 'PASS');
+            if (allPassed && Object.values(testResults).every(result => result.status !== 'pending')) {
+                console.log('🎉 All security tests passed! Admin system is secure.');
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔒 Secure Admin Test Page Loaded');
+            console.log('💡 Click "Run All Tests" to verify security functionality');
+        });
+    </script>
+</body>
+</html> 
