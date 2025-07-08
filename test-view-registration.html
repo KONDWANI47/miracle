@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test View Registration - MIRACLE ECD</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .test-table th, .test-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .test-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        .view-btn {
+            background: #007bff;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .view-btn:hover {
+            background: #0056b3;
+        }
+        .result {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+            border-left: 4px solid #007bff;
+        }
+        .error {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+        .success {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+        .step {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            border-left: 4px solid #ffc107;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .close-modal {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-modal:hover {
+            color: #000;
+        }
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .detail-item {
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        .detail-item strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #495057;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Test View Registration Functionality</h1>
+    <p>This page tests if the "View" button in the admin panel works correctly.</p>
+
+    <div class="test-section">
+        <h2>Step 1: Create Test Data</h2>
+        <div class="step">
+            <strong>Instructions:</strong> Create test registrations to verify the view functionality.
+        </div>
+        
+        <button onclick="createTestRegistrations()">Create Test Registrations</button>
+        <button onclick="loadTestRegistrations()">Load Test Registrations</button>
+        <button onclick="clearTestData()">Clear Test Data</button>
+        
+        <div id="testDataResult" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Step 2: Test View Functionality</h2>
+        <div class="step">
+            <strong>Instructions:</strong> Click the "View" buttons below to test the registration details modal.
+        </div>
+        
+        <table class="test-table" id="testRegistrationsTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Parent Name</th>
+                    <th>Child Name</th>
+                    <th>Program</th>
+                    <th>Start Date</th>
+                    <th>Registration Date</th>
+                    <th>Payment Status</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="testRegistrationsTableBody">
+                <tr>
+                    <td colspan="9" style="text-align: center; padding: 2rem; color: #666;">
+                        No test registrations found. Create some test data first.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div id="viewTestResult" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Step 3: Test Admin Panel Integration</h2>
+        <div class="step">
+            <strong>Instructions:</strong> Test the view functionality in the actual admin panel.
+        </div>
+        
+        <button onclick="openAdminPanel()">Open Admin Panel</button>
+        <button onclick="testAdminViewFunction()">Test Admin View Function</button>
+        
+        <div id="adminTestResult" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- Test Registration Details Modal -->
+    <div id="testRegistrationModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeTestModal()">&times;</span>
+            <h2>Test Registration Details</h2>
+            <div id="testRegistrationDetails">
+                <!-- Registration details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let testRegistrations = [];
+
+        function createTestRegistrations() {
+            const testData = [
+                {
+                    id: 'test-001',
+                    parent_name: 'John Doe',
+                    email: 'john.doe@example.com',
+                    phone: '+26512345678',
+                    child_name: 'Emma Doe',
+                    child_age: 5,
+                    start_date: '2024-02-01',
+                    program: 'Early Childhood Care',
+                    message: 'Test registration 1',
+                    registration_date: new Date().toISOString(),
+                    payment_status: 'pending',
+                    registration_status: 'pending'
+                },
+                {
+                    id: 'test-002',
+                    parent_name: 'Jane Smith',
+                    email: 'jane.smith@example.com',
+                    phone: '+26587654321',
+                    child_name: 'Lucas Smith',
+                    child_age: 7,
+                    start_date: '2024-02-15',
+                    program: 'Foundation Program',
+                    message: 'Test registration 2',
+                    registration_date: new Date().toISOString(),
+                    payment_status: 'paid',
+                    registration_status: 'approved'
+                },
+                {
+                    id: 'test-003',
+                    parent_name: 'Mike Johnson',
+                    email: 'mike.johnson@example.com',
+                    phone: '+26511223344',
+                    child_name: 'Sophia Johnson',
+                    child_age: 10,
+                    start_date: '2024-03-01',
+                    program: 'Primary Preparation',
+                    message: 'Test registration 3',
+                    registration_date: new Date().toISOString(),
+                    payment_status: 'pending',
+                    registration_status: 'payment required'
+                }
+            ];
+
+            // Store in localStorage for testing
+            localStorage.setItem('testRegistrations', JSON.stringify(testData));
+            testRegistrations = testData;
+
+            const resultDiv = document.getElementById('testDataResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result success';
+            resultDiv.innerHTML = `
+                <h3>✅ Test Registrations Created</h3>
+                <p>Created ${testData.length} test registrations with different scenarios:</p>
+                <ul>
+                    <li>Pending registration (John Doe)</li>
+                    <li>Approved registration (Jane Smith)</li>
+                    <li>Payment required registration (Mike Johnson)</li>
+                </ul>
+            `;
+
+            loadTestRegistrations();
+        }
+
+        function loadTestRegistrations() {
+            const stored = localStorage.getItem('testRegistrations');
+            if (stored) {
+                testRegistrations = JSON.parse(stored);
+            }
+
+            const tableBody = document.getElementById('testRegistrationsTableBody');
+            
+            if (testRegistrations.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="9" style="text-align: center; padding: 2rem; color: #666;">
+                            No test registrations found. Create some test data first.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tableBody.innerHTML = '';
+            
+            testRegistrations.forEach((reg) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${reg.id}</td>
+                    <td>${reg.parent_name || 'Not provided'}</td>
+                    <td>${reg.child_name || 'Not provided'}</td>
+                    <td>${reg.program}</td>
+                    <td>${new Date(reg.start_date).toLocaleDateString()}</td>
+                    <td>${new Date(reg.registration_date).toLocaleString()}</td>
+                    <td><span class="status-badge status-${(reg.payment_status || "pending").toLowerCase()}">${reg.payment_status || "Pending"}</span></td>
+                    <td><span class="status-badge status-${(reg.registration_status || 'pending').toLowerCase().replace(" ", "-")}">${reg.registration_status || 'Pending'}</span></td>
+                    <td>
+                        <button class="view-btn" onclick="showTestRegistrationDetails('${reg.id}')">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function showTestRegistrationDetails(id) {
+            const registration = testRegistrations.find(reg => reg.id === id);
+            
+            if (!registration) {
+                alert('Registration not found!');
+                return;
+            }
+
+            const detailsDiv = document.getElementById('testRegistrationDetails');
+            detailsDiv.innerHTML = `
+                <div class="registration-details-container">
+                    <div class="details-section">
+                        <h3><i class="fas fa-user"></i> Parent/Guardian Information</h3>
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <strong>Registration ID:</strong>
+                                <span>${registration.id}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Parent/Guardian Name:</strong>
+                                <span>${registration.parent_name || "Not provided"}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Email Address:</strong>
+                                <span>${registration.email}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Phone Number:</strong>
+                                <span>${registration.phone}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="details-section">
+                        <h3><i class="fas fa-child"></i> Child Information</h3>
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <strong>Child's Name:</strong>
+                                <span>${registration.child_name || "Not provided"}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Child's Age:</strong>
+                                <span>${registration.child_age} years old</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Age Group:</strong>
+                                <span>${getAgeGroup(registration.child_age)}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="details-section">
+                        <h3><i class="fas fa-graduation-cap"></i> Program Information</h3>
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <strong>Program Type:</strong>
+                                <span>${registration.program}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Preferred Start Date:</strong>
+                                <span>${new Date(registration.start_date).toLocaleDateString('en-US', { 
+                                    weekday: 'long', 
+                                    year: 'numeric', 
+                                    month: 'long', 
+                                    day: 'numeric' 
+                                })}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Registration Date:</strong>
+                                <span>${new Date(registration.registration_date).toLocaleString('en-US', {
+                                    weekday: 'long',
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                })}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="details-section">
+                        <h3><i class="fas fa-credit-card"></i> Payment Information</h3>
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <strong>Payment Status:</strong>
+                                <span class="status-badge status-${(registration.payment_status || "pending").toLowerCase()}">${registration.payment_status || "Pending"}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Registration Status:</strong>
+                                <span class="status-badge status-${(registration.registration_status || 'pending').toLowerCase().replace(" ", "-")}">${registration.registration_status || 'Pending'}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="details-section">
+                        <h3><i class="fas fa-comments"></i> Additional Information</h3>
+                        <div class="details-grid">
+                            <div class="detail-item" style="grid-column: 1 / -1;">
+                                <strong>Message/Notes:</strong>
+                                <p>${registration.message || "No additional information provided"}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Show modal
+            document.getElementById('testRegistrationModal').style.display = 'block';
+
+            const resultDiv = document.getElementById('viewTestResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result success';
+            resultDiv.innerHTML = `
+                <h3>✅ View Function Working</h3>
+                <p>Successfully displayed registration details for ID: ${id}</p>
+                <p><strong>Parent:</strong> ${registration.parent_name}</p>
+                <p><strong>Child:</strong> ${registration.child_name}</p>
+                <p><strong>Program:</strong> ${registration.program}</p>
+            `;
+        }
+
+        function closeTestModal() {
+            document.getElementById('testRegistrationModal').style.display = 'none';
+        }
+
+        function getAgeGroup(age) {
+            if (age < 5) return "Early Childhood Care (0-5 years)";
+            if (age < 7) return "Foundation Program (5-7 years)";
+            if (age <= 12) return "Primary Preparation (7-12 years)";
+            return "Age group not specified";
+        }
+
+        function clearTestData() {
+            localStorage.removeItem('testRegistrations');
+            testRegistrations = [];
+            loadTestRegistrations();
+            
+            const resultDiv = document.getElementById('testDataResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result success';
+            resultDiv.innerHTML = '<p>🧹 Test data cleared successfully.</p>';
+        }
+
+        function openAdminPanel() {
+            window.open('admin.html', '_blank');
+        }
+
+        function testAdminViewFunction() {
+            const resultDiv = document.getElementById('adminTestResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = `
+                <h3>🔧 Admin Panel View Function Test</h3>
+                <p><strong>Instructions:</strong></p>
+                <ol>
+                    <li>Open the admin panel in a new tab</li>
+                    <li>Login with admin credentials</li>
+                    <li>Go to the Registrations section</li>
+                    <li>Click the "View" button on any registration</li>
+                    <li>Check if the modal opens with registration details</li>
+                </ol>
+                <p><strong>Expected Result:</strong> Modal should open showing all registration information</p>
+                <p><strong>If it doesn't work:</strong> Check browser console for errors</p>
+            `;
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('testRegistrationModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Load test registrations on page load
+        window.onload = function() {
+            loadTestRegistrations();
+        };
+    </script>
+</body>
+</html> 

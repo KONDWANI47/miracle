@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIRACLE ECD - Early Childhood Development</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="firebase-config.js"></script>
+    <script src="realtime.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-top">
+            <div class="logo">
+                <div class="logo-text">
+                    <h1>MIRACLE ECD</h1>
+                </div>
+            </div>
+            <div class="header-center">
+                <div class="contact-info">
+                    <a href="tel:+265992260985" class="contact-link">
+                        <i class="fas fa-phone"></i>
+                        <span>Call Us: +265992260985</span>
+                    </a>
+                    <a href="mailto:cupicsart@gmail.com" class="contact-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email: cupicsart@gmail.com</span>
+                    </a>
+                </div>
+                <form class="search-form">
+                    <input type="text" placeholder="Search...">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+            <div class="header-right">
+                <a href="admin.html#registrations" class="secure-admin-link" style="margin-right: 10px;">
+                    <i class="fas fa-users"></i> Admin Panel
+                </a>
+                <button class="hamburger" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#academics">Academics</a></li>
+                <li><a href="#admissions">Admissions</a></li>
+                <li><a href="#registration">Registration</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="mobile-search">
+            <form class="search-form">
+                <input type="text" placeholder="Search...">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>WELCOME TO MIRACLE EARLY CHILDHOOD DEVELOPMENT CENTRE</h1>
+                <p>Nurturing Young Minds, Building Bright Futures</p>
+                <p class="hero-subtitle">We develop a child to grow, play and learn</p>
+                <a href="#registration" class="cta-button">Register Now</a>
+            </div>
+            
+            <!-- Hero Announcements Section -->
+            <div id="hero-announcements" class="hero-announcements">
+                <!-- Hero announcements will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Three Cards Section -->
+        <section class="three-cards-section">
+            <div class="container">
+                <h2 class="section-title">Our Learning Environment</h2>
+                <div class="three-cards-container">
+                    <div class="learning-card">
+                        <img src="ana.png" alt="Classroom Activities">
+                        <div class="card-content">
+                            <h3>Interactive Learning</h3>
+                            <p>Our classrooms are designed to foster creativity and engagement through hands-on activities.</p>
+                        </div>
+                    </div>
+                    <div class="learning-card">
+                        <img src="ana2.png" alt="Outdoor Play">
+                        <div class="card-content">
+                            <h3>Outdoor Adventures</h3>
+                            <p>Children explore and learn through safe outdoor activities in our spacious play area.</p>
+                        </div>
+                    </div>
+                    <div class="learning-card">
+                        <img src="ana3.png" alt="Creative Arts">
+                        <div class="card-content">
+                            <h3>Creative Expression</h3>
+                            <p>Art and craft activities help children develop fine motor skills and creativity.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <h2>About Us</h2>
+            <div class="about-cards">
+                <div class="about-card">
+                    <div class="card-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Our Mission</h3>
+                    <p>At MIRACLE ECD, we are dedicated to providing a nurturing and stimulating environment where children can grow, learn, and develop to their full potential. Our mission is to create a safe, loving, and educational space that fosters curiosity, creativity, and confidence in every child.</p>
+                </div>
+                
+                <div class="about-card">
+                    <div class="card-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Our Approach</h3>
+                    <p>We believe in a holistic approach to early childhood development, combining structured learning with play-based activities. Our curriculum is designed to develop:</p>
+                    <ul>
+                        <li>Social and emotional skills</li>
+                        <li>Cognitive development</li>
+                        <li>Physical coordination</li>
+                        <li>Language and communication</li>
+                        <li>Creative expression</li>
+                    </ul>
+                </div>
+                
+                <div class="about-card">
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Our Team</h3>
+                    <p>Our experienced and qualified staff are committed to providing the highest quality care and education. Each team member is:</p>
+                    <ul>
+                        <li>Fully qualified in early childhood education</li>
+                        <li>First aid certified</li>
+                        <li>Background checked</li>
+                        <li>Dedicated to continuous learning</li>
+                        <li>Passionate about child development</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="testimonials-section">
+            <div class="container">
+                <h2 class="section-title">What Parents Say About Us</h2>
+                <p class="section-description">Hear from our community of parents about their experience with MIRACLE ECD</p>
+                
+                <div class="testimonials-container">
+                    <div class="testimonials-carousel">
+                        <div class="testimonial-track" id="testimonialTrack">
+                            <!-- Testimonials will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-controls">
+                        <button class="testimonial-btn prev-btn" id="prevTestimonial">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="testimonial-indicators" id="testimonialIndicators">
+                            <!-- Indicators will be generated here -->
+                        </div>
+                        <button class="testimonial-btn next-btn" id="nextTestimonial">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Add Testimonial Form -->
+                <div class="add-testimonial-section">
+                    <h3>Share Your Experience</h3>
+                    <p>We'd love to hear about your child's journey with us. Share your testimonial below!</p>
+                    <form id="testimonialForm" class="testimonial-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="parentName">Parent Name *</label>
+                                <input type="text" id="parentName" name="parentName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="childName">Child's Name *</label>
+                                <input type="text" id="childName" name="childName" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="parentEmail">Email Address *</label>
+                            <input type="email" id="parentEmail" name="parentEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="testimonialContent">Your Testimonial *</label>
+                            <textarea id="testimonialContent" name="testimonialContent" rows="5" placeholder="Share your experience with MIRACLE ECD..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="rating">Rating *</label>
+                            <div class="rating-stars">
+                                <input type="radio" id="star5" name="rating" value="5" required>
+                                <label for="star5"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star4" name="rating" value="4">
+                                <label for="star4"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star3" name="rating" value="3">
+                                <label for="star3"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star2" name="rating" value="2">
+                                <label for="star2"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star1" name="rating" value="1">
+                                <label for="star1"><i class="fas fa-star"></i></label>
+                            </div>
+                        </div>
+                        <button type="submit" class="submit-testimonial-btn">
+                            <i class="fas fa-paper-plane"></i> Submit Testimonial
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Section -->
+        <section id="blog" class="blog-section">
+            <div class="container">
+                <h2 class="section-title">Latest Blog Posts & Stories</h2>
+                <div class="blog-cards">
+                    <div class="blog-card">
+                        <div class="blog-image">
+                            <img src="ana.png" alt="Preschool Preparation">
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-date">May 10, 2024</span>
+                                <span class="blog-category">Parenting Tips</span>
+                            </div>
+                            <h3 class="blog-title">5 Tips for Preparing Your Child for Preschool</h3>
+                            <p class="blog-summary">Starting preschool is a big step! Discover practical tips to help your child feel confident and excited for their first day at MIRACLE ECD. From establishing routines to building independence, we'll guide you through this important transition.</p>
+                            <div class="blog-footer">
+                                <a href="#" class="blog-readmore">Read Full Story</a>
+                                <div class="blog-stats">
+                                    <span><i class="fas fa-eye"></i> 245 views</span>
+                                    <span><i class="fas fa-heart"></i> 18 likes</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="blog-card">
+                        <div class="blog-image">
+                            <img src="ana2.png" alt="Learning Through Play">
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-date">April 28, 2024</span>
+                                <span class="blog-category">Child Development</span>
+                            </div>
+                            <h3 class="blog-title">The Importance of Play in Early Childhood</h3>
+                            <p class="blog-summary">Play is more than just fun—it's essential for learning and development. Learn how our programs use play to nurture young minds, develop social skills, and build a strong foundation for future learning.</p>
+                            <div class="blog-footer">
+                                <a href="#" class="blog-readmore">Read Full Story</a>
+                                <div class="blog-stats">
+                                    <span><i class="fas fa-eye"></i> 189 views</span>
+                                    <span><i class="fas fa-heart"></i> 23 likes</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="blog-card">
+                        <div class="blog-image">
+                            <img src="ana3.png" alt="Our Teachers">
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-date">April 15, 2024</span>
+                                <span class="blog-category">Meet Our Team</span>
+                            </div>
+                            <h3 class="blog-title">Meet Our Teachers: Passionate About Child Development</h3>
+                            <p class="blog-summary">Get to know the dedicated educators who make MIRACLE ECD a special place for every child to grow and thrive. Our teachers bring years of experience and a deep commitment to early childhood education.</p>
+                            <div class="blog-footer">
+                                <a href="#" class="blog-readmore">Read Full Story</a>
+                                <div class="blog-stats">
+                                    <span><i class="fas fa-eye"></i> 312 views</span>
+                                    <span><i class="fas fa-heart"></i> 27 likes</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="blog-card">
+                        <div class="blog-image">
+                            <img src="ground.png" alt="Physical Activities">
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-date">April 5, 2024</span>
+                                <span class="blog-category">Health & Wellness</span>
+                            </div>
+                            <h3 class="blog-title">Building Strong Bodies: Physical Development Activities</h3>
+                            <p class="blog-summary">Physical development is crucial in early childhood. Discover how our structured activities promote healthy growth, coordination, and motor skills development in young children.</p>
+                            <div class="blog-footer">
+                                <a href="#" class="blog-readmore">Read Full Story</a>
+                                <div class="blog-stats">
+                                    <span><i class="fas fa-eye"></i> 156 views</span>
+                                    <span><i class="fas fa-heart"></i> 14 likes</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="blog-card">
+                        <div class="blog-image">
+                            <img src="School.jpg" alt="School Events">
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-date">March 20, 2024</span>
+                                <span class="blog-category">School Events</span>
+                            </div>
+                            <h3 class="blog-title">Celebrating Success: Our Annual Achievement Day</h3>
+                            <p class="blog-summary">Every child's journey is worth celebrating! Our annual achievement day recognizes the progress and accomplishments of all our students, building confidence and motivation for continued learning.</p>
+                            <div class="blog-footer">
+                                <a href="#" class="blog-readmore">Read Full Story</a>
+                                <div class="blog-stats">
+                                    <span><i class="fas fa-eye"></i> 423 views</span>
+                                    <span><i class="fas fa-heart"></i> 35 likes</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="blog-card">
+                        <div class="blog-image">
+                            <img src="Events.jpg" alt="Community Activities">
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-date">March 10, 2024</span>
+                                <span class="blog-category">Community</span>
+                            </div>
+                            <h3 class="blog-title">Building Community: Parent-Teacher Collaboration</h3>
+                            <p class="blog-summary">Strong partnerships between parents and teachers create the best learning environment for children. Learn how we work together to support your child's development and success.</p>
+                            <div class="blog-footer">
+                                <a href="#" class="blog-readmore">Read Full Story</a>
+                                <div class="blog-stats">
+                                    <span><i class="fas fa-eye"></i> 198 views</span>
+                                    <span><i class="fas fa-heart"></i> 19 likes</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="blog-load-more">
+                    <button class="load-more-btn">Load More Stories</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="academics" class="academics-section">
+            <div class="container">
+                <h2 class="section-title">Our Academic Programs</h2>
+                <div class="academics-grid">
+                    <div class="academic-card">
+                        <div class="card-icon">
+                            <i class="fas fa-book-reader"></i>
+                        </div>
+                        <h3>Early Learning</h3>
+                        <p>Our early learning program focuses on developing essential skills through play-based activities, fostering curiosity and creativity in young minds.</p>
+                        <ul class="program-features">
+                            <li>Age-appropriate activities</li>
+                            <li>Social development</li>
+                            <li>Basic numeracy and literacy</li>
+                            <li>Creative expression</li>
+                        </ul>
+                    </div>
+                    <div class="academic-card">
+                        <div class="card-icon">
+                            <i class="fas fa-pencil-alt"></i>
+                        </div>
+                        <h3>Primary Education</h3>
+                        <p>A comprehensive curriculum designed to build strong foundations in core subjects while encouraging critical thinking and problem-solving skills.</p>
+                        <ul class="program-features">
+                            <li>Core subjects mastery</li>
+                            <li>Project-based learning</li>
+                            <li>Individual attention</li>
+                            <li>Regular assessments</li>
+                        </ul>
+                    </div>
+                    <div class="academic-card">
+                        <div class="card-icon">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <h3>Special Programs</h3>
+                        <p>Enrichment programs that complement our core curriculum, offering students opportunities to explore their interests and talents.</p>
+                        <ul class="program-features">
+                            <li>Arts and crafts</li>
+                            <li>Music and dance</li>
+                            <li>Sports activities</li>
+                            <li>Language development</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="admissions" class="admissions-section">
+            <div class="container">
+                <h2 class="section-title">Admission Process</h2>
+                <div class="admission-content">
+                    <div class="admission-info">
+                        <h3>How to Apply</h3>
+                        <div class="admission-steps">
+                            <div class="step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h4>Submit Application</h4>
+                                    <p>Complete the online application form or visit our office to submit the required documents.</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h4>Payment</h4>
+                                    <p>Complete the registration fee payment to secure your child's spot.</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h4>Assessment</h4>
+                                    <p>Schedule an assessment session to evaluate your child's current level and needs.</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h4>Enrollment</h4>
+                                    <p>Complete the enrollment process and prepare for your child's first day.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="admission-requirements">
+                        <h3>Requirements</h3>
+                        <ul>
+                            <li>Birth certificate</li>
+                            <li>Previous school records (if applicable)</li>
+                            <li>Health records</li>
+                            <li>Passport-sized photographs</li>
+                            <li>Parent/Guardian ID</li>
+                        </ul>
+                        <a href="#registration" class="cta-button">Start Application</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="facilities" class="facilities-section">
+            <div class="container">
+                <h2 class="section-title">Our Facilities</h2>
+                <div class="facilities-grid">
+                    <div class="facility-card">
+                        <div class="facility-image">
+                            <img src="ground.png" alt="Modern Classrooms">
+                        </div>
+                        <div class="facility-content">
+                            <h3>Learning Corner</h3>
+                            <p>Spacious, well-ventilated classrooms equipped with modern teaching aids and comfortable furniture.</p>
+                            <ul class="facility-features">
+                                <li>Interactive whiteboards</li>
+                                <li>Comfortable seating</li>
+                                <li>Natural lighting</li>
+                                <li>Air conditioning</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="facility-card">
+                        <div class="facility-image">
+                            <img src="ana3.png" alt="Play Area">
+                        </div>
+                        <div class="facility-content">
+                            <h3>OutDoor</h3>
+                            <p>Safe and engaging outdoor play area designed for physical development and recreation.</p>
+                            <ul class="facility-features">
+                                <li>Age-appropriate equipment</li>
+                                <li>Safety surfaces</li>
+                                <li>Shaded areas</li>
+                                <li>Sports facilities</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="facility-card">
+                        <div class="facility-image">
+                            <img src="ana3.png" alt="Library">
+                        </div>
+                        <div class="facility-content">
+                            <h3>Library corner</h3>
+                            <p>Well-stocked library with a wide range of books and learning resources.</p>
+                            <ul class="facility-features">
+                                <li>Age-appropriate books</li>
+                                <li>Reading corners</li>
+                                <li>Digital resources</li>
+                                <li>Quiet study areas</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="programs" class="programs">
+            <h2>Our Programs</h2>
+            <div class="programs-content">
+                <div class="program-card">
+                    <h3>Early Childhood Care (0-5 years)</h3>
+                    <ul>
+                        <li>Personalized care and attention</li>
+                        <li>Age-appropriate activities</li>
+                        <li>Regular feeding and nap schedules</li>
+                        <li>Daily communication with parents</li>
+                    </ul>
+                </div>
+                <div class="program-card">
+                    <h3>Foundation Program (5-7 years)</h3>
+                    <p class="payment-amount contact-pricing">Contact for Pricing</p>
+                    <p class="payment-description">Per term tuition for children aged 5-7 years</p>
+                    <ul>
+                        <li>Early learning activities</li>
+                        <li>Social interaction opportunities</li>
+                        <li>Basic skill development</li>
+                        <li>Structured play time</li>
+                    </ul>
+                </div>
+                <div class="program-card">
+                    <h3>Primary Preparation (7-12 years)</h3>
+                    <p class="payment-amount contact-pricing">Contact for Pricing</p>
+                    <p class="payment-description">Per term tuition for children aged 7-12 years</p>
+                    <ul>
+                        <li>Pre-primary preparation</li>
+                        <li>Academic readiness skills</li>
+                        <li>Creative arts and crafts</li>
+                        <li>Physical education activities</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="registration" class="registration">
+            <h2>Online Registration</h2>
+            <div class="registration-info">
+                <p>Join our MIRACLE ECD family! Our registration process is simple and straightforward. Fill out the form below, and our team will contact you within 24 hours to discuss your child's needs and complete the enrollment process.</p>
+                <p>Required documents for registration:</p>
+                <ul>
+                    <li>Child's birth certificate</li>
+                    <li>Immunization records</li>
+                    <li>Parent/Guardian ID</li>
+                    <li>Emergency contact information</li>
+                </ul>
+            </div>
+            <form id="registrationForm" class="registration-form">
+                <div class="form-group">
+                    <label for="parentName">Parent/Guardian Name: <span class="required">*</span></label>
+                    <input type="text" id="parentName" name="parentName" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email: <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number: <span class="required">*</span></label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="childName">Child's Name: <span class="required">*</span></label>
+                    <input type="text" id="childName" name="childName" required>
+                </div>
+                <div class="form-group">
+                    <label for="childAge">Child's Age: <span class="required">*</span></label>
+                    <input type="number" id="childAge" name="childAge" min="1" max="12" required>
+                </div>
+                <div class="form-group">
+                    <label for="startDate">Preferred Start Date: <span class="required">*</span></label>
+                    <input type="date" id="startDate" name="startDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="program">Program Type: <span class="required">*</span></label>
+                    <select id="program" name="program" required>
+                        <option value="">Select a program</option>
+                        <option value="Early Childhood Care" data-price="0">Early Childhood Care (0-5 years)</option>
+                        <option value="Foundation Program" data-price="0">Foundation Program (5-7 years)</option>
+                        <option value="Primary Preparation" data-price="0">Primary Preparation (7-12 years)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Additional Information:</label>
+                    <textarea id="message" name="message" rows="4" placeholder="Any special needs, allergies, or additional information about your child..."></textarea>
+                </div>
+                <div class="payment-info">
+                    <h3>Registration Fee: MWK<span id="registrationFee">5,000</span></h3>
+                    <p>A registration fee is required to complete your application.</p>
+                    <p class="payment-warning"><i class="fas fa-exclamation-triangle"></i> <strong>Note:</strong> Registration fee is non-refundable</p>
+                </div>
+                <button type="submit" class="submit-button">Submit Registration</button>
+            </form>
+        </section>
+
+        <!-- Quick Payment Section -->
+        <section id="quick-payment" class="quick-payment">
+            <h2>Quick Payment Options</h2>
+            <div class="payment-cards">
+                <div class="payment-card">
+                    <div class="payment-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Registration Fee</h3>
+                    <p class="payment-amount">MWK 5,000</p>
+                    <p class="payment-description">One-time registration fee to secure your child's spot</p>
+                    <p class="payment-note"><i class="fas fa-exclamation-triangle"></i> Non-refundable</p>
+                    <button class="payment-btn" data-payment-type="registration" data-amount="5000">
+                        <i class="fas fa-credit-card"></i>
+                        Pay Registration Fee
+                    </button>
+                </div>
+                
+                <div class="payment-card">
+                    <div class="payment-icon">
+                        <i class="fas fa-child"></i>
+                    </div>
+                    <h3>Early Childhood Care</h3>
+                    <p class="payment-amount contact-pricing">Contact for Pricing</p>
+                    <p class="payment-description">Per term tuition for children aged 0-5 years</p>
+                    <button class="payment-btn" data-payment-type="tuition" data-program="Early Childhood Care" data-amount="0">
+                        <i class="fas fa-credit-card"></i>
+                        Pay Tuition
+                    </button>
+                </div>
+                
+                <div class="payment-card">
+                    <div class="payment-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>Foundation Program</h3>
+                    <p class="payment-amount contact-pricing">Contact for Pricing</p>
+                    <p class="payment-description">Per term tuition for children aged 5-7 years</p>
+                    <button class="payment-btn" data-payment-type="tuition" data-program="Foundation Program" data-amount="0">
+                        <i class="fas fa-credit-card"></i>
+                        Pay Tuition
+                    </button>
+                </div>
+                
+                <div class="payment-card">
+                    <div class="payment-icon">
+                        <i class="fas fa-school"></i>
+                    </div>
+                    <h3>Primary Preparation</h3>
+                    <p class="payment-amount contact-pricing">Contact for Pricing</p>
+                    <p class="payment-description">Per term tuition for children aged 7-12 years</p>
+                    <button class="payment-btn" data-payment-type="tuition" data-program="Primary Preparation" data-amount="0">
+                        <i class="fas fa-credit-card"></i>
+                        Pay Tuition
+                    </button>
+                </div>
+            </div>
+            
+            <div class="payment-info-section">
+                <h3>Payment Information</h3>
+                <div class="payment-methods-overview">
+                    <div class="method-item">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span><strong>Airtel Money:</strong> +265 992 260 985</span>
+                    </div>
+                    <div class="method-item">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span><strong>TNM Mpamba:</strong> +265 883 406 744</span>
+                    </div>
+                    <div class="method-item">
+                        <i class="fas fa-university"></i>
+                        <span><strong>Bank Transfer:</strong> Available for all major banks</span>
+                    </div>
+                    <div class="method-item">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span><strong>Cash Payment:</strong> Visit our office during business hours</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery" class="gallery">
+            <h2>Our Gallery</h2>
+            <div class="gallery-cards" id="galleryContainer">
+                <!-- Gallery items will be loaded here -->
+            </div>
+        </section>
+
+        <section id="user-uploads" class="user-uploads">
+            <h2>Community Gallery</h2>
+            <p class="section-description">Share your child's special moments with our community!</p>
+            
+            <div class="upload-section">
+                <h3>Upload Your Photos</h3>
+                <form id="userUploadForm" class="upload-form">
+                    <div class="form-group">
+                        <label for="uploaderName">Your Name: <span class="required">*</span></label>
+                        <input type="text" id="uploaderName" name="uploaderName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="uploaderEmail">Email: <span class="required">*</span></label>
+                        <input type="email" id="uploaderEmail" name="uploaderEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="uploadTitle">Photo Title: <span class="required">*</span></label>
+                        <input type="text" id="uploadTitle" name="uploadTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="uploadDescription">Description: <span class="required">*</span></label>
+                        <textarea id="uploadDescription" name="uploadDescription" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="uploadImage">Select Image: <span class="required">*</span></label>
+                        <input type="file" id="uploadImage" name="uploadImage" accept="image/*" required>
+                    </div>
+                    <button type="submit" class="submit-button">Upload Photo</button>
+                </form>
+            </div>
+
+            <div class="user-gallery" id="userGalleryContainer">
+                <!-- User uploaded images will be displayed here -->
+            </div>
+        </section>
+
+        <!-- School Location Section -->
+        <section id="school-location" class="school-location">
+            <h2>Our School Location</h2>
+            <div class="location-container">
+                <div class="location-images">
+                    <div class="location-image-card">
+                        <img src="ana.png" alt="MIRACLE ECD School Building">
+                        <div class="image-overlay">
+                            <h4>Main School Building</h4>
+                            <p>Our modern facility in Area 25, Sector 6</p>
+                        </div>
+                    </div>
+                    <div class="location-image-card">
+                        <img src="ground.png" alt="School Grounds and Play Area">
+                        <div class="image-overlay">
+                            <h4>School Grounds</h4>
+                            <p>Spacious outdoor play and learning areas</p>
+                        </div>
+                    </div>
+                    <div class="location-image-card">
+                        <img src="ana2.png" alt="School Entrance and Surroundings">
+                        <div class="image-overlay">
+                            <h4>School Entrance</h4>
+                            <p>Safe and welcoming entrance to our school</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="location-details">
+                    <div class="location-info-card">
+                        <div class="location-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="location-content">
+                            <h3>Exact Location</h3>
+                            <p><strong>Address:</strong> Area 25, Sector 6, Lilongwe, Malawi</p>
+                            <p><strong>Landmark:</strong> Near Dzenza government primary school</p>
+                            <p><strong>GPS Coordinates:</strong> Available upon request</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-info-card">
+                        <div class="location-icon">
+                            <i class="fas fa-route"></i>
+                        </div>
+                        <div class="location-content">
+                            <h3>How to Find Us</h3>
+                            <ul>
+                                <li><strong>From Area 25 CCAP Sign post:</strong> Take the main road towards Dzenza government primary school,</li>
+                                <li><strong>wakabaza stage:</strong> 15-minute walk or 5-minute taxi ride</li>
+                                <li><strong>Public Transport:</strong> Minibus route from Dzenza mission, 25C</li>
+                                <li> Available on-site for parents</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="location-info-card">
+                        <div class="location-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="location-content">
+                            <h3>Visiting Hours</h3>
+                            <p><strong>School Hours:</strong> Monday - Friday: 7:00 AM - 5:00 PM</p>
+                            <p><strong>Saturday:</strong> 8:00 AM - 12:00 PM</p>
+                            <p><strong>Part-time Classes:</strong> 2:00 PM - 4:00 PM</p>
+                            <p><strong>Sunday:</strong> Closed</p>
+                            <p><strong>Parent Meetings:</strong> By appointment</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-info-card">
+                        <div class="location-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="location-content">
+                            <h3>Contact for Directions</h3>
+                            <p><strong>Phone:</strong> +265 992 260 985</p>
+                            <p><strong>WhatsApp:</strong> +265 992 260 985</p>
+                            <p><strong>Email:</strong> <a href="mailto:cupicsart@gmail.com">cupicsart@gmail.com</a></p>
+                            <p><strong>Emergency:</strong> +265 883 406 744</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <h2>Contact Us</h2>
+            <div class="contact-cards">
+                <div class="contact-card">
+                    <div class="card-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Location</h3>
+                    <p>Area 25, Sector 6</p>
+                    <p>Lilongwe, Malawi</p>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="card-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Business Hours</h3>
+                    <p>Monday - Friday: 7:00 AM - 16:30 PM</p>
+                    <p>Saturday: 14:00 AM - 16:00 PM</p>
+                    <p>Sunday: Closed</p>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="card-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h3>Contact Info</h3>
+                    <p>Phone: +265 992 260 985</p>
+                    <p>Email: <a href="mailto:cupicsart@gmail.com">cupicsart@gmail.com</a></p>
+                    <p>WhatsApp: +265 992 260 985</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>
+                Complete Payment
+                <span class="payment-gateway-status">
+                    <i class="fas fa-circle"></i>
+                    Real-time Gateway
+                </span>
+            </h2>
+            <div id="paymentDetails">
+                <!-- Payment details will be loaded here -->
+            </div>
+            <div class="payment-form">
+                <h3>Select Payment Method</h3>
+                <div class="payment-methods">
+                    <div class="payment-method">
+                        <input type="radio" id="airtel-money" name="paymentMethod" value="airtel-money">
+                        <label for="airtel-money">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>Airtel Money</span>
+                        </label>
+                    </div>
+                    <div class="payment-method">
+                        <input type="radio" id="tnm-mpamba" name="paymentMethod" value="tnm-mpamba">
+                        <label for="tnm-mpamba">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>TNM Mpamba</span>
+                        </label>
+                    </div>
+                    <div class="payment-method">
+                        <input type="radio" id="national-bank" name="paymentMethod" value="national-bank">
+                        <label for="national-bank">
+                            <i class="fas fa-university"></i>
+                            <span>National Bank</span>
+                        </label>
+                    </div>
+                    <div class="payment-method">
+                        <input type="radio" id="standard-bank" name="paymentMethod" value="standard-bank">
+                        <label for="standard-bank">
+                            <i class="fas fa-university"></i>
+                            <span>Standard Bank</span>
+                        </label>
+                    </div>
+                    <div class="payment-method">
+                        <input type="radio" id="cash" name="paymentMethod" value="cash">
+                        <label for="cash">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span>Cash Payment</span>
+                        </label>
+                    </div>
+                </div>
+                <div id="payment-instructions" class="payment-instructions">
+                    <!-- Payment instructions will be shown here based on selected method -->
+                </div>
+                
+                <!-- Payment Password Confirmation -->
+                <div id="payment-password-section" class="payment-password-section" style="display: none;">
+                    <h4><i class="fas fa-lock"></i> Payment Confirmation</h4>
+                    <p class="password-instruction">Please enter your payment method password to confirm the transaction:</p>
+                    
+                    <div class="password-input-group">
+                        <div class="password-field">
+                            <label for="payment-password">Password:</label>
+                            <div class="password-input-container">
+                                <input type="password" id="payment-password" placeholder="Enter your password" required>
+                                <button type="button" class="password-toggle" id="paymentPasswordToggle">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="password-field">
+                            <label for="payment-confirm-password">Confirm Password:</label>
+                            <div class="password-input-container">
+                                <input type="password" id="payment-confirm-password" placeholder="Confirm your password" required>
+                                <button type="button" class="password-toggle" id="paymentConfirmPasswordToggle">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="password-validation" id="password-validation">
+                        <!-- Password validation messages will appear here -->
+                    </div>
+                    
+                    <div class="payment-method-info" id="payment-method-info">
+                        <!-- Payment method specific information -->
+                    </div>
+                </div>
+                
+                <div id="card-errors" role="alert"></div>
+                <button id="submit-payment" class="submit-button payment-processing">
+                    <i class="fas fa-credit-card"></i>
+                    Complete Payment
+                </button>
+                <button id="confirm-payment" class="submit-button payment-confirm" style="display: none;">
+                    <i class="fas fa-check"></i>
+                    Confirm Payment
+                </button>
+                <div class="payment-security-info">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Secure real-time payment processing with password confirmation</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="newsletter"> 
+        <div class="footer-section">
+            <h3>Newsletter & Quick Links</h3>
+            <div class="newsletter-container">
+                <p>Subscribe to our newsletter for updates and news about our programs and events.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Our Location & Contact Info</h4>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> Area 25, Sector 6, Lilongwe</li>
+                    <li><i class="fas fa-phone"></i> +265 992 260 985</li>
+                    <li><i class="fas fa-phone"></i> +265 883 406 744</li>
+                    <li><i class="fas fa-envelope"></i> <a href="mailto:cupicsart@gmail.com">cupicsart@gmail.com</a></li>
+                    <li><i class="fas fa-envelope"></i> <a href="mailto:chiyowodi2021initiative@gmail.com">chiyowodi2021initiative@gmail.com</a></li>
+                    <li><i class="fas fa-clock"></i> Mon-Fri: 7:00 AM - 5:00 PM</li>
+                </ul>
+            </div>
+  
+            <div class="footer-section">
+                <h4>Our Programs</h4>
+                <p>
+                    Early Childhood Care &
+                    Adulthood Development Education
+                </p>
+                <ul>
+                    <li><i class="fas fa-child"></i>  Infant Care (0-5 years)</li>
+                    <li><i class="fas fa-child"></i>  Toddler Program (5-7 years)</li>
+                    <li><i class="fas fa-graduation-cap"></i>  Preschool(7-12 years)</li>
+                </ul>
+                <h4>Our Extra Carricula includes:</h4>
+                <li><i>Computer Basic Training</i></li>
+                <li><i>Part Time Classes all grades</i></li>
+                <li><i>Business Plan, NGO Constitution documents development</i></li>
+                <li><i>Front and Hospitality Training</i></li>
+                <li><i>Early Childhood development orientation</i></li>
+                <li><i>Entrepreneurship Consultations</i></li>
+            </div>
+        </div>
+        <p>&copy; 2024 MIRACLE ECD. All rights reserved.</p>
+    </footer>
+
+    <a href="https://wa.me/265992260985?text=Hello%20MIRACLE%20ECD,%20I%20would%20like%20to%20inquire%20about%20your%20services." class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span class="whatsapp-tooltip">Chat with us!</span>
+    </a>
+
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage-compat.js"></script>
+    
+    <!-- Payment Configuration -->
+    <script src="payment-config.js"></script>
+    
+    <!-- Hybrid Payment System (Works Immediately) -->
+    <script src="hybrid-payment-system.js"></script>
+    
+    <!-- Real Payment Integration -->
+    <script src="real-payment-integration.js"></script>
+    
+    <!-- Main Scripts -->
+    <script src="script.js"></script>
+    <script src="test-registration-compatibility.js"></script>
+</body>
+</html>

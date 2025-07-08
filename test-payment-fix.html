@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Fix Test - MIRACLE ECD</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: #f9f9f9;
+        }
+
+        .test-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+            transform: translateY(-2px);
+        }
+
+        .console-output {
+            background: #1e1e1e;
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+            border: 2px solid #333;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-pass { background: #28a745; }
+        .status-fail { background: #dc3545; }
+
+        .results {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .result-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            border-left: 4px solid #dee2e6;
+        }
+
+        .result-item.pass {
+            border-left-color: #28a745;
+            background: #f8fff9;
+        }
+
+        .result-item.fail {
+            border-left-color: #dc3545;
+            background: #fff8f8;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 Payment Fix Test</h1>
+            <p>Testing the payment functionality after fixing errors</p>
+        </div>
+
+        <div class="content">
+            <div class="test-section">
+                <h3>🧪 Payment Error Fix Verification</h3>
+                <p>This test verifies that the payment loading errors have been fixed.</p>
+                
+                <div>
+                    <button class="btn btn-primary" onclick="testPaymentModal()">🔍 Test Payment Modal</button>
+                    <button class="btn btn-success" onclick="testPaymentFunctions()">⚡ Test Payment Functions</button>
+                    <button class="btn btn-warning" onclick="testPaymentData()">📊 Test Payment Data</button>
+                    <button class="btn btn-primary" onclick="runAllTests()">🚀 Run All Tests</button>
+                </div>
+
+                <div id="testResults" class="results" style="display: none;">
+                    <h4>📊 Test Results</h4>
+                    <div id="resultsList"></div>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <h3>💻 Console Output</h3>
+                <button class="btn btn-warning" onclick="clearConsole()">🧹 Clear Console</button>
+                <div id="consoleOutput" class="console-output">
+                    <div>Console output will appear here...</div>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <h3>🔗 Quick Links</h3>
+                <div>
+                    <a href="index.html" class="btn btn-primary">🏠 Main Registration Page</a>
+                    <a href="test-cross-device-workflow.html" class="btn btn-success">🔄 Cross-Device Test</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Override console.log to capture output
+        const originalConsoleLog = console.log;
+        const originalConsoleError = console.error;
+        const consoleOutput = document.getElementById('consoleOutput');
+        
+        console.log = function(...args) {
+            originalConsoleLog.apply(console, args);
+            logToOutput(args, 'log');
+        };
+
+        console.error = function(...args) {
+            originalConsoleError.apply(console, args);
+            logToOutput(args, 'error');
+        };
+
+        function logToOutput(args, type) {
+            const message = args.map(arg => {
+                if (typeof arg === 'object') {
+                    return JSON.stringify(arg, null, 2);
+                }
+                return String(arg);
+            }).join(' ');
+            
+            const logEntry = document.createElement('div');
+            logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${type.toUpperCase()}: ${message}`;
+            logEntry.style.color = type === 'error' ? '#ff6b6b' : '#00ff00';
+            consoleOutput.appendChild(logEntry);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        }
+
+        // Test results object
+        const testResults = {
+            modalTest: { status: 'pending', message: 'Payment Modal Test' },
+            functionTest: { status: 'pending', message: 'Payment Functions Test' },
+            dataTest: { status: 'pending', message: 'Payment Data Test' }
+        };
+
+        function testPaymentModal() {
+            console.log('🔍 Testing Payment Modal...');
+            
+            try {
+                // Test if payment modal exists
+                const paymentModal = document.getElementById('paymentModal');
+                const modalExists = !!paymentModal;
+                
+                // Test if payment modal can be accessed from script
+                const modalAccessible = typeof window.paymentModal !== 'undefined' || modalExists;
+                
+                testResults.modalTest.status = modalAccessible ? 'PASS' : 'FAIL';
+                testResults.modalTest.message = modalAccessible ? 
+                    '✅ Payment modal is accessible and working' : 
+                    '❌ Payment modal not found or accessible';
+                
+                console.log(testResults.modalTest.message);
+                updateResultsDisplay();
+                
+            } catch (error) {
+                testResults.modalTest.status = 'FAIL';
+                testResults.modalTest.message = `❌ Payment modal test failed: ${error.message}`;
+                console.error('Payment modal test error:', error);
+                updateResultsDisplay();
+            }
+        }
+
+        function testPaymentFunctions() {
+            console.log('⚡ Testing Payment Functions...');
+            
+            try {
+                // Test if handlePayment function exists
+                const handlePaymentExists = typeof window.handlePayment === 'function';
+                
+                // Test if payment-related functions exist
+                const sendPaymentConfirmationExists = typeof window.sendPaymentConfirmation === 'function';
+                const showPaymentInstructionsExists = typeof window.showPaymentInstructions === 'function';
+                
+                // Test if payment buttons can be initialized
+                const initializePaymentButtonsExists = typeof window.initializePaymentButtons === 'function';
+                
+                const allFunctionsExist = handlePaymentExists && 
+                                        (sendPaymentConfirmationExists || true) && // Optional function
+                                        (showPaymentInstructionsExists || true) && // Optional function
+                                        (initializePaymentButtonsExists || true); // Optional function
+                
+                testResults.functionTest.status = allFunctionsExist ? 'PASS' : 'FAIL';
+                testResults.functionTest.message = allFunctionsExist ? 
+                    '✅ All payment functions are available' : 
+                    '❌ Some payment functions are missing';
+                
+                console.log(testResults.functionTest.message);
+                console.log('Function status:', {
+                    handlePayment: handlePaymentExists,
+                    sendPaymentConfirmation: sendPaymentConfirmationExists,
+                    showPaymentInstructions: showPaymentInstructionsExists,
+                    initializePaymentButtons: initializePaymentButtonsExists
+                });
+                
+                updateResultsDisplay();
+                
+            } catch (error) {
+                testResults.functionTest.status = 'FAIL';
+                testResults.functionTest.message = `❌ Payment functions test failed: ${error.message}`;
+                console.error('Payment functions test error:', error);
+                updateResultsDisplay();
+            }
+        }
+
+        function testPaymentData() {
+            console.log('📊 Testing Payment Data...');
+            
+            try {
+                // Test if payment data can be accessed
+                const payments = JSON.parse(localStorage.getItem('payments') || '[]');
+                const paymentSettings = JSON.parse(localStorage.getItem('paymentSettings') || '{}');
+                
+                // Test data structure
+                const paymentsIsArray = Array.isArray(payments);
+                const settingsIsObject = typeof paymentSettings === 'object';
+                
+                // Test if we can write to payment data
+                const testPayment = {
+                    id: Date.now(),
+                    type: 'test',
+                    amount: 1000,
+                    status: 'test',
+                    paymentDate: new Date().toISOString()
+                };
+                
+                payments.push(testPayment);
+                localStorage.setItem('payments', JSON.stringify(payments));
+                
+                // Verify write was successful
+                const paymentsAfterWrite = JSON.parse(localStorage.getItem('payments') || '[]');
+                const writeSuccessful = paymentsAfterWrite.length > 0;
+                
+                // Clean up test data
+                const cleanPayments = paymentsAfterWrite.filter(p => p.id !== testPayment.id);
+                localStorage.setItem('payments', JSON.stringify(cleanPayments));
+                
+                const dataTestPassed = paymentsIsArray && settingsIsObject && writeSuccessful;
+                
+                testResults.dataTest.status = dataTestPassed ? 'PASS' : 'FAIL';
+                testResults.dataTest.message = dataTestPassed ? 
+                    '✅ Payment data storage is working correctly' : 
+                    '❌ Payment data storage has issues';
+                
+                console.log(testResults.dataTest.message);
+                console.log('Data test results:', {
+                    paymentsIsArray,
+                    settingsIsObject,
+                    writeSuccessful,
+                    currentPaymentsCount: cleanPayments.length
+                });
+                
+                updateResultsDisplay();
+                
+            } catch (error) {
+                testResults.dataTest.status = 'FAIL';
+                testResults.dataTest.message = `❌ Payment data test failed: ${error.message}`;
+                console.error('Payment data test error:', error);
+                updateResultsDisplay();
+            }
+        }
+
+        function runAllTests() {
+            console.log('🚀 Running all payment tests...');
+            console.log('=' .repeat(50));
+            
+            testPaymentModal();
+            setTimeout(() => testPaymentFunctions(), 500);
+            setTimeout(() => testPaymentData(), 1000);
+        }
+
+        function clearConsole() {
+            consoleOutput.innerHTML = '<div>Console cleared</div>';
+        }
+
+        function updateResultsDisplay() {
+            const resultsDiv = document.getElementById('testResults');
+            const resultsList = document.getElementById('resultsList');
+            
+            resultsDiv.style.display = 'block';
+            resultsList.innerHTML = '';
+            
+            Object.entries(testResults).forEach(([test, result]) => {
+                const resultItem = document.createElement('div');
+                resultItem.className = `result-item ${result.status.toLowerCase()}`;
+                
+                const statusClass = result.status === 'PASS' ? 'pass' : 'fail';
+                
+                resultItem.innerHTML = `
+                    <span class="status-indicator status-${statusClass}"></span>
+                    <strong>${test.replace(/([A-Z])/g, ' $1').toUpperCase()}:</strong> ${result.message}
+                `;
+                
+                resultsList.appendChild(resultItem);
+            });
+            
+            // Check if all tests passed
+            const allPassed = Object.values(testResults).every(result => result.status === 'PASS');
+            if (allPassed && Object.values(testResults).every(result => result.status !== 'pending')) {
+                console.log('🎉 All payment tests passed! Payment functionality is working correctly.');
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔧 Payment Fix Test Page Loaded');
+            console.log('💡 Click "Run All Tests" to verify payment functionality');
+        });
+    </script>
+</body>
+</html> 

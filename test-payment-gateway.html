@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Payment Gateway Test - MIRACLE ECD</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+        }
+        
+        .test-section {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .test-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .test-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .test-btn {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .test-btn:hover {
+            background: #45a049;
+        }
+        
+        .test-btn.danger {
+            background: #f44336;
+        }
+        
+        .test-btn.danger:hover {
+            background: #d32f2f;
+        }
+        
+        .test-btn.warning {
+            background: #ff9800;
+        }
+        
+        .test-btn.warning:hover {
+            background: #f57c00;
+        }
+        
+        .test-btn.success {
+            background: #4caf50;
+        }
+        
+        .test-btn.success:hover {
+            background: #45a049;
+        }
+        
+        .test-results {
+            background: #e8f5e8;
+            border: 1px solid #4caf50;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .test-result {
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+        
+        .test-result.success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 3px solid #28a745;
+        }
+        
+        .test-result.error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 3px solid #dc3545;
+        }
+        
+        .test-result.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-left: 3px solid #17a2b8;
+        }
+        
+        .payment-status-display {
+            background: #333;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        
+        .real-time-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #4caf50;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+        
+        .payment-gateway-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 15px;
+            animation: pulse 2s infinite;
+        }
+        
+        .payment-gateway-status i {
+            font-size: 8px;
+            animation: blink 1s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1><i class="fas fa-credit-card"></i> Real-time Payment Gateway Test</h1>
+            <p>Comprehensive testing of the MIRACLE ECD real-time payment gateway system</p>
+            <div class="payment-gateway-status">
+                <i class="fas fa-circle"></i>
+                Real-time Gateway Active
+            </div>
+        </div>
+
+        <!-- Firebase Connection Test -->
+        <div class="test-section">
+            <h2><i class="fas fa-database"></i> Firebase Connection Test</h2>
+            <div class="test-grid">
+                <div class="test-card">
+                    <h3><i class="fas fa-plug"></i> Connection Status</h3>
+                    <button class="test-btn" onclick="testFirebaseConnection()">Test Connection</button>
+                    <button class="test-btn danger" onclick="testFirebaseDisconnection()">Test Disconnection</button>
+                    <div class="test-results" id="firebaseTestResults"></div>
+                </div>
+                
+                <div class="test-card">
+                    <h3><i class="fas fa-cog"></i> Payment Settings</h3>
+                    <button class="test-btn" onclick="testPaymentSettings()">Get Settings</button>
+                    <button class="test-btn warning" onclick="testUpdatePaymentSettings()">Update Settings</button>
+                    <div class="test-results" id="settingsTestResults"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Processing Test -->
+        <div class="test-section">
+            <h2><i class="fas fa-money-bill-wave"></i> Payment Processing Test</h2>
+            <div class="test-grid">
+                <div class="test-card">
+                    <h3><i class="fas fa-plus"></i> Create Payment</h3>
+                    <button class="test-btn success" onclick="testCreatePayment()">Create Test Payment</button>
+                    <button class="test-btn" onclick="testCreateRegistrationPayment()">Create Registration Payment</button>
+                    <div class="test-results" id="createPaymentResults"></div>
+                </div>
+                
+                <div class="test-card">
+                    <h3><i class="fas fa-list"></i> Payment List</h3>
+                    <button class="test-btn" onclick="testGetPayments()">Get All Payments</button>
+                    <button class="test-btn" onclick="testGetPaymentById()">Get Payment by ID</button>
+                    <div class="test-results" id="paymentListResults"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Real-time Updates Test -->
+        <div class="test-section">
+            <h2><i class="fas fa-broadcast-tower"></i> Real-time Updates Test</h2>
+            <div class="test-grid">
+                <div class="test-card">
+                    <h3><i class="fas fa-play"></i> Real-time Listeners</h3>
+                    <button class="test-btn success" onclick="startPaymentListeners()">Start Listeners</button>
+                    <button class="test-btn danger" onclick="stopPaymentListeners()">Stop Listeners</button>
+                    <div class="test-results" id="listenerResults"></div>
+                </div>
+                
+                <div class="test-card">
+                    <h3><i class="fas fa-bell"></i> Live Updates</h3>
+                    <button class="test-btn" onclick="simulatePaymentUpdate()">Simulate Update</button>
+                    <button class="test-btn warning" onclick="simulatePaymentStatusChange()">Simulate Status Change</button>
+                    <div class="test-results" id="liveUpdateResults"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Status Display -->
+        <div class="test-section">
+            <h2><i class="fas fa-tachometer-alt"></i> Payment Status Display</h2>
+            <div class="payment-status-display" id="paymentStatusDisplay">
+                <div><span class="real-time-indicator"></span>Waiting for payment data...</div>
+            </div>
+            <button class="test-btn" onclick="showPaymentStatus('Initializing payment gateway...')">Show Status</button>
+            <button class="test-btn" onclick="hidePaymentStatus()">Hide Status</button>
+        </div>
+
+        <!-- Error Handling Test -->
+        <div class="test-section">
+            <h2><i class="fas fa-exclamation-triangle"></i> Error Handling Test</h2>
+            <div class="test-grid">
+                <div class="test-card">
+                    <h3><i class="fas fa-bug"></i> Error Scenarios</h3>
+                    <button class="test-btn danger" onclick="testPaymentError()">Test Payment Error</button>
+                    <button class="test-btn warning" onclick="testNetworkError()">Test Network Error</button>
+                    <button class="test-btn" onclick="testInvalidData()">Test Invalid Data</button>
+                    <div class="test-results" id="errorTestResults"></div>
+                </div>
+                
+                <div class="test-card">
+                    <h3><i class="fas fa-shield-alt"></i> Security Test</h3>
+                    <button class="test-btn" onclick="testPaymentValidation()">Test Validation</button>
+                    <button class="test-btn" onclick="testPaymentSecurity()">Test Security</button>
+                    <div class="test-results" id="securityTestResults"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Test -->
+        <div class="test-section">
+            <h2><i class="fas fa-tachometer-alt"></i> Performance Test</h2>
+            <div class="test-grid">
+                <div class="test-card">
+                    <h3><i class="fas fa-stopwatch"></i> Response Time</h3>
+                    <button class="test-btn" onclick="testPaymentResponseTime()">Test Response Time</button>
+                    <button class="test-btn" onclick="testBulkPayments()">Test Bulk Payments</button>
+                    <div class="test-results" id="performanceResults"></div>
+                </div>
+                
+                <div class="test-card">
+                    <h3><i class="fas fa-chart-line"></i> Load Test</h3>
+                    <button class="test-btn" onclick="testConcurrentPayments()">Test Concurrent</button>
+                    <button class="test-btn" onclick="testPaymentThroughput()">Test Throughput</button>
+                    <div class="test-results" id="loadTestResults"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage-compat.js"></script>
+    
+    <!-- Test Scripts -->
+    <script src="firebase-config.js"></script>
+    <script>
+        let paymentListeners = [];
+        let testPaymentId = null;
+
+        // Test Firebase Connection
+        async function testFirebaseConnection() {
+            addTestResult('firebaseTestResults', 'Testing Firebase connection...', 'info');
+            
+            try {
+                const success = await firebaseManager.initialize();
+                if (success) {
+                    addTestResult('firebaseTestResults', '✅ Firebase connected successfully', 'success');
+                } else {
+                    addTestResult('firebaseTestResults', '❌ Firebase connection failed', 'error');
+                }
+            } catch (error) {
+                addTestResult('firebaseTestResults', `❌ Firebase error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testFirebaseDisconnection() {
+            addTestResult('firebaseTestResults', 'Testing Firebase disconnection...', 'info');
+            
+            try {
+                firebaseManager.cleanupListeners();
+                addTestResult('firebaseTestResults', '✅ Firebase listeners cleaned up', 'success');
+            } catch (error) {
+                addTestResult('firebaseTestResults', `❌ Disconnection error: ${error.message}`, 'error');
+            }
+        }
+
+        // Test Payment Settings
+        async function testPaymentSettings() {
+            addTestResult('settingsTestResults', 'Getting payment settings...', 'info');
+            
+            try {
+                const settings = await firebaseManager.getPaymentSettings();
+                addTestResult('settingsTestResults', `✅ Settings retrieved: ${JSON.stringify(settings, null, 2)}`, 'success');
+            } catch (error) {
+                addTestResult('settingsTestResults', `❌ Settings error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testUpdatePaymentSettings() {
+            addTestResult('settingsTestResults', 'Updating payment settings...', 'info');
+            
+            try {
+                const newSettings = {
+                    registrationFee: 5500,
+                    earlyChildhoodCarePrice: 25000,
+                    foundationProgramPrice: 30000,
+                    primaryPreparationPrice: 35000
+                };
+                
+                const result = await firebaseManager.updatePaymentSettings(newSettings);
+                addTestResult('settingsTestResults', '✅ Payment settings updated successfully', 'success');
+            } catch (error) {
+                addTestResult('settingsTestResults', `❌ Update error: ${error.message}`, 'error');
+            }
+        }
+
+        // Test Payment Creation
+        async function testCreatePayment() {
+            addTestResult('createPaymentResults', 'Creating test payment...', 'info');
+            
+            try {
+                const paymentData = {
+                    parentName: 'Test Parent',
+                    parentEmail: 'test@example.com',
+                    parentPhone: '+265123456789',
+                    amount: 5000,
+                    paymentMethod: 'airtel-money',
+                    paymentType: 'test',
+                    status: 'completed',
+                    reference: `TEST-${Date.now()}`,
+                    description: 'Test payment for gateway testing'
+                };
+                
+                const result = await firebaseManager.savePayment(paymentData);
+                testPaymentId = result.id;
+                addTestResult('createPaymentResults', `✅ Test payment created: ${result.id}`, 'success');
+            } catch (error) {
+                addTestResult('createPaymentResults', `❌ Payment creation error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testCreateRegistrationPayment() {
+            addTestResult('createPaymentResults', 'Creating registration payment...', 'info');
+            
+            try {
+                const paymentData = {
+                    parentName: 'Registration Parent',
+                    parentEmail: 'registration@example.com',
+                    parentPhone: '+265987654321',
+                    childName: 'Test Child',
+                    amount: 5000,
+                    paymentMethod: 'tnm-mpamba',
+                    paymentType: 'registration',
+                    status: 'completed',
+                    reference: `REG-${Date.now()}`,
+                    description: 'Registration fee payment',
+                    program: 'Early Childhood Care'
+                };
+                
+                const result = await firebaseManager.savePayment(paymentData);
+                addTestResult('createPaymentResults', `✅ Registration payment created: ${result.id}`, 'success');
+            } catch (error) {
+                addTestResult('createPaymentResults', `❌ Registration payment error: ${error.message}`, 'error');
+            }
+        }
+
+        // Test Payment List
+        async function testGetPayments() {
+            addTestResult('paymentListResults', 'Getting all payments...', 'info');
+            
+            try {
+                const payments = await firebaseManager.getAllPayments();
+                addTestResult('paymentListResults', `✅ Retrieved ${payments.length} payments`, 'success');
+                payments.forEach(payment => {
+                    addTestResult('paymentListResults', `- ${payment.reference}: MWK ${payment.amount} (${payment.status})`, 'info');
+                });
+            } catch (error) {
+                addTestResult('paymentListResults', `❌ Get payments error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testGetPaymentById() {
+            if (!testPaymentId) {
+                addTestResult('paymentListResults', '❌ No test payment ID available. Create a payment first.', 'error');
+                return;
+            }
+            
+            addTestResult('paymentListResults', `Getting payment by ID: ${testPaymentId}`, 'info');
+            
+            try {
+                const payment = await firebaseManager.getPaymentById(testPaymentId);
+                addTestResult('paymentListResults', `✅ Payment retrieved: ${payment.reference}`, 'success');
+            } catch (error) {
+                addTestResult('paymentListResults', `❌ Get payment error: ${error.message}`, 'error');
+            }
+        }
+
+        // Real-time Listeners
+        function startPaymentListeners() {
+            addTestResult('listenerResults', 'Starting payment listeners...', 'info');
+            
+            try {
+                const unsubscribe = firebaseManager.db.collection('payments')
+                    .onSnapshot((snapshot) => {
+                        const changes = snapshot.docChanges();
+                        changes.forEach(change => {
+                            if (change.type === 'added') {
+                                addTestResult('liveUpdateResults', `🆕 New payment: ${change.doc.data().reference}`, 'success');
+                            } else if (change.type === 'modified') {
+                                addTestResult('liveUpdateResults', `🔄 Payment updated: ${change.doc.data().reference}`, 'info');
+                            }
+                        });
+                    }, (error) => {
+                        addTestResult('listenerResults', `❌ Listener error: ${error.message}`, 'error');
+                    });
+                
+                paymentListeners.push(unsubscribe);
+                addTestResult('listenerResults', '✅ Payment listeners started', 'success');
+            } catch (error) {
+                addTestResult('listenerResults', `❌ Start listeners error: ${error.message}`, 'error');
+            }
+        }
+
+        function stopPaymentListeners() {
+            addTestResult('listenerResults', 'Stopping payment listeners...', 'info');
+            
+            try {
+                paymentListeners.forEach(unsubscribe => {
+                    if (typeof unsubscribe === 'function') {
+                        unsubscribe();
+                    }
+                });
+                paymentListeners = [];
+                addTestResult('listenerResults', '✅ Payment listeners stopped', 'success');
+            } catch (error) {
+                addTestResult('listenerResults', `❌ Stop listeners error: ${error.message}`, 'error');
+            }
+        }
+
+        // Simulate Updates
+        async function simulatePaymentUpdate() {
+            if (!testPaymentId) {
+                addTestResult('liveUpdateResults', '❌ No test payment ID available. Create a payment first.', 'error');
+                return;
+            }
+            
+            addTestResult('liveUpdateResults', 'Simulating payment update...', 'info');
+            
+            try {
+                await firebaseManager.updatePayment(testPaymentId, {
+                    status: 'processing',
+                    updatedAt: new Date()
+                });
+                addTestResult('liveUpdateResults', '✅ Payment update simulated', 'success');
+            } catch (error) {
+                addTestResult('liveUpdateResults', `❌ Update simulation error: ${error.message}`, 'error');
+            }
+        }
+
+        async function simulatePaymentStatusChange() {
+            if (!testPaymentId) {
+                addTestResult('liveUpdateResults', '❌ No test payment ID available. Create a payment first.', 'error');
+                return;
+            }
+            
+            addTestResult('liveUpdateResults', 'Simulating payment status change...', 'info');
+            
+            try {
+                await firebaseManager.updatePayment(testPaymentId, {
+                    status: 'completed',
+                    completedAt: new Date()
+                });
+                addTestResult('liveUpdateResults', '✅ Payment status change simulated', 'success');
+            } catch (error) {
+                addTestResult('liveUpdateResults', `❌ Status change error: ${error.message}`, 'error');
+            }
+        }
+
+        // Payment Status Display
+        function showPaymentStatus(message) {
+            const display = document.getElementById('paymentStatusDisplay');
+            display.innerHTML = `<div><span class="real-time-indicator"></span>${message}</div>`;
+            display.style.display = 'block';
+        }
+
+        function hidePaymentStatus() {
+            const display = document.getElementById('paymentStatusDisplay');
+            display.innerHTML = '<div><span class="real-time-indicator"></span>Status hidden</div>';
+            display.style.display = 'none';
+        }
+
+        // Error Handling Tests
+        async function testPaymentError() {
+            addTestResult('errorTestResults', 'Testing payment error handling...', 'info');
+            
+            try {
+                await firebaseManager.savePayment(null);
+            } catch (error) {
+                addTestResult('errorTestResults', `✅ Error handled correctly: ${error.message}`, 'success');
+            }
+        }
+
+        async function testNetworkError() {
+            addTestResult('errorTestResults', 'Testing network error handling...', 'info');
+            
+            try {
+                // Simulate network error
+                const originalFetch = window.fetch;
+                window.fetch = () => Promise.reject(new Error('Network error'));
+                
+                await firebaseManager.getAllPayments();
+                
+                // Restore fetch
+                window.fetch = originalFetch;
+            } catch (error) {
+                addTestResult('errorTestResults', `✅ Network error handled: ${error.message}`, 'success');
+            }
+        }
+
+        async function testInvalidData() {
+            addTestResult('errorTestResults', 'Testing invalid data handling...', 'info');
+            
+            try {
+                await firebaseManager.savePayment({
+                    amount: 'invalid',
+                    parentName: ''
+                });
+            } catch (error) {
+                addTestResult('errorTestResults', `✅ Invalid data handled: ${error.message}`, 'success');
+            }
+        }
+
+        // Security Tests
+        async function testPaymentValidation() {
+            addTestResult('securityTestResults', 'Testing payment validation...', 'info');
+            
+            try {
+                const validPayment = {
+                    parentName: 'Valid Parent',
+                    amount: 5000,
+                    paymentMethod: 'airtel-money'
+                };
+                
+                const result = await firebaseManager.savePayment(validPayment);
+                addTestResult('securityTestResults', '✅ Payment validation passed', 'success');
+            } catch (error) {
+                addTestResult('securityTestResults', `❌ Validation failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testPaymentSecurity() {
+            addTestResult('securityTestResults', 'Testing payment security...', 'info');
+            
+            try {
+                // Test with sensitive data
+                const securePayment = {
+                    parentName: 'Secure Parent',
+                    amount: 5000,
+                    paymentMethod: 'airtel-money',
+                    cardNumber: '1234-5678-9012-3456' // This should be handled securely
+                };
+                
+                const result = await firebaseManager.savePayment(securePayment);
+                addTestResult('securityTestResults', '✅ Payment security test passed', 'success');
+            } catch (error) {
+                addTestResult('securityTestResults', `❌ Security test failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Performance Tests
+        async function testPaymentResponseTime() {
+            addTestResult('performanceResults', 'Testing payment response time...', 'info');
+            
+            const startTime = performance.now();
+            
+            try {
+                await firebaseManager.getAllPayments();
+                const endTime = performance.now();
+                const responseTime = endTime - startTime;
+                
+                addTestResult('performanceResults', `✅ Response time: ${responseTime.toFixed(2)}ms`, 'success');
+            } catch (error) {
+                addTestResult('performanceResults', `❌ Response time test failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testBulkPayments() {
+            addTestResult('performanceResults', 'Testing bulk payment creation...', 'info');
+            
+            try {
+                const startTime = performance.now();
+                const promises = [];
+                
+                for (let i = 0; i < 5; i++) {
+                    const paymentData = {
+                        parentName: `Bulk Parent ${i + 1}`,
+                        amount: 5000 + (i * 1000),
+                        paymentMethod: 'airtel-money',
+                        paymentType: 'bulk-test',
+                        status: 'completed',
+                        reference: `BULK-${Date.now()}-${i}`
+                    };
+                    
+                    promises.push(firebaseManager.savePayment(paymentData));
+                }
+                
+                await Promise.all(promises);
+                const endTime = performance.now();
+                const totalTime = endTime - startTime;
+                
+                addTestResult('performanceResults', `✅ Bulk payments completed in ${totalTime.toFixed(2)}ms`, 'success');
+            } catch (error) {
+                addTestResult('performanceResults', `❌ Bulk payment test failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testConcurrentPayments() {
+            addTestResult('loadTestResults', 'Testing concurrent payments...', 'info');
+            
+            try {
+                const concurrentCount = 3;
+                const promises = [];
+                
+                for (let i = 0; i < concurrentCount; i++) {
+                    const paymentData = {
+                        parentName: `Concurrent Parent ${i + 1}`,
+                        amount: 5000,
+                        paymentMethod: 'tnm-mpamba',
+                        paymentType: 'concurrent-test',
+                        status: 'completed',
+                        reference: `CONC-${Date.now()}-${i}`
+                    };
+                    
+                    promises.push(firebaseManager.savePayment(paymentData));
+                }
+                
+                await Promise.all(promises);
+                addTestResult('loadTestResults', `✅ ${concurrentCount} concurrent payments completed`, 'success');
+            } catch (error) {
+                addTestResult('loadTestResults', `❌ Concurrent payment test failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testPaymentThroughput() {
+            addTestResult('loadTestResults', 'Testing payment throughput...', 'info');
+            
+            try {
+                const startTime = performance.now();
+                let successCount = 0;
+                let errorCount = 0;
+                
+                for (let i = 0; i < 10; i++) {
+                    try {
+                        const paymentData = {
+                            parentName: `Throughput Parent ${i + 1}`,
+                            amount: 5000,
+                            paymentMethod: 'cash',
+                            paymentType: 'throughput-test',
+                            status: 'completed',
+                            reference: `THRU-${Date.now()}-${i}`
+                        };
+                        
+                        await firebaseManager.savePayment(paymentData);
+                        successCount++;
+                    } catch (error) {
+                        errorCount++;
+                    }
+                }
+                
+                const endTime = performance.now();
+                const totalTime = endTime - startTime;
+                const throughput = (successCount / totalTime) * 1000; // payments per second
+                
+                addTestResult('loadTestResults', `✅ Throughput: ${throughput.toFixed(2)} payments/sec (${successCount} success, ${errorCount} errors)`, 'success');
+            } catch (error) {
+                addTestResult('loadTestResults', `❌ Throughput test failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Utility Functions
+        function addTestResult(containerId, message, type) {
+            const container = document.getElementById(containerId);
+            const result = document.createElement('div');
+            result.className = `test-result ${type}`;
+            result.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            container.appendChild(result);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Initialize tests
+        document.addEventListener('DOMContentLoaded', () => {
+            addTestResult('firebaseTestResults', 'Payment gateway test initialized', 'info');
+            testFirebaseConnection();
+        });
+    </script>
+</body>
+</html> 

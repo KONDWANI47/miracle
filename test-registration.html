@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form Test - MIRACLE ECD</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-section {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .test-section h3 {
+            color: #333;
+            margin-top: 0;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .test-case {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+        .test-case h4 {
+            margin: 0 0 10px 0;
+            color: #007bff;
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .test-result.pass {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .test-result.fail {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .test-result.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .required {
+            color: red;
+        }
+        .submit-button {
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .submit-button:hover {
+            background: #0056b3;
+        }
+        .submit-button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .message.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .test-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .test-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .test-btn.primary {
+            background: #007bff;
+            color: white;
+        }
+        .test-btn.secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .test-btn.success {
+            background: #28a745;
+            color: white;
+        }
+        .test-btn.danger {
+            background: #dc3545;
+            color: white;
+        }
+        .log-container {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .log-entry {
+            margin: 5px 0;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        .log-entry.info { background: #e3f2fd; }
+        .log-entry.success { background: #e8f5e8; }
+        .log-entry.warning { background: #fff3e0; }
+        .log-entry.error { background: #ffebee; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>MIRACLE ECD Registration Form Test Suite</h1>
+        <p>This page helps you test all aspects of the registration form functionality.</p>
+        
+        <div class="test-controls">
+            <button class="test-btn primary" onclick="runAllTests()">Run All Tests</button>
+            <button class="test-btn secondary" onclick="clearLog()">Clear Log</button>
+            <button class="test-btn success" onclick="testValidation()">Test Validation</button>
+            <button class="test-btn danger" onclick="testFormSubmission()">Test Form Submission</button>
+        </div>
+
+        <div class="test-section">
+            <h3>Test Log</h3>
+            <div id="testLog" class="log-container">
+                <div class="log-entry info">Test log initialized. Click "Run All Tests" to begin testing.</div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>Registration Form</h3>
+            <form id="registrationForm" class="registration-form">
+                <div class="form-group">
+                    <label for="parentName">Parent/Guardian Name: <span class="required">*</span></label>
+                    <input type="text" id="parentName" name="parentName" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email: <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number: <span class="required">*</span></label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="childName">Child's Name: <span class="required">*</span></label>
+                    <input type="text" id="childName" name="childName" required>
+                </div>
+                <div class="form-group">
+                    <label for="childAge">Child's Age: <span class="required">*</span></label>
+                    <input type="number" id="childAge" name="childAge" min="0" max="12" required>
+                </div>
+                <div class="form-group">
+                    <label for="startDate">Preferred Start Date: <span class="required">*</span></label>
+                    <input type="date" id="startDate" name="startDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="program">Program Type: <span class="required">*</span></label>
+                    <select id="program" name="program" required>
+                        <option value="">Select a program</option>
+                        <option value="Early Childhood Care">Early Childhood Care (0-5 years)</option>
+                        <option value="Foundation Program">Foundation Program (5-7 years)</option>
+                        <option value="Primary Preparation">Primary Preparation (7-12 years)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Additional Information:</label>
+                    <textarea id="message" name="message" rows="4" placeholder="Any special needs, allergies, or additional information about your child..."></textarea>
+                </div>
+                <button type="submit" class="submit-button">Submit Registration</button>
+            </form>
+        </div>
+
+        <div class="test-section">
+            <h3>Test Results</h3>
+            <div id="testResults"></div>
+        </div>
+    </div>
+
+    <script>
+        // Test logging function
+        function log(message, type = 'info') {
+            const logContainer = document.getElementById('testLog');
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry ${type}`;
+            logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        function clearLog() {
+            document.getElementById('testLog').innerHTML = '<div class="log-entry info">Log cleared.</div>';
+        }
+
+        // Test validation function
+        function validateRegistrationForm(data) {
+            log('Starting form validation...', 'info');
+            
+            let isValid = true;
+            const errors = [];
+
+            // Check required fields
+            if (!data.parentName) {
+                errors.push('Parent name is required');
+                isValid = false;
+            }
+            if (!data.email) {
+                errors.push('Email is required');
+                isValid = false;
+            }
+            if (!data.phone) {
+                errors.push('Phone number is required');
+                isValid = false;
+            }
+            if (!data.childName) {
+                errors.push('Child name is required');
+                isValid = false;
+            }
+            if (!data.childAge) {
+                errors.push('Child age is required');
+                isValid = false;
+            }
+            if (!data.startDate) {
+                errors.push('Start date is required');
+                isValid = false;
+            }
+            if (!data.program) {
+                errors.push('Program selection is required');
+                isValid = false;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (data.email && !emailRegex.test(data.email)) {
+                errors.push('Please enter a valid email address');
+                isValid = false;
+            }
+
+            // Phone validation
+            const phoneRegex = /^[+]?[0-9\s\-()]{10,}$/;
+            if (data.phone && !phoneRegex.test(data.phone)) {
+                errors.push('Please enter a valid phone number');
+                isValid = false;
+            }
+
+            // Age validation
+            if (data.childAge && (isNaN(data.childAge) || data.childAge < 0 || data.childAge > 12)) {
+                errors.push('Child age must be between 0 and 12 years');
+                isValid = false;
+            }
+
+            // Start date validation
+            if (data.startDate) {
+                const selectedDate = new Date(data.startDate);
+                const today = new Date();
+                selectedDate.setHours(0, 0, 0, 0);
+                today.setHours(0, 0, 0, 0);
+
+                if (selectedDate < today) {
+                    errors.push('Start date cannot be in the past');
+                    isValid = false;
+                }
+            }
+
+            if (isValid) {
+                log('Form validation passed', 'success');
+            } else {
+                log(`Form validation failed: ${errors.join(', ')}`, 'error');
+            }
+
+            return isValid;
+        }
+
+        // Test cases
+        const testCases = [
+            {
+                name: 'Valid Registration Data',
+                data: {
+                    parentName: 'John Doe',
+                    email: 'john.doe@example.com',
+                    phone: '+265992260985',
+                    childName: 'Jane Doe',
+                    childAge: 5,
+                    startDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 7 days from now
+                    program: 'Foundation Program',
+                    message: 'No special requirements'
+                },
+                shouldPass: true
+            },
+            {
+                name: 'Missing Required Fields',
+                data: {
+                    parentName: '',
+                    email: 'invalid-email',
+                    phone: '123',
+                    childName: '',
+                    childAge: '',
+                    startDate: '',
+                    program: '',
+                    message: ''
+                },
+                shouldPass: false
+            },
+            {
+                name: 'Invalid Email Format',
+                data: {
+                    parentName: 'John Doe',
+                    email: 'invalid-email-format',
+                    phone: '+265992260985',
+                    childName: 'Jane Doe',
+                    childAge: 5,
+                    startDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                    program: 'Foundation Program',
+                    message: ''
+                },
+                shouldPass: false
+            },
+            {
+                name: 'Invalid Phone Number',
+                data: {
+                    parentName: 'John Doe',
+                    email: 'john.doe@example.com',
+                    phone: '123',
+                    childName: 'Jane Doe',
+                    childAge: 5,
+                    startDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                    program: 'Foundation Program',
+                    message: ''
+                },
+                shouldPass: false
+            },
+            {
+                name: 'Invalid Age',
+                data: {
+                    parentName: 'John Doe',
+                    email: 'john.doe@example.com',
+                    phone: '+265992260985',
+                    childName: 'Jane Doe',
+                    childAge: 15,
+                    startDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                    program: 'Foundation Program',
+                    message: ''
+                },
+                shouldPass: false
+            },
+            {
+                name: 'Past Start Date',
+                data: {
+                    parentName: 'John Doe',
+                    email: 'john.doe@example.com',
+                    phone: '+265992260985',
+                    childName: 'Jane Doe',
+                    childAge: 5,
+                    startDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 7 days ago
+                    program: 'Foundation Program',
+                    message: ''
+                },
+                shouldPass: false
+            }
+        ];
+
+        function testValidation() {
+            log('Starting validation tests...', 'info');
+            const resultsContainer = document.getElementById('testResults');
+            resultsContainer.innerHTML = '';
+
+            testCases.forEach((testCase, index) => {
+                log(`Running test case ${index + 1}: ${testCase.name}`, 'info');
+                
+                const result = validateRegistrationForm(testCase.data);
+                const testResult = document.createElement('div');
+                testResult.className = `test-result ${result === testCase.shouldPass ? 'pass' : 'fail'}`;
+                testResult.innerHTML = `
+                    <strong>Test ${index + 1}: ${testCase.name}</strong><br>
+                    Expected: ${testCase.shouldPass ? 'PASS' : 'FAIL'}<br>
+                    Actual: ${result ? 'PASS' : 'FAIL'}<br>
+                    Status: ${result === testCase.shouldPass ? '✅ PASSED' : '❌ FAILED'}
+                `;
+                resultsContainer.appendChild(testResult);
+            });
+
+            log('Validation tests completed', 'success');
+        }
+
+        function testFormSubmission() {
+            log('Testing form submission...', 'info');
+            
+            // Fill form with valid data
+            const validData = testCases[0].data;
+            document.getElementById('parentName').value = validData.parentName;
+            document.getElementById('email').value = validData.email;
+            document.getElementById('phone').value = validData.phone;
+            document.getElementById('childName').value = validData.childName;
+            document.getElementById('childAge').value = validData.childAge;
+            document.getElementById('startDate').value = validData.startDate;
+            document.getElementById('program').value = validData.program;
+            document.getElementById('message').value = validData.message;
+
+            log('Form filled with valid data', 'success');
+            
+            // Simulate form submission
+            const form = document.getElementById('registrationForm');
+            const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
+            form.dispatchEvent(submitEvent);
+            
+            log('Form submission event triggered', 'info');
+        }
+
+        function runAllTests() {
+            log('Starting comprehensive test suite...', 'info');
+            clearLog();
+            
+            // Test 1: Form validation
+            testValidation();
+            
+            // Test 2: Form submission
+            setTimeout(() => {
+                testFormSubmission();
+            }, 1000);
+            
+            // Test 3: Local storage functionality
+            setTimeout(() => {
+                testLocalStorage();
+            }, 2000);
+            
+            log('All tests completed', 'success');
+        }
+
+        function testLocalStorage() {
+            log('Testing local storage functionality...', 'info');
+            
+            try {
+                // Test saving registration data
+                const testRegistration = {
+                    id: Date.now(),
+                    parentName: 'Test Parent',
+                    email: 'test@example.com',
+                    phone: '+265992260985',
+                    childName: 'Test Child',
+                    childAge: 5,
+                    startDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                    program: 'Foundation Program',
+                    message: 'Test registration',
+                    registrationDate: new Date().toISOString(),
+                    status: 'Payment Required',
+                    paymentStatus: 'Pending'
+                };
+
+                const registrations = JSON.parse(localStorage.getItem('registrations') || '[]');
+                registrations.push(testRegistration);
+                localStorage.setItem('registrations', JSON.stringify(registrations));
+                
+                log('Registration data saved to localStorage', 'success');
+                
+                // Test retrieving registration data
+                const retrievedRegistrations = JSON.parse(localStorage.getItem('registrations') || '[]');
+                const foundRegistration = retrievedRegistrations.find(reg => reg.id === testRegistration.id);
+                
+                if (foundRegistration) {
+                    log('Registration data retrieved from localStorage successfully', 'success');
+                } else {
+                    log('Failed to retrieve registration data from localStorage', 'error');
+                }
+                
+            } catch (error) {
+                log(`Local storage test failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Form submission handler
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            log('Form submission intercepted for testing', 'info');
+            
+            const formData = {
+                parentName: document.getElementById('parentName').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                childName: document.getElementById('childName').value.trim(),
+                childAge: parseInt(document.getElementById('childAge').value),
+                startDate: document.getElementById('startDate').value,
+                program: document.getElementById('program').value,
+                message: document.getElementById('message').value.trim()
+            };
+
+            log('Form data collected', 'info');
+            log(`Parent: ${formData.parentName}, Child: ${formData.childName}, Program: ${formData.program}`, 'info');
+
+            if (validateRegistrationForm(formData)) {
+                log('Form validation passed - would proceed to payment', 'success');
+                
+                // Simulate saving to localStorage
+                const registration = {
+                    ...formData,
+                    id: Date.now(),
+                    registrationDate: new Date().toISOString(),
+                    status: 'Payment Required',
+                    paymentStatus: 'Pending'
+                };
+
+                const registrations = JSON.parse(localStorage.getItem('registrations') || '[]');
+                registrations.push(registration);
+                localStorage.setItem('registrations', JSON.stringify(registrations));
+                
+                log('Registration saved to localStorage', 'success');
+                log('Payment modal would be shown next', 'info');
+                
+                // Show success message
+                showMessage('Registration submitted successfully! Payment modal would appear next.', 'success');
+            } else {
+                log('Form validation failed', 'error');
+                showMessage('Please correct the errors in the form.', 'error');
+            }
+        });
+
+        // Message display function
+        function showMessage(message, type) {
+            const existingMessages = document.querySelectorAll('.message');
+            existingMessages.forEach(msg => msg.remove());
+
+            const messageElement = document.createElement('div');
+            messageElement.className = `message ${type}`;
+            messageElement.textContent = message;
+
+            document.body.appendChild(messageElement);
+
+            setTimeout(() => {
+                if (messageElement.parentNode) {
+                    messageElement.remove();
+                }
+            }, 5000);
+        }
+
+        // Initialize test environment
+        document.addEventListener('DOMContentLoaded', function() {
+            log('Test environment initialized', 'success');
+            log('Ready to run tests. Click "Run All Tests" to begin.', 'info');
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIRACLE ECD - Real-time Test</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="firebase-config.js"></script>
+    <script src="realtime.js"></script>
+    <style>
+        .test-container {
+            max-width: 800px;
+            margin: 100px auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        
+        .test-section h3 {
+            color: #4caf50;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .status-connected {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        
+        .status-disconnected {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .test-button {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .test-button:hover {
+            background: #388e3c;
+            transform: translateY(-2px);
+        }
+        
+        .test-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .data-display {
+            background: #f5f5f5;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+            font-family: monospace;
+            font-size: 0.8rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .real-time-demo {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .real-time-demo h2 {
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        
+        .real-time-demo p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="real-time-demo">
+            <h2><i class="fas fa-bolt"></i> Real-time Test Dashboard</h2>
+            <p>Test the real-time functionality of MIRACLE ECD website</p>
+        </div>
+
+        <!-- Connection Status -->
+        <div class="test-section">
+            <h3><i class="fas fa-wifi"></i> Firebase Connection Status</h3>
+            <div id="connectionStatus" class="status-indicator status-disconnected">
+                <i class="fas fa-circle"></i>
+                <span>Disconnected</span>
+            </div>
+            <p>This shows the current connection status to Firebase for real-time updates.</p>
+        </div>
+
+        <!-- Real-time Listeners Test -->
+        <div class="test-section">
+            <h3><i class="fas fa-list"></i> Real-time Listeners</h3>
+            <div id="listenersStatus">
+                <div class="status-indicator status-disconnected">
+                    <i class="fas fa-circle"></i>
+                    <span>Registrations: Not listening</span>
+                </div>
+                <div class="status-indicator status-disconnected">
+                    <i class="fas fa-circle"></i>
+                    <span>Testimonials: Not listening</span>
+                </div>
+                <div class="status-indicator status-disconnected">
+                    <i class="fas fa-circle"></i>
+                    <span>Blog Posts: Not listening</span>
+                </div>
+            </div>
+            <button id="startListenersBtn" class="test-button">
+                <i class="fas fa-play"></i> Start Real-time Listeners
+            </button>
+            <button id="stopListenersBtn" class="test-button" disabled>
+                <i class="fas fa-stop"></i> Stop Real-time Listeners
+            </button>
+        </div>
+
+        <!-- Data Test -->
+        <div class="test-section">
+            <h3><i class="fas fa-database"></i> Data Operations</h3>
+            <button id="addTestRegistrationBtn" class="test-button">
+                <i class="fas fa-plus"></i> Add Test Registration
+            </button>
+            <button id="addTestTestimonialBtn" class="test-button">
+                <i class="fas fa-plus"></i> Add Test Testimonial
+            </button>
+            <button id="addTestBlogBtn" class="test-button">
+                <i class="fas fa-plus"></i> Add Test Blog Post
+            </button>
+            <button id="loadDataBtn" class="test-button">
+                <i class="fas fa-download"></i> Load All Data
+            </button>
+        </div>
+
+        <!-- Live Data Display -->
+        <div class="test-section">
+            <h3><i class="fas fa-chart-line"></i> Live Data</h3>
+            <div class="data-display" id="liveDataDisplay">
+                <p>No data loaded yet. Click "Load All Data" to see current data.</p>
+            </div>
+        </div>
+
+        <!-- Real-time Updates Log -->
+        <div class="test-section">
+            <h3><i class="fas fa-history"></i> Real-time Updates Log</h3>
+            <div class="data-display" id="updatesLog">
+                <p>Real-time updates will appear here...</p>
+            </div>
+            <button id="clearLogBtn" class="test-button">
+                <i class="fas fa-trash"></i> Clear Log
+            </button>
+        </div>
+
+        <!-- Performance Test -->
+        <div class="test-section">
+            <h3><i class="fas fa-tachometer-alt"></i> Performance Test</h3>
+            <button id="performanceTestBtn" class="test-button">
+                <i class="fas fa-rocket"></i> Run Performance Test
+            </button>
+            <div id="performanceResults" class="data-display" style="display: none;">
+                <p>Performance test results will appear here...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Test functionality
+        let isConnected = false;
+        let listenersActive = false;
+        let updateCount = 0;
+
+        // Initialize test
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('Real-time test page loaded');
+            
+            // Check Firebase connection
+            checkConnection();
+            
+            // Setup event listeners
+            setupEventListeners();
+            
+            // Auto-check connection every 5 seconds
+            setInterval(checkConnection, 5000);
+        });
+
+        function checkConnection() {
+            if (typeof firebaseManager !== 'undefined' && firebaseManager.isInitialized) {
+                isConnected = true;
+                updateConnectionStatus(true);
+            } else {
+                isConnected = false;
+                updateConnectionStatus(false);
+            }
+        }
+
+        function updateConnectionStatus(connected) {
+            const statusElement = document.getElementById('connectionStatus');
+            if (connected) {
+                statusElement.className = 'status-indicator status-connected';
+                statusElement.innerHTML = '<i class="fas fa-circle"></i><span>Connected</span>';
+            } else {
+                statusElement.className = 'status-indicator status-disconnected';
+                statusElement.innerHTML = '<i class="fas fa-circle"></i><span>Disconnected</span>';
+            }
+        }
+
+        function setupEventListeners() {
+            // Start listeners button
+            document.getElementById('startListenersBtn').addEventListener('click', startListeners);
+            
+            // Stop listeners button
+            document.getElementById('stopListenersBtn').addEventListener('click', stopListeners);
+            
+            // Data operation buttons
+            document.getElementById('addTestRegistrationBtn').addEventListener('click', addTestRegistration);
+            document.getElementById('addTestTestimonialBtn').addEventListener('click', addTestTestimonial);
+            document.getElementById('addTestBlogBtn').addEventListener('click', addTestBlog);
+            document.getElementById('loadDataBtn').addEventListener('click', loadAllData);
+            
+            // Clear log button
+            document.getElementById('clearLogBtn').addEventListener('click', clearLog);
+            
+            // Performance test button
+            document.getElementById('performanceTestBtn').addEventListener('click', runPerformanceTest);
+        }
+
+        function startListeners() {
+            if (!isConnected) {
+                logUpdate('Cannot start listeners: Firebase not connected');
+                return;
+            }
+
+            try {
+                // Setup real-time listeners
+                const callbacks = {
+                    onRegistrationsChange: (registrations) => {
+                        logUpdate(`Registrations updated: ${registrations.length} items`);
+                        updateLiveData('registrations', registrations);
+                    },
+                    onTestimonialsChange: (testimonials) => {
+                        logUpdate(`Testimonials updated: ${testimonials.length} items`);
+                        updateLiveData('testimonials', testimonials);
+                    },
+                    onBlogPostsChange: (blogPosts) => {
+                        logUpdate(`Blog posts updated: ${blogPosts.length} items`);
+                        updateLiveData('blogPosts', blogPosts);
+                    }
+                };
+
+                firebaseManager.setupRealTimeListeners(callbacks);
+                listenersActive = true;
+                
+                // Update UI
+                document.getElementById('startListenersBtn').disabled = true;
+                document.getElementById('stopListenersBtn').disabled = false;
+                
+                // Update listener status
+                updateListenerStatus(true);
+                
+                logUpdate('Real-time listeners started successfully');
+            } catch (error) {
+                logUpdate(`Error starting listeners: ${error.message}`);
+            }
+        }
+
+        function stopListeners() {
+            if (typeof firebaseManager !== 'undefined') {
+                firebaseManager.cleanupListeners();
+                listenersActive = false;
+                
+                // Update UI
+                document.getElementById('startListenersBtn').disabled = false;
+                document.getElementById('stopListenersBtn').disabled = true;
+                
+                // Update listener status
+                updateListenerStatus(false);
+                
+                logUpdate('Real-time listeners stopped');
+            }
+        }
+
+        function updateListenerStatus(active) {
+            const statusElements = document.querySelectorAll('#listenersStatus .status-indicator');
+            statusElements.forEach(element => {
+                if (active) {
+                    element.className = 'status-indicator status-connected';
+                    element.innerHTML = element.innerHTML.replace('Not listening', 'Listening');
+                } else {
+                    element.className = 'status-indicator status-disconnected';
+                    element.innerHTML = element.innerHTML.replace('Listening', 'Not listening');
+                }
+            });
+        }
+
+        async function addTestRegistration() {
+            if (!isConnected) {
+                logUpdate('Cannot add registration: Firebase not connected');
+                return;
+            }
+
+            try {
+                const testData = {
+                    parent_name: `Test Parent ${Date.now()}`,
+                    email: `test${Date.now()}@example.com`,
+                    phone: '+265123456789',
+                    child_name: `Test Child ${Date.now()}`,
+                    child_age: Math.floor(Math.random() * 12) + 1,
+                    program: ['Early Childhood Care', 'Foundation Program', 'Primary Preparation'][Math.floor(Math.random() * 3)],
+                    start_date: new Date().toISOString().split('T')[0],
+                    message: 'This is a test registration from the real-time test page'
+                };
+
+                const result = await firebaseManager.saveRegistration(testData);
+                logUpdate(`Test registration added: ${result.id}`);
+            } catch (error) {
+                logUpdate(`Error adding test registration: ${error.message}`);
+            }
+        }
+
+        async function addTestTestimonial() {
+            if (!isConnected) {
+                logUpdate('Cannot add testimonial: Firebase not connected');
+                return;
+            }
+
+            try {
+                const testData = {
+                    parentName: `Test Parent ${Date.now()}`,
+                    childName: `Test Child ${Date.now()}`,
+                    parentEmail: `test${Date.now()}@example.com`,
+                    rating: Math.floor(Math.random() * 5) + 1,
+                    content: 'This is a test testimonial from the real-time test page. Great experience!',
+                    status: 'pending'
+                };
+
+                const result = await firebaseManager.saveTestimonial(testData);
+                logUpdate(`Test testimonial added: ${result.id}`);
+            } catch (error) {
+                logUpdate(`Error adding test testimonial: ${error.message}`);
+            }
+        }
+
+        async function addTestBlog() {
+            if (!isConnected) {
+                logUpdate('Cannot add blog post: Firebase not connected');
+                return;
+            }
+
+            try {
+                const testData = {
+                    title: `Test Blog Post ${Date.now()}`,
+                    content: 'This is a test blog post from the real-time test page. It contains some sample content to test the real-time functionality.',
+                    category: 'Test Category',
+                    summary: 'A test blog post for real-time testing',
+                    status: 'published'
+                };
+
+                const result = await firebaseManager.saveBlogPost(testData);
+                logUpdate(`Test blog post added: ${result.id}`);
+            } catch (error) {
+                logUpdate(`Error adding test blog post: ${error.message}`);
+            }
+        }
+
+        async function loadAllData() {
+            if (!isConnected) {
+                logUpdate('Cannot load data: Firebase not connected');
+                return;
+            }
+
+            try {
+                const [registrations, testimonials, blogPosts] = await Promise.all([
+                    firebaseManager.getAllRegistrations(),
+                    firebaseManager.getAllTestimonials(),
+                    firebaseManager.getAllBlogPosts()
+                ]);
+
+                updateLiveData('all', {
+                    registrations,
+                    testimonials,
+                    blogPosts
+                });
+
+                logUpdate(`Data loaded: ${registrations.length} registrations, ${testimonials.length} testimonials, ${blogPosts.length} blog posts`);
+            } catch (error) {
+                logUpdate(`Error loading data: ${error.message}`);
+            }
+        }
+
+        function updateLiveData(type, data) {
+            const displayElement = document.getElementById('liveDataDisplay');
+            
+            if (type === 'all') {
+                displayElement.innerHTML = `
+                    <h4>Current Data:</h4>
+                    <p><strong>Registrations:</strong> ${data.registrations.length}</p>
+                    <p><strong>Testimonials:</strong> ${data.testimonials.length}</p>
+                    <p><strong>Blog Posts:</strong> ${data.blogPosts.length}</p>
+                    <details>
+                        <summary>View Details</summary>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </details>
+                `;
+            } else {
+                displayElement.innerHTML = `
+                    <h4>${type.charAt(0).toUpperCase() + type.slice(1)}:</h4>
+                    <p><strong>Count:</strong> ${data.length}</p>
+                    <details>
+                        <summary>View Details</summary>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </details>
+                `;
+            }
+        }
+
+        function logUpdate(message) {
+            const logElement = document.getElementById('updatesLog');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${message}`;
+            
+            logElement.innerHTML += `<div>${logEntry}</div>`;
+            logElement.scrollTop = logElement.scrollHeight;
+            
+            updateCount++;
+            console.log(logEntry);
+        }
+
+        function clearLog() {
+            document.getElementById('updatesLog').innerHTML = '<p>Real-time updates will appear here...</p>';
+            updateCount = 0;
+        }
+
+        async function runPerformanceTest() {
+            const resultsElement = document.getElementById('performanceResults');
+            resultsElement.style.display = 'block';
+            resultsElement.innerHTML = '<p>Running performance test...</p>';
+
+            const startTime = performance.now();
+            
+            try {
+                // Test data loading performance
+                const loadStart = performance.now();
+                await loadAllData();
+                const loadTime = performance.now() - loadStart;
+
+                // Test real-time listener setup
+                const listenerStart = performance.now();
+                startListeners();
+                const listenerTime = performance.now() - listenerStart;
+
+                const totalTime = performance.now() - startTime;
+
+                resultsElement.innerHTML = `
+                    <h4>Performance Test Results:</h4>
+                    <p><strong>Data Loading:</strong> ${loadTime.toFixed(2)}ms</p>
+                    <p><strong>Listener Setup:</strong> ${listenerTime.toFixed(2)}ms</p>
+                    <p><strong>Total Time:</strong> ${totalTime.toFixed(2)}ms</p>
+                    <p><strong>Updates Received:</strong> ${updateCount}</p>
+                    <p><strong>Status:</strong> ${isConnected ? 'Connected' : 'Disconnected'}</p>
+                `;
+
+                logUpdate(`Performance test completed in ${totalTime.toFixed(2)}ms`);
+            } catch (error) {
+                resultsElement.innerHTML = `<p>Performance test failed: ${error.message}</p>`;
+                logUpdate(`Performance test failed: ${error.message}`);
+            }
+        }
+    </script>
+</body>
+</html> 

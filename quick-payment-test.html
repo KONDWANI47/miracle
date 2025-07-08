@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Payment Gateway Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #0056b3; }
+        .log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔍 Payment Gateway Status Test</h1>
+        
+        <div id="statusContainer"></div>
+        
+        <button onclick="runTest()">Run Payment Gateway Test</button>
+        <button onclick="clearLog()">Clear Log</button>
+        
+        <div class="log" id="testLog"></div>
+    </div>
+
+    <!-- Load payment configuration and gateway -->
+    <script src="payment-config.js"></script>
+    <script src="real-payment-integration.js"></script>
+    <script src="test-payment-status.js"></script>
+    
+    <script>
+        function log(message, type = 'info') {
+            const logElement = document.getElementById('testLog');
+            const timestamp = new Date().toLocaleTimeString();
+            logElement.textContent += `[${timestamp}] ${message}\n`;
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+
+        function clearLog() {
+            document.getElementById('testLog').textContent = '';
+        }
+
+        function updateStatus(message, type) {
+            const container = document.getElementById('statusContainer');
+            container.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+
+        function runTest() {
+            clearLog();
+            updateStatus('Running payment gateway test...', 'info');
+            
+            // Override console.log to capture output
+            const originalLog = console.log;
+            console.log = function(...args) {
+                log(args.join(' '));
+                originalLog.apply(console, args);
+            };
+
+            // Run the test
+            setTimeout(() => {
+                // Check configuration
+                if (typeof PAYMENT_CONFIG !== 'undefined') {
+                    log('✅ Payment configuration loaded', 'success');
+                    
+                    const airtelConfig = PAYMENT_CONFIG.airtelMoney;
+                    const tnmConfig = PAYMENT_CONFIG.tnmMpamba;
+                    
+                    if (airtelConfig.apiKey && airtelConfig.apiKey !== 'YOUR_AIRTEL_MONEY_API_KEY') {
+                        log('✅ Airtel Money: Configured with real API key', 'success');
+                    } else {
+                        log('❌ Airtel Money: Not configured (using placeholder)', 'error');
+                    }
+                    
+                    if (tnmConfig.apiKey && tnmConfig.apiKey !== 'YOUR_TNM_MPAMBA_API_KEY') {
+                        log('✅ TNM Mpamba: Configured with real API key', 'success');
+                    } else {
+                        log('❌ TNM Mpamba: Not configured (using placeholder)', 'error');
+                    }
+                    
+                    const isProduction = airtelConfig.environment === 'production';
+                    log(`🌍 Environment: ${isProduction ? 'PRODUCTION (Real Money)' : 'SANDBOX (Test Mode)'}`, isProduction ? 'warning' : 'info');
+                    
+                } else {
+                    log('❌ Payment configuration not found', 'error');
+                }
+
+                // Check payment gateway
+                if (typeof realPaymentGateway !== 'undefined') {
+                    log('✅ Real Payment Gateway detected', 'success');
+                    
+                    // Test initialization
+                    realPaymentGateway.initialize().then(success => {
+                        if (success) {
+                            log('✅ Payment gateway initialized successfully', 'success');
+                        } else {
+                            log('❌ Payment gateway initialization failed', 'error');
+                        }
+                        
+                        // Test payment
+                        testPayment();
+                    }).catch(error => {
+                        log(`❌ Payment gateway error: ${error.message}`, 'error');
+                        testPayment();
+                    });
+                    
+                } else {
+                    log('❌ Real Payment Gateway not found', 'error');
+                    testPayment();
+                }
+
+                // Restore console.log
+                console.log = originalLog;
+                
+            }, 100);
+        }
+
+        function testPayment() {
+            log('\n🧪 Testing simulated payment...', 'info');
+            
+            const testPaymentData = {
+                paymentMethod: 'airtel-money',
+                amount: 1000,
+                phoneNumber: '+265991234567',
+                password: '1234',
+                reference: `TEST-${Date.now()}`,
+                description: 'Test payment'
+            };
+
+            if (typeof realPaymentGateway !== 'undefined') {
+                realPaymentGateway.processPayment(testPaymentData)
+                    .then(result => {
+                        log('✅ Payment test completed', 'success');
+                        log(`Result: ${JSON.stringify(result, null, 2)}`, 'info');
+                        log(`Real Money: ${result.realPayment ? 'YES' : 'NO'}`, result.realPayment ? 'warning' : 'info');
+                        log(`Simulated: ${result.simulated ? 'YES' : 'NO'}`, 'info');
+                        
+                        // Final status
+                        if (result.realPayment) {
+                            updateStatus('💰 REAL MONEY TRANSACTIONS: ENABLED - Be careful!', 'warning');
+                        } else {
+                            updateStatus('🧪 SIMULATION MODE: No real money will be transferred', 'info');
+                        }
+                    })
+                    .catch(error => {
+                        log(`❌ Payment test failed: ${error.message}`, 'error');
+                        updateStatus('❌ Payment test failed', 'error');
+                    });
+            } else {
+                log('❌ Cannot test payment - gateway not available', 'error');
+                updateStatus('❌ Payment gateway not available', 'error');
+            }
+        }
+
+        // Auto-run test on page load
+        window.addEventListener('load', () => {
+            setTimeout(runTest, 500);
+        });
+    </script>
+</body>
+</html> 

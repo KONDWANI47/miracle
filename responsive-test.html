@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIRACLE ECD - Responsive Design Test</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .responsive-test-header {
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .responsive-test-header h1 {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 1rem;
+        }
+        
+        .responsive-test-header p {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            opacity: 0.9;
+        }
+        
+        .test-section {
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            background: #f8f9fa;
+        }
+        
+        .test-section h2 {
+            color: #4caf50;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .test-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.1);
+        }
+        
+        .test-card h3 {
+            color: #4caf50;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .test-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+        
+        .feature-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-list i {
+            color: #4caf50;
+            width: 20px;
+        }
+        
+        .breakpoint-info {
+            background: #e8f5e9;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .breakpoint-info h4 {
+            color: #2e7d32;
+            margin-bottom: 0.5rem;
+        }
+        
+        .breakpoint-info ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+        
+        .breakpoint-info li {
+            color: #1b5e20;
+            margin: 0.25rem 0;
+        }
+        
+        .device-simulation {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .device-btn {
+            padding: 0.75rem 1.5rem;
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .device-btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+        
+        .device-btn.active {
+            background: #2e7d32;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+        
+        .responsive-demo {
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 2rem 0;
+            transition: all 0.3s ease;
+        }
+        
+        .responsive-demo iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+        
+        @media (max-width: 768px) {
+            .test-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .device-simulation {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .responsive-demo iframe {
+                height: 500px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .responsive-demo iframe {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="logo">
+                <img src="ana.png" alt="MIRACLE ECD Logo">
+                <div class="logo-text">
+                    <h1>MIRACLE ECD</h1>
+                    <p>Nurturing Tomorrow's Leaders</p>
+                </div>
+            </div>
+            
+            <div class="header-center">
+                <div class="contact-info">
+                    <a href="tel:+265123456789" class="contact-link">
+                        <i class="fas fa-phone"></i>
+                        <span>+265 123 456 789</span>
+                    </a>
+                    <a href="mailto:info@miracleecd.com" class="contact-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>info@miracleecd.com</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="header-right">
+                <a href="admin.html" class="admin-link">
+                    <i class="fas fa-user-shield"></i>
+                    Admin
+                </a>
+                <button class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+        
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#programs">Programs</a></li>
+                <li><a href="#facilities">Facilities</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Responsive Test Header -->
+    <div class="responsive-test-header">
+        <h1>Responsive Design Test</h1>
+        <p>Comprehensive testing of MIRACLE ECD website responsiveness across all devices</p>
+    </div>
+
+    <!-- Device Simulation -->
+    <div class="test-section">
+        <h2>Device Simulation</h2>
+        <p style="text-align: center; margin-bottom: 1rem;">Test the website on different screen sizes:</p>
+        <div class="device-simulation">
+            <button class="device-btn" onclick="simulateDevice('mobile')">📱 Mobile (375px)</button>
+            <button class="device-btn" onclick="simulateDevice('tablet')">📱 Tablet (768px)</button>
+            <button class="device-btn" onclick="simulateDevice('desktop')">💻 Desktop (1200px)</button>
+            <button class="device-btn" onclick="simulateDevice('full')">🖥️ Full Width</button>
+        </div>
+    </div>
+
+    <!-- Responsive Demo -->
+    <div class="test-section">
+        <h2>Live Website Demo</h2>
+        <div class="responsive-demo" id="demo-container">
+            <iframe src="index.html" title="MIRACLE ECD Website"></iframe>
+        </div>
+    </div>
+
+    <!-- Responsive Features -->
+    <div class="test-section">
+        <h2>Responsive Features Implemented</h2>
+        <div class="test-grid">
+            <div class="test-card">
+                <h3>📱 Mobile-First Design</h3>
+                <p>Built with mobile-first approach using CSS Grid and Flexbox for optimal mobile experience.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i>Responsive breakpoints: 480px, 768px, 1024px</li>
+                    <li><i class="fas fa-check"></i>Touch-friendly buttons (44px minimum)</li>
+                    <li><i class="fas fa-check"></i>Optimized typography with clamp()</li>
+                    <li><i class="fas fa-check"></i>Flexible layouts with CSS Grid</li>
+                </ul>
+            </div>
+            
+            <div class="test-card">
+                <h3>🎨 Enhanced UI/UX</h3>
+                <p>Modern design with smooth animations, gradients, and improved visual hierarchy.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i>CSS custom properties for consistency</li>
+                    <li><i class="fas fa-check"></i>Smooth transitions and hover effects</li>
+                    <li><i class="fas fa-check"></i>Gradient backgrounds and buttons</li>
+                    <li><i class="fas fa-check"></i>Improved focus states for accessibility</li>
+                </ul>
+            </div>
+            
+            <div class="test-card">
+                <h3>🔧 Performance Optimizations</h3>
+                <p>Optimized for fast loading and smooth performance across all devices.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i>Efficient CSS with modern properties</li>
+                    <li><i class="fas fa-check"></i>Optimized images and assets</li>
+                    <li><i class="fas fa-check"></i>Reduced layout shifts</li>
+                    <li><i class="fas fa-check"></i>Improved rendering performance</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Breakpoint Information -->
+    <div class="test-section">
+        <h2>Responsive Breakpoints</h2>
+        <div class="test-grid">
+            <div class="breakpoint-info">
+                <h4>📱 Mobile (≤480px)</h4>
+                <ul>
+                    <li>Single column layouts</li>
+                    <li>Larger touch targets</li>
+                    <li>Simplified navigation</li>
+                    <li>Optimized typography</li>
+                    <li>Reduced padding/margins</li>
+                </ul>
+            </div>
+            
+            <div class="breakpoint-info">
+                <h4>📱 Tablet (481px - 768px)</h4>
+                <ul>
+                    <li>Two-column grids where appropriate</li>
+                    <li>Medium-sized touch targets</li>
+                    <li>Balanced spacing</li>
+                    <li>Adaptive navigation</li>
+                    <li>Optimized form layouts</li>
+                </ul>
+            </div>
+            
+            <div class="breakpoint-info">
+                <h4>💻 Desktop (769px - 1024px)</h4>
+                <ul>
+                    <li>Multi-column layouts</li>
+                    <li>Full navigation menu</li>
+                    <li>Enhanced hover effects</li>
+                    <li>Larger content areas</li>
+                    <li>Sidebar layouts</li>
+                </ul>
+            </div>
+            
+            <div class="breakpoint-info">
+                <h4>🖥️ Large Desktop (≥1025px)</h4>
+                <ul>
+                    <li>Maximum content width</li>
+                    <li>Advanced grid layouts</li>
+                    <li>Enhanced animations</li>
+                    <li>Optimal spacing</li>
+                    <li>Full feature set</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Component Testing -->
+    <div class="test-section">
+        <h2>Component Responsiveness</h2>
+        <div class="test-grid">
+            <div class="test-card">
+                <h3>🎯 Header & Navigation</h3>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i>Responsive logo sizing</li>
+                    <li><i class="fas fa-check"></i>Mobile hamburger menu</li>
+                    <li><i class="fas fa-check"></i>Adaptive contact info</li>
+                    <li><i class="fas fa-check"></i>Flexible search bar</li>
+                </ul>
+            </div>
+            
+            <div class="test-card">
+                <h3>📝 Forms & Inputs</h3>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i>Touch-friendly inputs</li>
+                    <li><i class="fas fa-check"></i>Responsive form layouts</li>
+                    <li><i class="fas fa-check"></i>Mobile-optimized buttons</li>
+                    <li><i class="fas fa-check"></i>Improved validation</li>
+                </ul>
+            </div>
+            
+            <div class="test-card">
+                <h3>🖼️ Images & Media</h3>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i>Responsive images</li>
+                    <li><i class="fas fa-check"></i>Flexible galleries</li>
+                    <li><i class="fas fa-check"></i>Optimized video embeds</li>
+                    <li><i class="fas fa-check"></i>Adaptive carousels</li>
+                </ul>
+            </div>
+            
+            <div class="test-card">
+                <h3>📱 Interactive Elements</h3>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i>Responsive modals</li>
+                    <li><i class="fas fa-check"></i>Mobile-friendly sliders</li>
+                    <li><i class="fas fa-check"></i>Touch-optimized buttons</li>
+                    <li><i class="fas fa-check"></i>Adaptive tooltips</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>MIRACLE ECD</h3>
+                <p>Nurturing tomorrow's leaders through quality early childhood education.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#programs">Programs</a></li>
+                    <li><a href="#facilities">Facilities</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> Lilongwe, Malawi</li>
+                    <li><i class="fas fa-phone"></i> +265 123 456 789</li>
+                    <li><i class="fas fa-envelope"></i> info@miracleecd.com</li>
+                    <li><i class="fas fa-clock"></i> Mon-Fri: 7:00 AM - 5:00 PM</li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Subscribe to our newsletter for updates and news.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email">
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <p>&copy; 2024 MIRACLE ECD. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/265123456789" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+        <span class="whatsapp-tooltip">Chat with us on WhatsApp</span>
+    </a>
+
+    <script>
+        // Device simulation
+        function simulateDevice(device) {
+            const demoContainer = document.getElementById('demo-container');
+            const buttons = document.querySelectorAll('.device-btn');
+            
+            // Remove active class from all buttons
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Apply device-specific styles
+            switch(device) {
+                case 'mobile':
+                    demoContainer.style.maxWidth = '375px';
+                    demoContainer.style.margin = '0 auto';
+                    break;
+                case 'tablet':
+                    demoContainer.style.maxWidth = '768px';
+                    demoContainer.style.margin = '0 auto';
+                    break;
+                case 'desktop':
+                    demoContainer.style.maxWidth = '1200px';
+                    demoContainer.style.margin = '0 auto';
+                    break;
+                case 'full':
+                    demoContainer.style.maxWidth = '100%';
+                    demoContainer.style.margin = '0';
+                    break;
+            }
+        }
+
+        // Back to top functionality
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Show/hide back to top button
+        window.addEventListener('scroll', function() {
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        // Mobile navigation toggle
+        const hamburger = document.querySelector('.hamburger');
+        const mainNav = document.querySelector('.main-nav');
+        
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            mainNav.classList.toggle('active');
+        });
+
+        // Close mobile nav when clicking on a link
+        const navLinks = document.querySelectorAll('.main-nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                mainNav.classList.remove('active');
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.pageYOffset > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Initialize with desktop view
+        document.addEventListener('DOMContentLoaded', function() {
+            simulateDevice('full');
+        });
+    </script>
+</body>
+</html> 

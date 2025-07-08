@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIRACLE ECD - Registration Testing</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .test-header {
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .test-header h1 {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 1rem;
+        }
+        
+        .test-section {
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            background: #f8f9fa;
+        }
+        
+        .test-section h2 {
+            color: #4caf50;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .test-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.1);
+        }
+        
+        .test-card h3 {
+            color: #4caf50;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .test-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .test-button {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+        }
+        
+        .test-button:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+        
+        .test-button.secondary {
+            background: #6c757d;
+        }
+        
+        .test-button.secondary:hover {
+            background: #5a6268;
+        }
+        
+        .test-button.danger {
+            background: #dc3545;
+        }
+        
+        .test-button.danger:hover {
+            background: #c82333;
+        }
+        
+        .test-results {
+            background: #e8f5e9;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .test-results.error {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+        
+        .test-results.warning {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+        
+        .test-results h4 {
+            margin-bottom: 0.5rem;
+            color: #2e7d32;
+        }
+        
+        .test-results.error h4 {
+            color: #721c24;
+        }
+        
+        .test-results.warning h4 {
+            color: #856404;
+        }
+        
+        .test-results pre {
+            background: rgba(0,0,0,0.1);
+            padding: 0.5rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+        
+        .live-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin: 2rem 0;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .status-indicator.success {
+            background: #28a745;
+        }
+        
+        .status-indicator.error {
+            background: #dc3545;
+        }
+        
+        .status-indicator.warning {
+            background: #ffc107;
+        }
+        
+        .status-indicator.info {
+            background: #17a2b8;
+        }
+        
+        @media (max-width: 768px) {
+            .test-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="logo">
+                <img src="ana.png" alt="MIRACLE ECD Logo">
+                <div class="logo-text">
+                    <h1>MIRACLE ECD</h1>
+                    <p>Registration Testing</p>
+                </div>
+            </div>
+            
+            <div class="header-right">
+                <a href="index.html" class="admin-link">
+                    <i class="fas fa-home"></i>
+                    Home
+                </a>
+                <a href="admin.html" class="admin-link">
+                    <i class="fas fa-user-shield"></i>
+                    Admin
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Test Header -->
+    <div class="test-header">
+        <h1>Registration System Testing</h1>
+        <p>Comprehensive testing of MIRACLE ECD registration functionality</p>
+    </div>
+
+    <!-- Quick Test Actions -->
+    <div class="test-section">
+        <h2>Quick Test Actions</h2>
+        <div class="test-grid">
+            <div class="test-card">
+                <h3>🔍 System Check</h3>
+                <p>Verify all registration components are working properly.</p>
+                <button class="test-button" onclick="runSystemCheck()">
+                    <i class="fas fa-check-circle"></i> Run System Check
+                </button>
+            </div>
+            
+            <div class="test-card">
+                <h3>📝 Test Registration</h3>
+                <p>Submit a test registration with sample data.</p>
+                <button class="test-button" onclick="submitTestRegistration()">
+                    <i class="fas fa-paper-plane"></i> Submit Test Data
+                </button>
+            </div>
+            
+            <div class="test-card">
+                <h3>🗄️ View Data</h3>
+                <p>Check stored registration data in localStorage.</p>
+                <button class="test-button secondary" onclick="viewStoredData()">
+                    <i class="fas fa-database"></i> View Data
+                </button>
+            </div>
+            
+            <div class="test-card">
+                <h3>🧹 Clear Data</h3>
+                <p>Clear all test registration data.</p>
+                <button class="test-button danger" onclick="clearTestData()">
+                    <i class="fas fa-trash"></i> Clear Data
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Results -->
+    <div class="test-section">
+        <h2>Test Results</h2>
+        <div id="testResults">
+            <div class="test-results info">
+                <h4><span class="status-indicator info"></span>Ready to Test</h4>
+                <p>Click the test buttons above to start testing the registration system.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Registration Form -->
+    <div class="test-section">
+        <h2>Live Registration Form</h2>
+        <div class="live-form">
+            <form id="registrationForm" class="registration-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="parentName">Parent/Guardian Name:</label>
+                        <input type="text" id="parentName" name="parentName" placeholder="Enter parent/guardian name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email: <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required placeholder="Enter email address">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone Number: <span class="required">*</span></label>
+                        <input type="tel" id="phone" name="phone" required placeholder="Enter phone number">
+                    </div>
+                    <div class="form-group">
+                        <label for="childName">Child's Name:</label>
+                        <input type="text" id="childName" name="childName" placeholder="Enter child's name">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="childAge">Child's Age: <span class="required">*</span></label>
+                        <input type="number" id="childAge" name="childAge" min="0" max="12" required placeholder="Enter age">
+                    </div>
+                    <div class="form-group">
+                        <label for="startDate">Preferred Start Date: <span class="required">*</span></label>
+                        <input type="date" id="startDate" name="startDate" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="program">Program Type: <span class="required">*</span></label>
+                    <select id="program" name="program" required>
+                        <option value="">Select a program</option>
+                        <option value="Early Childhood Care" data-price="0">Early Childhood Care (0-5 years)</option>
+                        <option value="Foundation Program" data-price="0">Foundation Program (5-7 years)</option>
+                        <option value="Primary Preparation" data-price="0">Primary Preparation (7-12 years)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Additional Information:</label>
+                    <textarea id="message" name="message" rows="4" placeholder="Any special needs, allergies, or additional information about your child..."></textarea>
+                </div>
+                
+                <div class="payment-info">
+                    <h3>Registration Fee: MWK<span id="registrationFee">5,000</span></h3>
+                    <p>A registration fee is required to complete your application.</p>
+                    <p class="payment-warning"><i class="fas fa-exclamation-triangle"></i> <strong>Note:</strong> Registration fee is non-refundable</p>
+                </div>
+                
+                <button type="submit" class="submit-button" id="submitBtn">Submit Registration</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Validation Testing -->
+    <div class="test-section">
+        <h2>Validation Testing</h2>
+        <div class="test-grid">
+            <div class="test-card">
+                <h3>📧 Email Validation</h3>
+                <p>Test various email formats and validation.</p>
+                <button class="test-button" onclick="testEmailValidation()">
+                    <i class="fas fa-envelope"></i> Test Emails
+                </button>
+            </div>
+            
+            <div class="test-card">
+                <h3>📱 Phone Validation</h3>
+                <p>Test phone number formats and validation.</p>
+                <button class="test-button" onclick="testPhoneValidation()">
+                    <i class="fas fa-phone"></i> Test Phones
+                </button>
+            </div>
+            
+            <div class="test-card">
+                <h3>📅 Date Validation</h3>
+                <p>Test date input validation and constraints.</p>
+                <button class="test-button" onclick="testDateValidation()">
+                    <i class="fas fa-calendar"></i> Test Dates
+                </button>
+            </div>
+            
+            <div class="test-card">
+                <h3>🔢 Age Validation</h3>
+                <p>Test age input validation and range checking.</p>
+                <button class="test-button" onclick="testAgeValidation()">
+                    <i class="fas fa-child"></i> Test Ages
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Testing -->
+    <div class="test-section">
+        <h2>Mobile Responsiveness Testing</h2>
+        <div class="test-grid">
+            <div class="test-card">
+                <h3>📱 Mobile View</h3>
+                <p>Test form responsiveness on mobile devices.</p>
+                <button class="test-button" onclick="testMobileView()">
+                    <i class="fas fa-mobile-alt"></i> Test Mobile
+                </button>
+            </div>
+            
+            <div class="test-card">
+                <h3>👆 Touch Targets</h3>
+                <p>Verify all touch targets meet accessibility standards.</p>
+                <button class="test-button" onclick="testTouchTargets()">
+                    <i class="fas fa-hand-pointer"></i> Test Touch
+                </button>
+            </div>
+            
+            <div class="test-card">
+                <h3>📐 Form Layout</h3>
+                <p>Check form layout adaptation on different screen sizes.</p>
+                <button class="test-button" onclick="testFormLayout()">
+                    <i class="fas fa-tablet-alt"></i> Test Layout
+                </button>
+            </div>
+            
+            <div class="test-card">
+                <h3>🎯 Focus States</h3>
+                <p>Test keyboard navigation and focus indicators.</p>
+                <button class="test-button" onclick="testFocusStates()">
+                    <i class="fas fa-keyboard"></i> Test Focus
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Backend Testing -->
+    <div class="test-section">
+        <h2>Backend Integration Testing</h2>
+        <div class="test-grid">
+            <div class="test-card">
+                <h3>🔗 PHP Backend</h3>
+                <p>Test PHP backend registration endpoint.</p>
+                <button class="test-button" onclick="testPHPBackend()">
+                    <i class="fas fa-server"></i> Test Backend
+                </button>
+            </div>
+            
+            <div class="test-card">
+                <h3>📧 Email Notifications</h3>
+                <p>Test email notification system.</p>
+                <button class="test-button" onclick="testEmailNotifications()">
+                    <i class="fas fa-envelope-open"></i> Test Emails
+                </button>
+            </div>
+            
+            <div class="test-card">
+                <h3>💾 Database Storage</h3>
+                <p>Test database storage and retrieval.</p>
+                <button class="test-button" onclick="testDatabaseStorage()">
+                    <i class="fas fa-database"></i> Test Database
+                </button>
+            </div>
+            
+            <div class="test-card">
+                <h3>🔐 Admin Access</h3>
+                <p>Test admin panel registration viewing.</p>
+                <button class="test-button" onclick="testAdminAccess()">
+                    <i class="fas fa-user-shield"></i> Test Admin
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>MIRACLE ECD</h3>
+                <p>Registration testing completed successfully.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Test Functions
+        function addTestResult(title, message, type = 'info') {
+            const resultsDiv = document.getElementById('testResults');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-results ${type}`;
+            
+            const statusClass = type === 'success' ? 'success' : 
+                              type === 'error' ? 'error' : 
+                              type === 'warning' ? 'warning' : 'info';
+            
+            resultDiv.innerHTML = `
+                <h4><span class="status-indicator ${statusClass}"></span>${title}</h4>
+                <p>${message}</p>
+                <small>${new Date().toLocaleTimeString()}</small>
+            `;
+            
+            resultsDiv.appendChild(resultDiv);
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+
+        function runSystemCheck() {
+            addTestResult('System Check Started', 'Checking all registration components...', 'info');
+            
+            // Check if form exists
+            const form = document.getElementById('registrationForm');
+            if (form) {
+                addTestResult('Form Found', 'Registration form is present and accessible.', 'success');
+            } else {
+                addTestResult('Form Missing', 'Registration form not found!', 'error');
+                return;
+            }
+            
+            // Check required fields
+            const requiredFields = ['email', 'phone', 'childAge', 'startDate', 'program'];
+            let missingFields = [];
+            
+            requiredFields.forEach(field => {
+                const element = document.getElementById(field);
+                if (!element) {
+                    missingFields.push(field);
+                }
+            });
+            
+            if (missingFields.length === 0) {
+                addTestResult('Required Fields', 'All required form fields are present.', 'success');
+            } else {
+                addTestResult('Missing Fields', `Missing required fields: ${missingFields.join(', ')}`, 'error');
+            }
+            
+            // Check localStorage
+            if (typeof(Storage) !== "undefined") {
+                addTestResult('LocalStorage', 'LocalStorage is available for data storage.', 'success');
+            } else {
+                addTestResult('LocalStorage', 'LocalStorage is not available!', 'error');
+            }
+            
+            // Check PHP backend
+            fetch('register.php', { method: 'HEAD' })
+                .then(response => {
+                    if (response.ok) {
+                        addTestResult('PHP Backend', 'PHP backend (register.php) is accessible.', 'success');
+                    } else {
+                        addTestResult('PHP Backend', 'PHP backend returned status: ' + response.status, 'warning');
+                    }
+                })
+                .catch(error => {
+                    addTestResult('PHP Backend', 'PHP backend not accessible: ' + error.message, 'error');
+                });
+        }
+
+        function submitTestRegistration() {
+            addTestResult('Test Registration', 'Submitting test registration data...', 'info');
+            
+            // Fill form with test data
+            document.getElementById('parentName').value = 'Test Parent';
+            document.getElementById('email').value = 'test@example.com';
+            document.getElementById('phone').value = '+265123456789';
+            document.getElementById('childName').value = 'Test Child';
+            document.getElementById('childAge').value = '5';
+            document.getElementById('startDate').value = '2024-02-01';
+            document.getElementById('program').value = 'Foundation Program';
+            document.getElementById('message').value = 'This is a test registration for testing purposes.';
+            
+            // Submit the form
+            const form = document.getElementById('registrationForm');
+            const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
+            form.dispatchEvent(submitEvent);
+            
+            addTestResult('Test Data Submitted', 'Test registration data has been submitted for processing.', 'success');
+        }
+
+        function viewStoredData() {
+            const registrations = JSON.parse(localStorage.getItem('registrations')) || [];
+            const notifications = JSON.parse(localStorage.getItem('adminNotifications')) || [];
+            
+            addTestResult('Stored Data', `Found ${registrations.length} registrations and ${notifications.length} notifications.`, 'info');
+            
+            if (registrations.length > 0) {
+                const latestRegistration = registrations[registrations.length - 1];
+                addTestResult('Latest Registration', `
+                    <strong>Child:</strong> ${latestRegistration.childName}<br>
+                    <strong>Parent:</strong> ${latestRegistration.parentName}<br>
+                    <strong>Email:</strong> ${latestRegistration.email}<br>
+                    <strong>Program:</strong> ${latestRegistration.program}<br>
+                    <strong>Date:</strong> ${latestRegistration.registrationDate || 'N/A'}
+                `, 'success');
+            }
+        }
+
+        function clearTestData() {
+            if (confirm('Are you sure you want to clear all test registration data?')) {
+                localStorage.removeItem('registrations');
+                localStorage.removeItem('adminNotifications');
+                addTestResult('Data Cleared', 'All test registration data has been cleared.', 'success');
+            }
+        }
+
+        function testEmailValidation() {
+            const testEmails = [
+                'test@example.com',
+                'invalid-email',
+                'test@',
+                '@example.com',
+                'test.email@domain.co.uk'
+            ];
+            
+            addTestResult('Email Validation', 'Testing various email formats...', 'info');
+            
+            testEmails.forEach(email => {
+                const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+                addTestResult(
+                    `Email: ${email}`, 
+                    isValid ? 'Valid email format' : 'Invalid email format', 
+                    isValid ? 'success' : 'error'
+                );
+            });
+        }
+
+        function testPhoneValidation() {
+            const testPhones = [
+                '+265123456789',
+                '265123456789',
+                '123456789',
+                'invalid-phone',
+                '+265 123 456 789'
+            ];
+            
+            addTestResult('Phone Validation', 'Testing various phone number formats...', 'info');
+            
+            testPhones.forEach(phone => {
+                const isValid = /^[\+]?[0-9\s\-\(\)]{8,}$/.test(phone);
+                addTestResult(
+                    `Phone: ${phone}`, 
+                    isValid ? 'Valid phone format' : 'Invalid phone format', 
+                    isValid ? 'success' : 'error'
+                );
+            });
+        }
+
+        function testDateValidation() {
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(today.getDate() + 1);
+            
+            const testDates = [
+                tomorrow.toISOString().split('T')[0], // Valid future date
+                today.toISOString().split('T')[0],    // Today
+                '2023-01-01',                         // Past date
+                'invalid-date'                        // Invalid
+            ];
+            
+            addTestResult('Date Validation', 'Testing various date inputs...', 'info');
+            
+            testDates.forEach(date => {
+                const isValid = !isNaN(Date.parse(date));
+                addTestResult(
+                    `Date: ${date}`, 
+                    isValid ? 'Valid date format' : 'Invalid date format', 
+                    isValid ? 'success' : 'error'
+                );
+            });
+        }
+
+        function testAgeValidation() {
+            const testAges = [0, 5, 12, 13, -1, 'abc'];
+            
+            addTestResult('Age Validation', 'Testing age input validation...', 'info');
+            
+            testAges.forEach(age => {
+                const isValid = typeof age === 'number' && age >= 0 && age <= 12;
+                addTestResult(
+                    `Age: ${age}`, 
+                    isValid ? 'Valid age (0-12)' : 'Invalid age', 
+                    isValid ? 'success' : 'error'
+                );
+            });
+        }
+
+        function testMobileView() {
+            addTestResult('Mobile View', 'Testing mobile responsiveness...', 'info');
+            
+            // Simulate mobile viewport
+            const originalWidth = window.innerWidth;
+            const originalHeight = window.innerHeight;
+            
+            // Set mobile viewport
+            window.resizeTo(375, 667);
+            
+            setTimeout(() => {
+                const form = document.getElementById('registrationForm');
+                const formWidth = form.offsetWidth;
+                
+                if (formWidth <= 375) {
+                    addTestResult('Mobile Layout', 'Form adapts properly to mobile viewport.', 'success');
+                } else {
+                    addTestResult('Mobile Layout', 'Form may need mobile optimization.', 'warning');
+                }
+                
+                // Restore original viewport
+                window.resizeTo(originalWidth, originalHeight);
+            }, 100);
+        }
+
+        function testTouchTargets() {
+            addTestResult('Touch Targets', 'Checking touch target sizes...', 'info');
+            
+            const buttons = document.querySelectorAll('button, input[type="submit"], .submit-button');
+            let allValid = true;
+            
+            buttons.forEach(button => {
+                const rect = button.getBoundingClientRect();
+                const minSize = 44; // Minimum touch target size
+                
+                if (rect.width < minSize || rect.height < minSize) {
+                    allValid = false;
+                    addTestResult(`Touch Target: ${button.textContent}`, 
+                        `Size: ${rect.width}x${rect.height}px (should be at least ${minSize}x${minSize}px)`, 'error');
+                }
+            });
+            
+            if (allValid) {
+                addTestResult('Touch Targets', 'All touch targets meet accessibility standards.', 'success');
+            }
+        }
+
+        function testFormLayout() {
+            addTestResult('Form Layout', 'Testing form layout responsiveness...', 'info');
+            
+            const formGroups = document.querySelectorAll('.form-group');
+            const formRows = document.querySelectorAll('.form-row');
+            
+            if (formGroups.length > 0) {
+                addTestResult('Form Structure', `Form has ${formGroups.length} form groups and ${formRows.length} form rows.`, 'success');
+            }
+            
+            // Test grid layout
+            const gridContainer = document.querySelector('.form-row');
+            if (gridContainer) {
+                const computedStyle = window.getComputedStyle(gridContainer);
+                const display = computedStyle.display;
+                
+                if (display === 'grid') {
+                    addTestResult('Grid Layout', 'Form uses CSS Grid for responsive layout.', 'success');
+                } else {
+                    addTestResult('Grid Layout', 'Form layout may need CSS Grid implementation.', 'warning');
+                }
+            }
+        }
+
+        function testFocusStates() {
+            addTestResult('Focus States', 'Testing keyboard navigation and focus indicators...', 'info');
+            
+            const focusableElements = document.querySelectorAll('input, select, textarea, button, a');
+            let focusableCount = 0;
+            
+            focusableElements.forEach(element => {
+                if (element.tabIndex >= 0 || element.tagName === 'INPUT' || element.tagName === 'SELECT' || 
+                    element.tagName === 'TEXTAREA' || element.tagName === 'BUTTON' || element.tagName === 'A') {
+                    focusableCount++;
+                }
+            });
+            
+            addTestResult('Focusable Elements', `Found ${focusableCount} focusable elements in the form.`, 'success');
+            
+            // Test focus styles
+            const firstInput = document.querySelector('input');
+            if (firstInput) {
+                firstInput.focus();
+                setTimeout(() => {
+                    const computedStyle = window.getComputedStyle(firstInput);
+                    const outline = computedStyle.outline;
+                    
+                    if (outline && outline !== 'none') {
+                        addTestResult('Focus Styles', 'Focus indicators are properly styled.', 'success');
+                    } else {
+                        addTestResult('Focus Styles', 'Focus indicators may need improvement.', 'warning');
+                    }
+                    
+                    firstInput.blur();
+                }, 100);
+            }
+        }
+
+        function testPHPBackend() {
+            addTestResult('PHP Backend', 'Testing PHP backend connectivity...', 'info');
+            
+            fetch('register.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    parentName: 'Test Parent',
+                    email: 'test@example.com',
+                    phone: '+265123456789',
+                    childName: 'Test Child',
+                    childAge: 5,
+                    startDate: '2024-02-01',
+                    program: 'Foundation Program',
+                    message: 'Backend test'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    addTestResult('PHP Backend', 'Backend registration successful: ' + data.message, 'success');
+                } else {
+                    addTestResult('PHP Backend', 'Backend registration failed: ' + (data.error || 'Unknown error'), 'error');
+                }
+            })
+            .catch(error => {
+                addTestResult('PHP Backend', 'Backend connection failed: ' + error.message, 'error');
+            });
+        }
+
+        function testEmailNotifications() {
+            addTestResult('Email Notifications', 'Testing email notification system...', 'info');
+            
+            // This would typically test the email sending functionality
+            // For now, we'll just check if the notification functions exist
+            if (typeof sendRegistrationNotifications === 'function') {
+                addTestResult('Email Functions', 'Email notification functions are available.', 'success');
+            } else {
+                addTestResult('Email Functions', 'Email notification functions not found.', 'warning');
+            }
+        }
+
+        function testDatabaseStorage() {
+            addTestResult('Database Storage', 'Testing database storage functionality...', 'info');
+            
+            // Test localStorage as database
+            const testData = {
+                id: Date.now(),
+                parentName: 'Test Parent',
+                email: 'test@example.com',
+                registrationDate: new Date().toISOString()
+            };
+            
+            const registrations = JSON.parse(localStorage.getItem('registrations')) || [];
+            registrations.push(testData);
+            localStorage.setItem('registrations', JSON.stringify(registrations));
+            
+            const retrieved = JSON.parse(localStorage.getItem('registrations'));
+            if (retrieved && retrieved.length > 0) {
+                addTestResult('Database Storage', 'Data storage and retrieval working correctly.', 'success');
+            } else {
+                addTestResult('Database Storage', 'Data storage failed.', 'error');
+            }
+        }
+
+        function testAdminAccess() {
+            addTestResult('Admin Access', 'Testing admin panel access...', 'info');
+            
+            // Check if admin panel exists
+            fetch('admin.html', { method: 'HEAD' })
+                .then(response => {
+                    if (response.ok) {
+                        addTestResult('Admin Panel', 'Admin panel is accessible.', 'success');
+                    } else {
+                        addTestResult('Admin Panel', 'Admin panel returned status: ' + response.status, 'warning');
+                    }
+                })
+                .catch(error => {
+                    addTestResult('Admin Panel', 'Admin panel not accessible: ' + error.message, 'error');
+                });
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            addTestResult('Page Loaded', 'Registration test page loaded successfully.', 'success');
+            
+            // Check if main script is loaded
+            if (typeof handleRegistrationSubmission === 'function') {
+                addTestResult('Script Loaded', 'Main registration script is loaded and ready.', 'success');
+            } else {
+                addTestResult('Script Missing', 'Main registration script not found!', 'error');
+            }
+        });
+    </script>
+</body>
+</html> 

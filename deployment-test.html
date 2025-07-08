@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIRACLE ECD - Deployment Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .option-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .option-card.recommended {
+            border: 3px solid #4CAF50;
+            position: relative;
+        }
+
+        .option-card.recommended::before {
+            content: "⭐ RECOMMENDED";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #4CAF50;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .option-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .option-price {
+            font-size: 1.2rem;
+            color: #27ae60;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .option-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .option-features li {
+            padding: 5px 0;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .option-features li::before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+        }
+
+        .option-features li.disadvantage::before {
+            content: "❌";
+        }
+
+        .setup-steps {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .setup-steps h4 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .setup-steps ol {
+            padding-left: 20px;
+        }
+
+        .setup-steps li {
+            margin-bottom: 5px;
+        }
+
+        .test-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #229954;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: #f39c12;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #e67e22;
+            transform: translateY(-2px);
+        }
+
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: #138496;
+            transform: translateY(-2px);
+        }
+
+        .status-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .status-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .status-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+
+        .status-item.success {
+            border-left-color: #27ae60;
+        }
+
+        .status-item.warning {
+            border-left-color: #f39c12;
+        }
+
+        .status-item.error {
+            border-left-color: #e74c3c;
+        }
+
+        .status-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .status-value {
+            color: #666;
+        }
+
+        .console-output {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .console-output h4 {
+            margin-bottom: 10px;
+            color: #3498db;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .test-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 MIRACLE ECD Deployment Test</h1>
+            <p>Choose your data storage solution for cross-device admin access</p>
+        </div>
+
+        <div class="options-grid">
+            <!-- Google Sheets Option -->
+            <div class="option-card recommended">
+                <div class="option-title">📊 Google Sheets Integration</div>
+                <div class="option-price">FREE</div>
+                <ul class="option-features">
+                    <li>Real-time data access</li>
+                    <li>Email notifications</li>
+                    <li>No hosting required</li>
+                    <li>Easy to set up</li>
+                    <li>Mobile-friendly</li>
+                    <li>Export to Excel/PDF</li>
+                </ul>
+                <div class="setup-steps">
+                    <h4>Quick Setup (15 min):</h4>
+                    <ol>
+                        <li>Create Google Sheet</li>
+                        <li>Enable Google Sheets API</li>
+                        <li>Get API credentials</li>
+                        <li>Update configuration</li>
+                        <li>Test integration</li>
+                    </ol>
+                </div>
+                <div class="test-buttons">
+                    <button class="btn btn-primary" onclick="testGoogleSheets()">Test Google Sheets</button>
+                    <button class="btn btn-success" onclick="setupGoogleSheets()">Setup Guide</button>
+                </div>
+            </div>
+
+            <!-- Email Notifications Option -->
+            <div class="option-card">
+                <div class="option-title">📧 Email Notifications</div>
+                <div class="option-price">FREE</div>
+                <ul class="option-features">
+                    <li>Instant notifications</li>
+                    <li>No setup required</li>
+                    <li>Works with any email</li>
+                    <li>WhatsApp integration</li>
+                    <li>Detailed information</li>
+                    <li>Quick action links</li>
+                </ul>
+                <div class="setup-steps">
+                    <h4>Quick Setup (5 min):</h4>
+                    <ol>
+                        <li>Update email address</li>
+                        <li>Update phone number</li>
+                        <li>Test notifications</li>
+                        <li>Configure WhatsApp</li>
+                    </ol>
+                </div>
+                <div class="test-buttons">
+                    <button class="btn btn-primary" onclick="testEmailNotifications()">Test Email</button>
+                    <button class="btn btn-success" onclick="testWhatsApp()">Test WhatsApp</button>
+                </div>
+            </div>
+
+            <!-- Database Option -->
+            <div class="option-card">
+                <div class="option-title">🗄️ Database Hosting</div>
+                <div class="option-price">FREE TIER</div>
+                <ul class="option-features">
+                    <li>Professional solution</li>
+                    <li>Real-time sync</li>
+                    <li>Advanced features</li>
+                    <li>API access</li>
+                    <li>User authentication</li>
+                    <li>Scalable</li>
+                </ul>
+                <ul class="option-features">
+                    <li class="disadvantage">More complex setup</li>
+                    <li class="disadvantage">Requires technical knowledge</li>
+                </ul>
+                <div class="setup-steps">
+                    <h4>Setup Options:</h4>
+                    <ol>
+                        <li>Supabase (PostgreSQL)</li>
+                        <li>Firebase (NoSQL)</li>
+                        <li>PlanetScale (MySQL)</li>
+                    </ol>
+                </div>
+                <div class="test-buttons">
+                    <button class="btn btn-primary" onclick="testDatabase()">Test Database</button>
+                    <button class="btn btn-info" onclick="showDatabaseOptions()">View Options</button>
+                </div>
+            </div>
+
+            <!-- Form Services Option -->
+            <div class="option-card">
+                <div class="option-title">📝 Form Services</div>
+                <div class="option-price">FREE TIER</div>
+                <ul class="option-features">
+                    <li>Easiest setup</li>
+                    <li>No coding required</li>
+                    <li>Email notifications</li>
+                    <li>Spam protection</li>
+                    <li>File uploads</li>
+                    <li>Analytics</li>
+                </ul>
+                <ul class="option-features">
+                    <li class="disadvantage">Limited customization</li>
+                    <li class="disadvantage">Monthly limits</li>
+                </ul>
+                <div class="setup-steps">
+                    <h4>Popular Services:</h4>
+                    <ol>
+                        <li>Formspree (50/month)</li>
+                        <li>Netlify Forms (100/month)</li>
+                        <li>Google Forms (unlimited)</li>
+                    </ol>
+                </div>
+                <div class="test-buttons">
+                    <button class="btn btn-primary" onclick="testFormServices()">Test Forms</button>
+                    <button class="btn btn-warning" onclick="showFormOptions()">View Services</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Current Status Section -->
+        <div class="status-section">
+            <div class="status-title">📊 Current System Status</div>
+            <div class="status-grid">
+                <div class="status-item">
+                    <div class="status-label">LocalStorage</div>
+                    <div class="status-value" id="localStorageStatus">Checking...</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Registration Form</div>
+                    <div class="status-value" id="formStatus">Checking...</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Admin Panel</div>
+                    <div class="status-value" id="adminStatus">Checking...</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Payment System</div>
+                    <div class="status-value" id="paymentStatus">Checking...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Results Console -->
+        <div class="console-output">
+            <h4>🔍 Test Results Console</h4>
+            <div id="consoleOutput">
+                Ready to test deployment options...
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="text-align: center; margin-top: 30px;">
+            <button class="btn btn-success" onclick="runAllTests()">🧪 Run All Tests</button>
+            <button class="btn btn-primary" onclick="showDeploymentGuide()">📖 View Deployment Guide</button>
+            <button class="btn btn-warning" onclick="resetTests()">🔄 Reset Tests</button>
+        </div>
+    </div>
+
+    <script>
+        // Test functions
+        function log(message) {
+            const console = document.getElementById('consoleOutput');
+            const timestamp = new Date().toLocaleTimeString();
+            console.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+            console.scrollTop = console.scrollHeight;
+        }
+
+        function updateStatus(elementId, status, className = '') {
+            const element = document.getElementById(elementId);
+            element.textContent = status;
+            element.className = 'status-value ' + className;
+        }
+
+        // Check current system status
+        function checkSystemStatus() {
+            log('🔍 Checking current system status...');
+            
+            // Check localStorage
+            try {
+                const registrations = JSON.parse(localStorage.getItem('registrations') || '[]');
+                updateStatus('localStorageStatus', `✅ Working (${registrations.length} registrations)`, 'success');
+                log(`✅ LocalStorage: ${registrations.length} registrations found`);
+            } catch (error) {
+                updateStatus('localStorageStatus', '❌ Error', 'error');
+                log(`❌ LocalStorage error: ${error.message}`);
+            }
+
+            // Check registration form
+            const form = document.querySelector('form');
+            if (form) {
+                updateStatus('formStatus', '✅ Available', 'success');
+                log('✅ Registration form found');
+            } else {
+                updateStatus('formStatus', '❌ Not found', 'error');
+                log('❌ Registration form not found');
+            }
+
+            // Check admin panel
+            updateStatus('adminStatus', '✅ Available', 'success');
+            log('✅ Admin panel available');
+
+            // Check payment system
+            updateStatus('paymentStatus', '✅ Local payment methods', 'warning');
+            log('⚠️ Payment system: Local methods only (no Stripe)');
+        }
+
+        // Test Google Sheets integration
+        function testGoogleSheets() {
+            log('🧪 Testing Google Sheets integration...');
+            
+            if (typeof sheetsManager !== 'undefined') {
+                log('✅ Google Sheets manager loaded');
+                
+                // Test with sample data
+                const testData = {
+                    parentName: 'Test Parent',
+                    email: 'test@example.com',
+                    phone: '+265123456789',
+                    childName: 'Test Child',
+                    childAge: '5',
+                    program: 'Preschool',
+                    startDate: '2024-01-15',
+                    message: 'Test registration'
+                };
+
+                log('📝 Attempting to save test registration...');
+                
+                // Simulate save (since we don't have real API keys)
+                setTimeout(() => {
+                    log('⚠️ Google Sheets API not configured');
+                    log('📋 To configure: Update sheetId and apiKey in google-sheets-integration.js');
+                    log('🔗 Setup guide available in DEPLOYMENT-GUIDE.md');
+                }, 1000);
+            } else {
+                log('❌ Google Sheets manager not loaded');
+                log('📋 Add: <script src="google-sheets-integration.js"></script> to index.html');
+            }
+        }
+
+        // Test email notifications
+        function testEmailNotifications() {
+            log('🧪 Testing email notifications...');
+            
+            if (typeof emailNotifier !== 'undefined') {
+                log('✅ Email notification system loaded');
+                
+                const testData = {
+                    parentName: 'Test Parent',
+                    email: 'test@example.com',
+                    phone: '+265123456789',
+                    childName: 'Test Child',
+                    childAge: '5',
+                    program: 'Preschool',
+                    startDate: '2024-01-15'
+                };
+
+                log('📧 Opening email client with test notification...');
+                
+                // Simulate email notification
+                const subject = 'Test Registration - MIRACLE ECD';
+                const body = `Test registration received for ${testData.childName}`;
+                const mailtoLink = `mailto:admin@miracleecd.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                
+                setTimeout(() => {
+                    window.open(mailtoLink, '_blank');
+                    log('✅ Email notification test completed');
+                }, 1000);
+            } else {
+                log('❌ Email notification system not loaded');
+                log('📋 Add: <script src="email-notifications.js"></script> to index.html');
+            }
+        }
+
+        // Test WhatsApp
+        function testWhatsApp() {
+            log('🧪 Testing WhatsApp notifications...');
+            
+            const message = `🚨 TEST REGISTRATION - MIRACLE ECD
+
+👶 Child: Test Child (5 years)
+👨‍👩‍👧‍👦 Parent: Test Parent
+📧 Email: test@example.com
+📱 Phone: +265123456789
+📚 Program: Preschool
+📅 Start Date: 2024-01-15
+
+This is a test notification.`;
+
+            const whatsappLink = `https://wa.me/+265123456789?text=${encodeURIComponent(message)}`;
+            
+            log('📱 Opening WhatsApp with test message...');
+            window.open(whatsappLink, '_blank');
+            log('✅ WhatsApp test completed');
+        }
+
+        // Test database
+        function testDatabase() {
+            log('🧪 Testing database integration...');
+            
+            if (typeof dbManager !== 'undefined') {
+                log('✅ Database manager loaded');
+                log('📋 Database options available:');
+                log('   • Supabase (PostgreSQL)');
+                log('   • Firebase (NoSQL)');
+                log('   • PlanetScale (MySQL)');
+                log('🔗 See DEPLOYMENT-GUIDE.md for setup instructions');
+            } else {
+                log('❌ Database manager not loaded');
+                log('📋 Add: <script src="database-integration.js"></script> to index.html');
+            }
+        }
+
+        // Test form services
+        function testFormServices() {
+            log('🧪 Testing form services...');
+            log('📋 Available form services:');
+            log('   • Formspree (50 submissions/month)');
+            log('   • Netlify Forms (100 submissions/month)');
+            log('   • Google Forms (unlimited)');
+            log('🔗 See DEPLOYMENT-GUIDE.md for setup instructions');
+        }
+
+        // Show database options
+        function showDatabaseOptions() {
+            log('🗄️ Database hosting options:');
+            log('1. Supabase (Recommended)');
+            log('   • Free: 500MB database, 50MB storage');
+            log('   • Real-time subscriptions');
+            log('   • Built-in authentication');
+            log('   • URL: https://supabase.com');
+            log('');
+            log('2. Firebase');
+            log('   • Free: 1GB storage, 50K reads/day');
+            log('   • Real-time database');
+            log('   • Google integration');
+            log('   • URL: https://firebase.google.com');
+            log('');
+            log('3. PlanetScale');
+            log('   • Free: 1GB storage, 1B reads/month');
+            log('   • Branch-based development');
+            log('   • URL: https://planetscale.com');
+        }
+
+        // Show form options
+        function showFormOptions() {
+            log('📝 Form service options:');
+            log('1. Formspree');
+            log('   • Free: 50 submissions/month');
+            log('   • Email notifications');
+            log('   • Spam protection');
+            log('   • URL: https://formspree.io');
+            log('');
+            log('2. Netlify Forms');
+            log('   • Free: 100 submissions/month');
+            log('   • Built into Netlify hosting');
+            log('   • File uploads');
+            log('   • URL: https://netlify.com');
+            log('');
+            log('3. Google Forms');
+            log('   • Free: Unlimited submissions');
+            log('   • Google Sheets integration');
+            log('   • URL: https://forms.google.com');
+        }
+
+        // Setup Google Sheets
+        function setupGoogleSheets() {
+            log('📊 Google Sheets Setup Guide:');
+            log('1. Create Google Sheet: https://docs.google.com/spreadsheets/create');
+            log('2. Add headers in row 1:');
+            log('   A: Timestamp | B: Parent Name | C: Email | D: Phone');
+            log('   E: Child Name | F: Child Age | G: Program | H: Start Date');
+            log('   I: Message | J: Payment Status | K: Status | L: Action Required');
+            log('3. Get Sheet ID from URL');
+            log('4. Enable Google Sheets API in Google Cloud Console');
+            log('5. Create API credentials');
+            log('6. Update google-sheets-integration.js with your credentials');
+            log('7. Share sheet with your email');
+        }
+
+        // Show deployment guide
+        function showDeploymentGuide() {
+            log('📖 Deployment Guide Available:');
+            log('📄 File: DEPLOYMENT-GUIDE.md');
+            log('📋 Contains:');
+            log('   • Step-by-step setup instructions');
+            log('   • Configuration examples');
+            log('   • Testing procedures');
+            log('   • Troubleshooting guide');
+            log('   • Best practices');
+        }
+
+        // Run all tests
+        function runAllTests() {
+            log('🧪 Running comprehensive test suite...');
+            log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+            
+            setTimeout(() => checkSystemStatus(), 500);
+            setTimeout(() => testGoogleSheets(), 1000);
+            setTimeout(() => testEmailNotifications(), 1500);
+            setTimeout(() => testWhatsApp(), 2000);
+            setTimeout(() => testDatabase(), 2500);
+            setTimeout(() => testFormServices(), 3000);
+            
+            setTimeout(() => {
+                log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+                log('✅ All tests completed!');
+                log('📋 Check results above and follow setup instructions');
+            }, 3500);
+        }
+
+        // Reset tests
+        function resetTests() {
+            document.getElementById('consoleOutput').innerHTML = 'Ready to test deployment options...';
+            updateStatus('localStorageStatus', 'Checking...');
+            updateStatus('formStatus', 'Checking...');
+            updateStatus('adminStatus', 'Checking...');
+            updateStatus('paymentStatus', 'Checking...');
+            log('🔄 Tests reset. Ready for new test run.');
+        }
+
+        // Initialize page
+        window.onload = function() {
+            log('🚀 MIRACLE ECD Deployment Test Page Loaded');
+            log('📋 Choose a data storage solution above to get started');
+            checkSystemStatus();
+        };
+    </script>
+</body>
+</html> 

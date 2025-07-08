@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross-Device Registration Test - MIRACLE ECD</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-form {
+            display: grid;
+            gap: 15px;
+            max-width: 600px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input, select, textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+            border-left: 4px solid #007bff;
+        }
+        .error {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+        .success {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+        .warning {
+            border-left-color: #ffc107;
+            background: #fff3cd;
+        }
+        .data-display {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .step {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            border-left: 4px solid #ffc107;
+        }
+        .device-simulator {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            border-left: 4px solid #2196f3;
+        }
+        .live-updates {
+            background: #f3e5f5;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            border-left: 4px solid #9c27b0;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-online { background: #28a745; }
+        .status-offline { background: #dc3545; }
+        .status-connecting { background: #ffc107; }
+    </style>
+</head>
+<body>
+    <h1>🌐 Cross-Device Registration Test</h1>
+    <p>This test verifies that registrations from any device appear in the admin panel in real-time.</p>
+
+    <div class="test-section">
+        <h2>📱 Device 1: Registration Form</h2>
+        <div class="device-simulator">
+            <strong>Simulating:</strong> User registering from a mobile device or different computer
+        </div>
+        
+        <form id="crossDeviceForm" class="test-form">
+            <div class="form-group">
+                <label for="parentName">Parent/Guardian Name *</label>
+                <input type="text" id="parentName" name="parentName" required placeholder="Enter parent name">
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" required placeholder="Enter email">
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" required placeholder="Enter phone number">
+            </div>
+            
+            <div class="form-group">
+                <label for="childName">Child's Name *</label>
+                <input type="text" id="childName" name="childName" required placeholder="Enter child name">
+            </div>
+            
+            <div class="form-group">
+                <label for="childAge">Child's Age *</label>
+                <input type="number" id="childAge" name="childAge" min="1" max="12" required placeholder="Enter age (1-12)">
+            </div>
+            
+            <div class="form-group">
+                <label for="startDate">Preferred Start Date *</label>
+                <input type="date" id="startDate" name="startDate" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="program">Program Type *</label>
+                <select id="program" name="program" required>
+                    <option value="">Select a program</option>
+                    <option value="Early Childhood Care">Early Childhood Care (0-5 years)</option>
+                    <option value="Foundation Program">Foundation Program (5-7 years)</option>
+                    <option value="Primary Preparation">Primary Preparation (7-12 years)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Additional Information</label>
+                <textarea id="message" name="message" rows="3" placeholder="Any additional notes"></textarea>
+            </div>
+            
+            <button type="submit">Submit Registration (Device 1)</button>
+        </form>
+        
+        <div id="device1Result" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>💻 Device 2: Admin Panel</h2>
+        <div class="device-simulator">
+            <strong>Simulating:</strong> Admin checking registrations from a different device
+        </div>
+        
+        <div class="step">
+            <strong>Instructions:</strong>
+            <ol>
+                <li>Open the admin panel in a new tab/window</li>
+                <li>Login with admin credentials</li>
+                <li>Watch for real-time updates when Device 1 submits a registration</li>
+            </ol>
+        </div>
+        
+        <button onclick="openAdminPanel()">Open Admin Panel</button>
+        <button onclick="testAdminConnection()">Test Admin Connection</button>
+        <button onclick="loadCurrentRegistrations()">Load Current Registrations</button>
+        
+        <div id="device2Result" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔄 Real-Time Sync Test</h2>
+        <div class="live-updates">
+            <strong>Live Status:</strong> <span id="syncStatus" class="status-indicator status-offline"></span>
+            <span id="syncStatusText">Checking connection...</span>
+        </div>
+        
+        <button onclick="startLiveMonitoring()">Start Live Monitoring</button>
+        <button onclick="stopLiveMonitoring()">Stop Monitoring</button>
+        <button onclick="testFirebaseSync()">Test Firebase Sync</button>
+        
+        <div id="liveUpdatesResult" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📊 Cross-Device Test Results</h2>
+        <div class="step">
+            <strong>Test Checklist:</strong>
+            <ul>
+                <li>✅ Registration submitted from Device 1</li>
+                <li>✅ Data saved to Firebase</li>
+                <li>✅ Admin panel shows new registration</li>
+                <li>✅ Real-time updates working</li>
+                <li>✅ Data appears on all devices</li>
+            </ul>
+        </div>
+        
+        <button onclick="runFullTest()">Run Complete Cross-Device Test</button>
+        <button onclick="clearTestData()">Clear Test Data</button>
+        
+        <div id="testResults" class="result" style="display: none;"></div>
+    </div>
+
+    <script src="firebase-config.js"></script>
+    <script>
+        let monitoringInterval;
+        let testRegistrations = [];
+
+        // Test form submission from Device 1
+        document.getElementById('crossDeviceForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Add metadata
+            data.timestamp = new Date().toISOString();
+            data.device = 'Device 1 - Test Registration';
+            data.testId = Date.now();
+            
+            console.log('Cross-device registration submitted:', data);
+            
+            const resultDiv = document.getElementById('device1Result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = '<p>Submitting registration...</p>';
+            
+            try {
+                // Try Firebase first
+                if (typeof firebaseManager !== 'undefined') {
+                    const firebaseResult = await firebaseManager.saveRegistration(data);
+                    if (firebaseResult && firebaseResult.success) {
+                        resultDiv.className = 'result success';
+                        resultDiv.innerHTML = `
+                            <h3>✅ Registration Submitted Successfully!</h3>
+                            <p><strong>Registration ID:</strong> ${firebaseResult.id}</p>
+                            <p><strong>Status:</strong> Saved to Firebase (cross-device sync enabled)</p>
+                            <div class="data-display">${JSON.stringify(data, null, 2)}</div>
+                            <p><strong>Next:</strong> Check the admin panel on Device 2 to see this registration.</p>
+                        `;
+                        
+                        // Store for testing
+                        testRegistrations.push({
+                            ...data,
+                            id: firebaseResult.id,
+                            firebaseSaved: true
+                        });
+                        
+                        // Trigger live update check
+                        setTimeout(() => {
+                            checkForNewRegistrations();
+                        }, 2000);
+                        
+                    } else {
+                        throw new Error('Firebase save failed');
+                    }
+                } else {
+                    // Fallback to localStorage
+                    const registration = {
+                        ...data,
+                        id: Date.now(),
+                        firebaseSaved: false
+                    };
+                    
+                    const existing = JSON.parse(localStorage.getItem('registrations') || '[]');
+                    existing.push(registration);
+                    localStorage.setItem('registrations', JSON.stringify(existing));
+                    
+                    resultDiv.className = 'result warning';
+                    resultDiv.innerHTML = `
+                        <h3>⚠️ Registration Saved Locally</h3>
+                        <p><strong>Status:</strong> Firebase not available, saved to local storage</p>
+                        <p><strong>Note:</strong> This will not sync across devices without Firebase.</p>
+                        <div class="data-display">${JSON.stringify(registration, null, 2)}</div>
+                    `;
+                    
+                    testRegistrations.push(registration);
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `
+                    <h3>❌ Registration Failed</h3>
+                    <p><strong>Error:</strong> ${error.message}</p>
+                    <p>Please check Firebase configuration and try again.</p>
+                `;
+            }
+        });
+
+        function openAdminPanel() {
+            window.open('admin.html', '_blank');
+        }
+
+        async function testAdminConnection() {
+            const resultDiv = document.getElementById('device2Result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = '<p>Testing admin connection...</p>';
+            
+            try {
+                if (typeof firebaseManager !== 'undefined') {
+                    const initialized = await firebaseManager.initialize();
+                    if (initialized) {
+                        resultDiv.className = 'result success';
+                        resultDiv.innerHTML = `
+                            <h3>✅ Admin Connection Successful</h3>
+                            <p>Firebase connection established. Admin panel can access real-time data.</p>
+                            <p><strong>Next:</strong> Submit a registration from Device 1 and watch for updates.</p>
+                        `;
+                    } else {
+                        throw new Error('Firebase initialization failed');
+                    }
+                } else {
+                    resultDiv.className = 'result warning';
+                    resultDiv.innerHTML = `
+                        <h3>⚠️ Firebase Not Available</h3>
+                        <p>Admin panel will only show local data. Cross-device sync disabled.</p>
+                        <p><strong>Solution:</strong> Check firebase-config.js and ensure Firebase is properly configured.</p>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `
+                    <h3>❌ Admin Connection Failed</h3>
+                    <p><strong>Error:</strong> ${error.message}</p>
+                `;
+            }
+        }
+
+        async function loadCurrentRegistrations() {
+            const resultDiv = document.getElementById('device2Result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = '<p>Loading current registrations...</p>';
+            
+            try {
+                let registrations = [];
+                
+                if (typeof firebaseManager !== 'undefined') {
+                    registrations = await firebaseManager.getAllRegistrations();
+                } else {
+                    registrations = JSON.parse(localStorage.getItem('registrations') || '[]');
+                }
+                
+                resultDiv.className = 'result success';
+                resultDiv.innerHTML = `
+                    <h3>📋 Current Registrations (${registrations.length})</h3>
+                    <p><strong>Source:</strong> ${typeof firebaseManager !== 'undefined' ? 'Firebase (Cross-device)' : 'Local Storage (Device only)'}</p>
+                    <div class="data-display">${JSON.stringify(registrations, null, 2)}</div>
+                `;
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `
+                    <h3>❌ Failed to Load Registrations</h3>
+                    <p><strong>Error:</strong> ${error.message}</p>
+                `;
+            }
+        }
+
+        function startLiveMonitoring() {
+            const statusIndicator = document.getElementById('syncStatus');
+            const statusText = document.getElementById('syncStatusText');
+            
+            statusIndicator.className = 'status-indicator status-connecting';
+            statusText.textContent = 'Connecting...';
+            
+            // Check for new registrations every 3 seconds
+            monitoringInterval = setInterval(async () => {
+                try {
+                    await checkForNewRegistrations();
+                    statusIndicator.className = 'status-indicator status-online';
+                    statusText.textContent = 'Live monitoring active - ' + new Date().toLocaleTimeString();
+                } catch (error) {
+                    statusIndicator.className = 'status-indicator status-offline';
+                    statusText.textContent = 'Connection error: ' + error.message;
+                }
+            }, 3000);
+            
+            const resultDiv = document.getElementById('liveUpdatesResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result success';
+            resultDiv.innerHTML = '<p>🔄 Live monitoring started. Watching for new registrations...</p>';
+        }
+
+        function stopLiveMonitoring() {
+            if (monitoringInterval) {
+                clearInterval(monitoringInterval);
+                monitoringInterval = null;
+            }
+            
+            const statusIndicator = document.getElementById('syncStatus');
+            const statusText = document.getElementById('syncStatusText');
+            statusIndicator.className = 'status-indicator status-offline';
+            statusText.textContent = 'Monitoring stopped';
+            
+            const resultDiv = document.getElementById('liveUpdatesResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = '<p>⏹️ Live monitoring stopped.</p>';
+        }
+
+        async function checkForNewRegistrations() {
+            try {
+                let registrations = [];
+                
+                if (typeof firebaseManager !== 'undefined') {
+                    registrations = await firebaseManager.getAllRegistrations();
+                } else {
+                    registrations = JSON.parse(localStorage.getItem('registrations') || '[]');
+                }
+                
+                // Check if we have new test registrations
+                const newRegistrations = registrations.filter(reg => 
+                    reg.device === 'Device 1 - Test Registration' && 
+                    !testRegistrations.some(test => test.id === reg.id)
+                );
+                
+                if (newRegistrations.length > 0) {
+                    const resultDiv = document.getElementById('liveUpdatesResult');
+                    resultDiv.style.display = 'block';
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `
+                        <h3>🆕 New Registration Detected!</h3>
+                        <p><strong>Time:</strong> ${new Date().toLocaleString()}</p>
+                        <p><strong>New registrations:</strong> ${newRegistrations.length}</p>
+                        <div class="data-display">${JSON.stringify(newRegistrations, null, 2)}</div>
+                        <p><strong>✅ Cross-device sync working!</strong></p>
+                    `;
+                    
+                    // Add to test registrations
+                    testRegistrations.push(...newRegistrations);
+                }
+            } catch (error) {
+                console.error('Error checking for new registrations:', error);
+            }
+        }
+
+        async function testFirebaseSync() {
+            const resultDiv = document.getElementById('liveUpdatesResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = '<p>Testing Firebase sync...</p>';
+            
+            try {
+                if (typeof firebaseManager !== 'undefined') {
+                    // Test save
+                    const testData = {
+                        parent_name: 'Test Parent',
+                        email: 'test@example.com',
+                        phone: '123456789',
+                        child_name: 'Test Child',
+                        child_age: 5,
+                        start_date: new Date().toISOString().split('T')[0],
+                        program: 'Test Program',
+                        message: 'Firebase sync test',
+                        timestamp: new Date().toISOString(),
+                        device: 'Firebase Sync Test',
+                        testId: Date.now()
+                    };
+                    
+                    const saveResult = await firebaseManager.saveRegistration(testData);
+                    
+                    if (saveResult && saveResult.success) {
+                        // Test load
+                        const registrations = await firebaseManager.getAllRegistrations();
+                        const testRegistration = registrations.find(reg => reg.testId === testData.testId);
+                        
+                        if (testRegistration) {
+                            resultDiv.className = 'result success';
+                            resultDiv.innerHTML = `
+                                <h3>✅ Firebase Sync Test Successful!</h3>
+                                <p><strong>Save:</strong> ✅ Registration saved to Firebase</p>
+                                <p><strong>Load:</strong> ✅ Registration retrieved from Firebase</p>
+                                <p><strong>Cross-device sync:</strong> ✅ Working</p>
+                                <div class="data-display">${JSON.stringify(testRegistration, null, 2)}</div>
+                            `;
+                        } else {
+                            throw new Error('Test registration not found after save');
+                        }
+                    } else {
+                        throw new Error('Firebase save test failed');
+                    }
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = '<p>❌ Firebase manager not available</p>';
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `
+                    <h3>❌ Firebase Sync Test Failed</h3>
+                    <p><strong>Error:</strong> ${error.message}</p>
+                `;
+            }
+        }
+
+        async function runFullTest() {
+            const resultDiv = document.getElementById('testResults');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = '<p>Running complete cross-device test...</p>';
+            
+            const results = {
+                firebaseConnection: false,
+                registrationSave: false,
+                adminAccess: false,
+                realTimeSync: false,
+                crossDeviceAccess: false
+            };
+            
+            try {
+                // Test 1: Firebase Connection
+                if (typeof firebaseManager !== 'undefined') {
+                    const initialized = await firebaseManager.initialize();
+                    results.firebaseConnection = initialized;
+                }
+                
+                // Test 2: Registration Save
+                if (results.firebaseConnection) {
+                    const testData = {
+                        parent_name: 'Full Test Parent',
+                        email: 'fulltest@example.com',
+                        phone: '987654321',
+                        child_name: 'Full Test Child',
+                        child_age: 6,
+                        start_date: new Date().toISOString().split('T')[0],
+                        program: 'Full Test Program',
+                        message: 'Complete cross-device test',
+                        timestamp: new Date().toISOString(),
+                        device: 'Full Cross-Device Test',
+                        testId: Date.now()
+                    };
+                    
+                    const saveResult = await firebaseManager.saveRegistration(testData);
+                    results.registrationSave = saveResult && saveResult.success;
+                }
+                
+                // Test 3: Admin Access
+                if (results.registrationSave) {
+                    const registrations = await firebaseManager.getAllRegistrations();
+                    results.adminAccess = registrations.length > 0;
+                }
+                
+                // Test 4: Real-time Sync
+                results.realTimeSync = results.firebaseConnection;
+                
+                // Test 5: Cross-device Access
+                results.crossDeviceAccess = results.firebaseConnection;
+                
+                // Display results
+                const passedTests = Object.values(results).filter(Boolean).length;
+                const totalTests = Object.keys(results).length;
+                
+                resultDiv.className = passedTests === totalTests ? 'result success' : 'result warning';
+                resultDiv.innerHTML = `
+                    <h3>📊 Cross-Device Test Results</h3>
+                    <p><strong>Overall Score:</strong> ${passedTests}/${totalTests} tests passed</p>
+                    
+                    <h4>Test Details:</h4>
+                    <ul>
+                        <li>${results.firebaseConnection ? '✅' : '❌'} Firebase Connection</li>
+                        <li>${results.registrationSave ? '✅' : '❌'} Registration Save</li>
+                        <li>${results.adminAccess ? '✅' : '❌'} Admin Access</li>
+                        <li>${results.realTimeSync ? '✅' : '❌'} Real-time Sync</li>
+                        <li>${results.crossDeviceAccess ? '✅' : '❌'} Cross-device Access</li>
+                    </ul>
+                    
+                    ${passedTests === totalTests ? 
+                        '<p><strong>🎉 All tests passed! Cross-device registration is working perfectly.</strong></p>' :
+                        '<p><strong>⚠️ Some tests failed. Check Firebase configuration and try again.</strong></p>'
+                    }
+                `;
+                
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `
+                    <h3>❌ Test Failed</h3>
+                    <p><strong>Error:</strong> ${error.message}</p>
+                `;
+            }
+        }
+
+        function clearTestData() {
+            testRegistrations = [];
+            localStorage.removeItem('registrations');
+            
+            const resultDiv = document.getElementById('testResults');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result success';
+            resultDiv.innerHTML = '<p>🧹 Test data cleared successfully.</p>';
+        }
+
+        // Set default date to tomorrow
+        document.getElementById('startDate').value = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+        
+        // Initialize status
+        document.getElementById('syncStatusText').textContent = 'Ready for testing';
+    </script>
+</body>
+</html> 

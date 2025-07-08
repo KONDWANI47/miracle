@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIRACLE ECD - Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="firebase-config.js"></script>
+</head>
+<body>
+    <!-- Login Form -->
+    <div id="loginForm" class="login-container">
+        <div class="login-box">
+            <h2>Admin Login</h2>
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <div class="password-input-container">
+                        <input type="password" id="password" name="password" required>
+                        <button type="button" class="password-toggle" id="passwordToggle">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="rememberMe" name="rememberMe">
+                        <span class="checkmark"></span>
+                        Remember Me
+                    </label>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+            <div id="loginMessage" class="message"></div>
+            <a href="index.html" class="back-home-btn">
+                <i class="fas fa-home"></i> Back to Home
+            </a>
+        </div>
+    </div>
+
+    <!-- Admin Panel (Hidden until login) -->
+    <div id="adminPanel" class="admin-container" style="display: none;">
+        <header class="admin-header">
+            <h1>MIRACLE ECD - Admin Panel</h1>
+            <div class="admin-controls">
+                <button id="exportBtn" class="admin-btn">
+                    <i class="fas fa-download"></i> Export Data
+                </button>
+                <button id="refreshBtn" class="admin-btn">
+                    <i class="fas fa-sync"></i> Refresh
+                </button>
+                <button id="logoutBtn" class="admin-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+
+
+                <button id="firebase-test-btn" class="admin-btn" onclick="window.location.href='firebase-test.html'">
+                    <i class="fas fa-home"></i> Firebase Test
+                </button>
+            </div>
+        </header>
+
+        <div class="admin-navigation">
+            <div class="admin-nav-header">
+                <div class="admin-hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="#analytics" class="nav-link active" data-section="analytics">Analytics</a></li>
+                    <li><a href="#registrations" class="nav-link" data-section="registrations">Registrations</a></li>
+                    <li><a href="#database" class="nav-link" data-section="database">Database</a></li>
+                    <li><a href="#blog-admin-section" class="nav-link" data-section="blog-admin-section">Blog Posts</a></li>
+                    <li><a href="#testimonials-admin" class="nav-link" data-section="testimonials-admin">Testimonials</a></li>
+                    <li><a href="#hero-announcements-admin" class="nav-link" data-section="hero-announcements-admin">Hero Announcements</a></li>
+                    <li><a href="#gallery-admin" class="nav-link" data-section="gallery-admin">Gallery</a></li>
+                    <li><a href="#user-uploads-admin" class="nav-link" data-section="user-uploads-admin">User Uploads</a></li>
+                    <li><a href="#payments" class="nav-link" data-section="payments">Payments</a></li>
+                    <li><a href="#map" class="nav-link" data-section="map">Location</a></li>
+                </ul>
+            </nav>
+            <div class="admin-nav-backdrop"></div>
+        </div>
+
+        <!-- Analytics Section -->
+        <div id="analytics-section" class="admin-section active">
+            <h2>Student Analytics Dashboard</h2>
+            
+            <!-- Summary Cards -->
+            <div class="analytics-summary">
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="summary-content">
+                        <h3 id="totalStudents">0</h3>
+                        <p>Total Students</p>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-baby"></i>
+                    </div>
+                    <div class="summary-content">
+                        <h3 id="infantCount">0</h3>
+                        <p>Early Childhood Care (0-5)</p>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-child"></i>
+                    </div>
+                    <div class="summary-content">
+                        <h3 id="toddlerCount">0</h3>
+                        <p>Foundation Program (5-7)</p>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="summary-content">
+                        <h3 id="preschoolCount">0</h3>
+                        <p>Primary Preparation (7-12)</p>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="summary-content">
+                        <h3 id="totalRevenue">MWK 0</h3>
+                        <p>Total Revenue</p>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="summary-content">
+                        <h3 id="pendingPayments">0</h3>
+                        <p>Pending Payments</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Analytics -->
+            <div class="analytics-details">
+                <div class="analytics-row">
+                    <!-- Age Distribution -->
+                    <div class="analytics-card">
+                        <h3>Age Distribution</h3>
+                        <div class="age-chart" id="ageChart">
+                            <!-- Age distribution will be displayed here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Gender Distribution -->
+                    <div class="analytics-card">
+                        <h3>Gender Distribution</h3>
+                        <div class="gender-chart" id="genderChart">
+                            <!-- Gender distribution will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="analytics-row">
+                    <!-- Program Distribution -->
+                    <div class="analytics-card">
+                        <h3>Program Distribution</h3>
+                        <div class="program-chart" id="programChart">
+                            <!-- Program distribution will be displayed here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Payment Status -->
+                    <div class="analytics-card">
+                        <h3>Payment Status</h3>
+                        <div class="payment-chart" id="paymentChart">
+                            <!-- Payment status will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Financial Summary -->
+                <div class="analytics-row">
+                    <div class="analytics-card full-width">
+                        <h3>Financial Summary</h3>
+                        <div class="financial-summary">
+                            <div class="financial-item">
+                                <span class="financial-label">Total Registration Fees:</span>
+                                <span class="financial-value" id="totalRegistrationFees">MWK 0</span>
+                            </div>
+                            <div class="financial-item">
+                                <span class="financial-label">Total Monthly Fees:</span>
+                                <span class="financial-value" id="totalMonthlyFees">MWK 0</span>
+                            </div>
+                            <div class="financial-item">
+                                <span class="financial-label">Outstanding Balances:</span>
+                                <span class="financial-value" id="outstandingBalances">MWK 0</span>
+                            </div>
+                            <div class="financial-item">
+                                <span class="financial-label">Average Monthly Revenue:</span>
+                                <span class="financial-value" id="avgMonthlyRevenue">MWK 0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Registrations -->
+                <div class="analytics-row">
+                    <div class="analytics-card full-width">
+                        <h3>Recent Registrations</h3>
+                        <div class="recent-registrations" id="recentRegistrations">
+                            <!-- Recent registrations will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registrations Section -->
+        <div id="registrations-section" class="admin-section">
+            <div class="admin-filters">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search registrations...">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="status-filter">
+                    <select id="statusFilter">
+                        <option value="all">All Status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Payment Required">Payment Required</option>
+                        <option value="Paid">Paid</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="registrations-table-container">
+                <table class="registrations-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Parent Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Child Name</th>
+                            <th>Child Age</th>
+                            <th>Program</th>
+                            <th>Start Date</th>
+                            <th>Registration Date</th>
+                            <th>Payment Status</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="registrationsTableBody">
+                        <!-- Registrations will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Database Section -->
+        <div id="database-section" class="admin-section">
+            <h2>Student Database Management</h2>
+            <div class="grading-legend">
+                <h4>Grading System:</h4>
+                <div class="grade-legend-items">
+                    <span class="grade-legend-item">
+                        <span class="grade-indicator distinction"></span>
+                        76-100: Distinction
+                    </span>
+                    <span class="grade-legend-item">
+                        <span class="grade-indicator credit"></span>
+                        65-75: Credit
+                    </span>
+                    <span class="grade-legend-item">
+                        <span class="grade-indicator pass"></span>
+                        50-64: Pass
+                    </span>
+                    <span class="grade-legend-item">
+                        <span class="grade-indicator fail"></span>
+                        0-49: Fail
+                    </span>
+                </div>
+            </div>
+            <div class="database-controls">
+                <button id="addStudentBtn" class="admin-btn">
+                    <i class="fas fa-plus"></i> Add New Student
+                </button>
+                <div class="database-filters">
+                    <div class="search-box">
+                        <input type="text" id="studentSearchInput" placeholder="Search students...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="class-filter">
+                        <select id="classFilter">
+                            <option value="all">All Classes</option>
+                            <option value="Early Childhood Care">Early Childhood Care</option>
+                            <option value="Foundation Program">Foundation Program</option>
+                            <option value="Primary Preparation">Primary Preparation</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="database-table-container">
+                <table class="database-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Age</th>
+                            <th>Class</th>
+                            <th>Mathematics</th>
+                            <th>English</th>
+                            <th>Science</th>
+                            <th>Social Studies</th>
+                            <th>Arts & Crafts</th>
+                            <th>Physical Education</th>
+                            <th>Average & Grade</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="databaseTableBody">
+                        <!-- Student data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Add/Edit Student Modal -->
+        <div id="studentModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2 id="studentModalTitle">Add New Student</h2>
+                <form id="studentForm" class="student-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="studentFirstName">First Name: <span class="required">*</span></label>
+                            <input type="text" id="studentFirstName" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentLastName">Last Name: <span class="required">*</span></label>
+                            <input type="text" id="studentLastName" name="lastName" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="studentAge">Age: <span class="required">*</span></label>
+                            <input type="number" id="studentAge" name="age" min="0" max="12" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentClass">Class: <span class="required">*</span></label>
+                            <select id="studentClass" name="class" required>
+                                <option value="">Select Class</option>
+                                <option value="Early Childhood Care">Early Childhood Care</option>
+                                <option value="Foundation Program">Foundation Program</option>
+                                <option value="Primary Preparation">Primary Preparation</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="performance-section">
+                        <h3>Academic Performance</h3>
+                        <div class="performance-grid">
+                            <div class="form-group">
+                                <label for="studentMath">Mathematics:</label>
+                                <input type="number" id="studentMath" name="mathematics" min="0" max="100" placeholder="0-100">
+                            </div>
+                            <div class="form-group">
+                                <label for="studentEnglish">English:</label>
+                                <input type="number" id="studentEnglish" name="english" min="0" max="100" placeholder="0-100">
+                            </div>
+                            <div class="form-group">
+                                <label for="studentScience">Science:</label>
+                                <input type="number" id="studentScience" name="science" min="0" max="100" placeholder="0-100">
+                            </div>
+                            <div class="form-group">
+                                <label for="studentSocial">Social Studies:</label>
+                                <input type="number" id="studentSocial" name="socialStudies" min="0" max="100" placeholder="0-100">
+                            </div>
+                            <div class="form-group">
+                                <label for="studentArts">Arts & Crafts:</label>
+                                <input type="number" id="studentArts" name="artsCrafts" min="0" max="100" placeholder="0-100">
+                            </div>
+                            <div class="form-group">
+                                <label for="studentPE">Physical Education:</label>
+                                <input type="number" id="studentPE" name="physicalEducation" min="0" max="100" placeholder="0-100">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="admin-btn">
+                            <i class="fas fa-save"></i> Save Student
+                        </button>
+                        <button type="button" class="admin-btn secondary-btn" id="cancelStudentBtn">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Gallery Management Section -->
+        <div id="gallery-admin-section" class="admin-section">
+            <h2>Gallery Management</h2>
+            <div class="gallery-upload-container">
+                <h3>Upload New Image</h3>
+                <form id="galleryUploadForm" class="gallery-upload-form">
+                    <div class="form-group">
+                        <label for="galleryTitle">Image Title:</label>
+                        <input type="text" id="galleryTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="galleryDescription">Description:</label>
+                        <textarea id="galleryDescription" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="galleryImage">Select Image:</label>
+                        <input type="file" id="galleryImage" accept="image/*" required>
+                    </div>
+                    <button type="submit" class="admin-btn">Upload Image</button>
+                </form>
+            </div>
+            
+            <div class="gallery-cards" id="adminGalleryContainer">
+                <!-- Gallery items will be loaded here -->
+            </div>
+        </div>
+
+        <!-- User Uploads Management Section -->
+        <div id="user-uploads-admin-section" class="admin-section">
+            <h2>User Uploads Management</h2>
+            <div class="user-uploads-container">
+                <div class="uploads-filter">
+                    <select id="uploadsStatusFilter">
+                        <option value="all">All Uploads</option>
+                        <option value="pending">Pending Approval</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+                <div id="userUploadsContainer">
+                    <!-- User uploads will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Post Management Section -->
+        <div id="blog-admin-section" class="admin-section">
+            <h2>Blog Post Management</h2>
+            <div class="blog-form-container">
+                <h3>Create New Blog Post</h3>
+                <p class="form-description">Create engaging blog posts that will appear on the main website. Add a title, content, and optional image to share stories, tips, and updates with parents and the community.</p>
+                <form id="blogPostForm" class="blog-post-form">
+                    <div class="form-group">
+                        <label for="blogTitle">Blog Title: <span class="required">*</span></label>
+                        <input type="text" id="blogTitle" placeholder="Enter an engaging title for your blog post..." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="blogCategory">Category: <span class="required">*</span></label>
+                        <select id="blogCategory" required>
+                            <option value="">Select a category</option>
+                            <option value="Parenting Tips">Parenting Tips</option>
+                            <option value="Child Development">Child Development</option>
+                            <option value="Meet Our Team">Meet Our Team</option>
+                            <option value="Health & Wellness">Health & Wellness</option>
+                            <option value="School Events">School Events</option>
+                            <option value="Community">Community</option>
+                            <option value="Educational Activities">Educational Activities</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="blogContent">Blog Content: <span class="required">*</span></label>
+                        <textarea id="blogContent" rows="8" placeholder="Write your blog post content here. Share insights, tips, stories, or updates that would be valuable to parents and the community..." required></textarea>
+                        <div class="char-count">
+                            <span id="charCount">0</span> characters
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="blogImage">Featured Image (optional):</label>
+                        <input type="file" id="blogImage" accept="image/*">
+                        <small>Recommended size: 400x250 pixels. This image will appear at the top of your blog post.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="blogSummary">Short Summary (optional):</label>
+                        <textarea id="blogSummary" rows="3" placeholder="A brief summary of your blog post (will appear in the blog card preview)"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="blogDate">Publication Date: <span class="required">*</span></label>
+                            <input type="date" id="blogDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="blogTime">Publication Time: <span class="required">*</span></label>
+                            <input type="time" id="blogTime" required>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="admin-btn">
+                            <i class="fas fa-paper-plane"></i> Publish Blog Post
+                        </button>
+                        <button type="button" class="admin-btn secondary-btn" id="previewBtn">
+                            <i class="fas fa-eye"></i> Preview
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="blog-list">
+                <h3>Current Blog Posts</h3>
+                <div id="adminBlogPostsContainer">
+                    <!-- Blog posts will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonials Management Section -->
+        <div id="testimonials-admin-section" class="admin-section">
+            <h2>Testimonials Management</h2>
+            
+            <!-- Testimonials Statistics -->
+            <div class="testimonials-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="totalTestimonials">0</h3>
+                        <p>Total Testimonials</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="pendingTestimonials">0</h3>
+                        <p>Pending Review</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="approvedTestimonials">0</h3>
+                        <p>Approved</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="averageRating">0.0</h3>
+                        <p>Average Rating</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testimonials Filters -->
+            <div class="testimonials-filters">
+                <div class="filter-group">
+                    <label for="testimonialStatusFilter">Status:</label>
+                    <select id="testimonialStatusFilter">
+                        <option value="all">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="testimonialRatingFilter">Rating:</label>
+                    <select id="testimonialRatingFilter">
+                        <option value="all">All Ratings</option>
+                        <option value="5">5 Stars</option>
+                        <option value="4">4 Stars</option>
+                        <option value="3">3 Stars</option>
+                        <option value="2">2 Stars</option>
+                        <option value="1">1 Star</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <input type="text" id="testimonialSearchInput" placeholder="Search testimonials...">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+
+            <!-- Testimonials List -->
+            <div class="testimonials-list">
+                <h3>Testimonials</h3>
+                <div id="adminTestimonialsContainer">
+                    <!-- Testimonials will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Plog Post Management Section -->
+        <div id="plog-admin-section" class="admin-section">
+            <h2>Plog Post Management</h2>
+            <div class="plog-form-container">
+                <h3>Create New Plog Post</h3>
+                <form id="plogPostForm" class="plog-post-form">
+                    <div class="form-group">
+                        <label for="plogTitle">Title:</label>
+                        <input type="text" id="plogTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="plogContent">Content:</label>
+                        <textarea id="plogContent" rows="5" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="plogImage">Image (optional):</label>
+                        <input type="file" id="plogImage" accept="image/*">
+                    </div>
+                    <button type="submit" class="admin-btn">Post Plog</button>
+                </form>
+            </div>
+            <div class="plog-list">
+                <h3>Current Plog Posts</h3>
+                <div id="adminPlogPostsContainer">
+                    <!-- Plog posts will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Payments Section -->
+        <div id="payments-section" class="admin-section">
+            <h2>Payments Management</h2>
+            <div class="payments-settings">
+                <h3>Payment Settings</h3>
+                <form id="paymentSettingsForm" class="payment-settings-form">
+                    <div class="form-group">
+                        <label for="registrationFeeAmount">Registration Fee (MWK):</label>
+                        <input type="number" id="registrationFeeAmount" min="0" step="0.01" value="5000" placeholder="Enter registration fee">
+                        <small class="form-help">This is the one-time fee required for new student registration</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="earlyChildhoodCarePrice">Early Childhood Care Per Term Fee (MWK):</label>
+                        <input type="number" id="earlyChildhoodCarePrice" min="0" step="0.01" value="0" placeholder="Contact for pricing">
+                        <small class="form-help">Per term tuition for children aged 0-5 years - Contact for exact pricing</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="foundationProgramPrice">Foundation Program Per Term Fee (MWK):</label>
+                        <input type="number" id="foundationProgramPrice" min="0" step="0.01" value="0" placeholder="Contact for pricing">
+                        <small class="form-help">Per term tuition for children aged 5-7 years - Contact for exact pricing</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="primaryPreparationPrice">Primary Preparation Per Term Fee (MWK):</label>
+                        <input type="number" id="primaryPreparationPrice" min="0" step="0.01" value="0" placeholder="Contact for pricing">
+                        <small class="form-help">Per term tuition for children aged 7-12 years - Contact for exact pricing</small>
+                    </div>
+                    <button type="submit" class="admin-btn">Update Prices</button>
+                </form>
+            </div>
+
+            <div class="payments-table-container">
+                <h3>Payment Records</h3>
+                <table class="payments-table" id="paymentsTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" class="select-all-checkbox" style="margin-right: 8px;">
+                                <span>ID</span>
+                            </th>
+                            <th>Registration ID</th>
+                            <th>Parent Name</th>
+                            <th>Amount</th>
+                            <th>Payment Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentsTableBody">
+                        <!-- Payments will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Map Section -->
+        <div id="map-section" class="admin-section">
+            <h2>School Location</h2>
+            <div class="map-container">
+                <div id="schoolMap"></div>
+                <div class="map-info">
+                    <h3>MIRACLE ECD Location</h3>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Area 25, Sector 5, Lilongwe, Malawi</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+265 992 260 985</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <span><a href="mailto:cupicsart@gmail.com">cupicsart@gmail.com</a></span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Mon-Fri: 7:00 AM - 5:00 PM</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <span>part time classes: 14:00 pm - 16:00 PM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Announcements Management Section -->
+        <div id="announcements-admin-section" class="admin-section">
+            <h2>Announcements Management</h2>
+            <div class="announcements-form-container">
+                <h3>Create New Announcement</h3>
+                <form id="announcementForm" class="announcement-form">
+                    <div class="form-group">
+                        <label for="announcementTitle">Title:</label>
+                        <input type="text" id="announcementTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="announcementContent">Content:</label>
+                        <textarea id="announcementContent" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="announcementType">Type:</label>
+                        <select id="announcementType" required>
+                            <option value="info">Information</option>
+                            <option value="event">Event</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="admin-btn">Post Announcement</button>
+                </form>
+            </div>
+            <div class="announcements-list">
+                <h3>Current Announcements</h3>
+                <div id="adminAnnouncementsContainer">
+                    <!-- Announcements will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Hero Announcements Management Section -->
+        <div id="hero-announcements-admin-section" class="admin-section">
+            <h2>Hero Announcements Management</h2>
+            <div class="announcements-form-container">
+                <h3>Create New Hero Announcement</h3>
+                <p class="form-description">Hero announcements appear prominently in the hero section of the main site.</p>
+                <form id="heroAnnouncementForm" class="announcement-form">
+                    <div class="form-group">
+                        <label for="heroAnnouncementTitle">Title:</label>
+                        <input type="text" id="heroAnnouncementTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="heroAnnouncementContent">Content:</label>
+                        <textarea id="heroAnnouncementContent" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="heroAnnouncementType">Type:</label>
+                        <select id="heroAnnouncementType" required>
+                            <option value="info">Information</option>
+                            <option value="event">Event</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="heroAnnouncementExpiry">Expiry Date (Optional):</label>
+                        <input type="date" id="heroAnnouncementExpiry">
+                    </div>
+                    <button type="submit" class="admin-btn">Post Hero Announcement</button>
+                </form>
+            </div>
+            <div class="announcements-list">
+                <h3>Current Hero Announcements</h3>
+                <div id="adminHeroAnnouncementsContainer">
+                    <!-- Hero announcements will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <button id="backToTop" class="back-to-top" aria-label="Back to top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+
+          <!---footer-->
+        <!-- Registration Details Modal -->
+        <div id="registrationModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Registration Details</h2>
+                <div id="registrationDetails">
+                    <!-- Registration details will be loaded here -->
+                </div>
+                <div class="modal-actions">
+                    <select id="statusUpdate">
+                        <option value="Pending">Pending</option>
+                        <option value="Payment Required">Payment Required</option>
+                        <option value="Paid">Paid</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                    <button id="updateStatusBtn" class="admin-btn">Update Status</button>
+                    <button id="deleteRegistrationBtn" class="admin-btn delete-btn">Delete Registration</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Announcement Edit Modal -->
+        <div id="announcementModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Edit Announcement</h2>
+                <form id="editAnnouncementForm">
+                    <div class="form-group">
+                        <label for="editAnnouncementTitle">Title:</label>
+                        <input type="text" id="editAnnouncementTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editAnnouncementContent">Content:</label>
+                        <textarea id="editAnnouncementContent" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editAnnouncementType">Type:</label>
+                        <select id="editAnnouncementType" required>
+                            <option value="info">Information</option>
+                            <option value="urgent">Urgent</option>
+                            <option value="event">Event</option>
+                            <option value="notice">Notice</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editAnnouncementExpiry">Expiry Date (Optional):</label>
+                        <input type="date" id="editAnnouncementExpiry">
+                    </div>
+                    <div class="modal-actions">
+                        <button type="submit" class="admin-btn">Update Announcement</button>
+                        <button type="button" id="deleteAnnouncementBtn" class="admin-btn delete-btn">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Hero Announcement Edit Modal -->
+        <div id="heroAnnouncementModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Edit Hero Announcement</h2>
+                <form id="editHeroAnnouncementForm">
+                    <div class="form-group">
+                        <label for="editHeroAnnouncementTitle">Title:</label>
+                        <input type="text" id="editHeroAnnouncementTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editHeroAnnouncementContent">Content:</label>
+                        <textarea id="editHeroAnnouncementContent" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editHeroAnnouncementType">Type:</label>
+                        <select id="editHeroAnnouncementType" required>
+                            <option value="info">Information</option>
+                            <option value="urgent">Urgent</option>
+                            <option value="event">Event</option>
+                            <option value="notice">Notice</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editHeroAnnouncementExpiry">Expiry Date (Optional):</label>
+                        <input type="date" id="editHeroAnnouncementExpiry">
+                    </div>
+                    <div class="modal-actions">
+                        <button type="submit" class="admin-btn">Update Hero Announcement</button>
+                        <button type="button" id="deleteHeroAnnouncementBtn" class="admin-btn delete-btn">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage-compat.js"></script>
+    
+    <!-- Admin Scripts -->
+    <script src="admin.js"></script>
+    <script src="map.js"></script>
+    <script>
+        // Initialize map when Google Maps API is loaded
+        function initMap() {
+            if (typeof window.initGoogleMap === 'function') {
+                window.initGoogleMap();
+            }
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dO_BcXcGHrRM8s&callback=initMap" async defer></script>
+</body>
+</html>
