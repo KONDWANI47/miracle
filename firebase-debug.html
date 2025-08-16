@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Debug - MIRACLE ECD</title>
+    <script src="firebase-config.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        #log { background: #f8f9fa; padding: 10px; border: 1px solid #dee2e6; height: 300px; overflow-y: auto; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <h1>Firebase Debug Test</h1>
+    
+    <div class="test-section">
+        <h3>1. Test Firebase Connection</h3>
+        <button onclick="testConnection()">Test Connection</button>
+        <div id="connectionResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>2. Test Registration Save</h3>
+        <button onclick="testSave()">Save Test Registration</button>
+        <div id="saveResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>3. Test Registration Load</h3>
+        <button onclick="testLoad()">Load Registrations</button>
+        <div id="loadResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Debug Log</h3>
+        <div id="log"></div>
+        <button onclick="clearLog()">Clear Log</button>
+    </div>
+
+    <script>
+        function log(message, type = 'info') {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${timestamp}] ${message}\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+            console.log(message);
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        async function testConnection() {
+            const resultDiv = document.getElementById('connectionResult');
+            resultDiv.innerHTML = 'Testing...';
+            
+            try {
+                log('Testing Firebase connection...');
+                
+                if (typeof firebaseManager === 'undefined') {
+                    throw new Error('Firebase manager not found');
+                }
+
+                const initialized = await firebaseManager.initialize();
+                if (!initialized) {
+                    throw new Error('Failed to initialize Firebase');
+                }
+
+                resultDiv.innerHTML = '<div class="success">✅ Firebase connection successful!</div>';
+                log('Firebase connection test passed');
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Connection failed: ${error.message}</div>`;
+                log(`Connection test failed: ${error.message}`);
+            }
+        }
+
+        async function testSave() {
+            const resultDiv = document.getElementById('saveResult');
+            resultDiv.innerHTML = 'Saving...';
+            
+            try {
+                log('Testing registration save...');
+                
+                const testData = {
+                    parent_name: 'Test Parent',
+                    email: 'test@example.com',
+                    phone: '+265123456789',
+                    child_name: 'Test Child',
+                    child_age: 5,
+                    start_date: '2024-01-15',
+                    program: 'Foundation Program',
+                    message: 'Test registration'
+                };
+
+                const result = await firebaseManager.saveRegistration(testData);
+                
+                if (result && result.success) {
+                    resultDiv.innerHTML = `<div class="success">✅ Registration saved! ID: ${result.id}</div>`;
+                    log(`Registration saved successfully with ID: ${result.id}`);
+                    
+                    // Clean up
+                    setTimeout(async () => {
+                        try {
+                            await firebaseManager.deleteRegistration(result.id);
+                            log('Test registration cleaned up');
+                        } catch (cleanupError) {
+                            log(`Cleanup failed: ${cleanupError.message}`);
+                        }
+                    }, 5000);
+                } else {
+                    throw new Error('Save returned invalid result');
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Save failed: ${error.message}</div>`;
+                log(`Save test failed: ${error.message}`);
+            }
+        }
+
+        async function testLoad() {
+            const resultDiv = document.getElementById('loadResult');
+            resultDiv.innerHTML = 'Loading...';
+            
+            try {
+                log('Testing registration load...');
+                
+                const registrations = await firebaseManager.getAllRegistrations();
+                
+                resultDiv.innerHTML = `<div class="success">✅ Loaded ${registrations.length} registrations</div>`;
+                log(`Loaded ${registrations.length} registrations from Firebase`);
+                
+                if (registrations.length > 0) {
+                    log('Sample registration:', registrations[0]);
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Load failed: ${error.message}</div>`;
+                log(`Load test failed: ${error.message}`);
+            }
+        }
+
+        // Auto-test on load
+        document.addEventListener('DOMContentLoaded', () => {
+            log('Firebase debug page loaded');
+            setTimeout(testConnection, 1000);
+        });
+    </script>
+</body>
+</html> 
